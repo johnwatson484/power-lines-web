@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  power-lines-web:
+    build:
+      context: .
+      target: production
+    image: power-lines-web
+    container_name: power-lines-web

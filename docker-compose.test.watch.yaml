@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  power-lines-web:
+    entrypoint: dotnet watch --project ./PowerLinesWeb.Tests test
+    volumes:
+      - ./PowerLinesWeb.Tests:/home/dotnet/PowerLinesWeb.Tests
+      - ./PowerLinesWeb:/home/dotnet/PowerLinesWeb

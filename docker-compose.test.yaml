@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  power-lines-web:
+    build: 
+      context: .
+      target: development
+    image: power-lines-web-test
+    container_name: power-lines-web-test
+    entrypoint: dotnet test ./PowerLinesWeb.Tests/PowerLinesWeb.Tests.csproj
+    

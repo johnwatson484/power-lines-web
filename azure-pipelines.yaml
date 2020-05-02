@@ -1,0 +1,55 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '2.2.x'
+
+  - task: SonarQubePrepare@4
+    inputs:
+      SonarQube: 'SonarQube'
+      scannerMode: 'MSBuild'
+      projectKey: 'power-lines-web'
+      projectName: 'power-lines-web'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.1.x'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      projects: '**/*.sln'
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '2.2.x'
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        docker-compose -f docker-compose.test.yaml build
+        docker-compose -f docker-compose.test.yaml up
+
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        docker-compose -f docker-compose.yaml build
+  
+  - task: SonarQubeAnalyze@4
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+  - task: SonarQubePublish@4
+    inputs:
+      pollingTimeoutSec: '300'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
