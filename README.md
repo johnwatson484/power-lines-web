@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/johnwatson484/John%20D%20Watson/_apis/build/status/johnwatson484.power-lines-web?branchName=master)](https://dev.azure.com/johnwatson484/John%20D%20Watson/_build/latest?definitionId=35&branchName=master)
+
 # Power Lines Web
 Web front end
 
