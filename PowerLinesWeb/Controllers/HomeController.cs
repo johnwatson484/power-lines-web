@@ -20,11 +20,7 @@ namespace PowerLinesWeb.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
+            ViewBag.Location = "Home";
             return View();
         }
 

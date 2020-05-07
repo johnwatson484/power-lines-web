@@ -1,8 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Power Lines";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron">
+    <h1>Power Lines <img style="margin-bottom:10px;" src="~/images/Logo.png" /></h1>
+    <p class="lead">Calculates odds and get betting recommendations for the latest football fixtures.</p>
+    <button class="btn btn-primary btn-lg" onclick="window.location.href='@Url.Action("Index", "Rating")'" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Calculating...">View Fixtures</button>  
 </div>
