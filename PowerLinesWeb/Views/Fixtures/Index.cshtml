@@ -1,0 +1,48 @@
+@model List<PowerLinesWeb.Models.Fixture>
+
+@if (Model.Count == 0)
+{
+    <h3>New fixtures coming soon...</h3>
+}
+else
+{
+    <h3>Full Time Result</h3>
+
+    if (Model.Select(x => x.Date.Date).Distinct().Count() > 1)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group btn-group-justified">
+                    @foreach (var date in Model.Select(x => x.Date.Date).Distinct())
+                    {
+                        <a href="#" class="btn btn-default date-picker" data-id="@date.Date" id="@(date.Date == DateTime.Now.Date ? "today-id" : "")">@(date == DateTime.Now.Date ? "Today" : date.ToString("d MMM"))</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].Date)</th>
+            <th class="no-mobile">@Html.DisplayNameFor(model => model[0].Division)</th>
+            <th>Fixture</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model[0].HomeOdds)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model[0].DrawOdds)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model[0].AwayOdds)</th>
+        </tr>
+        @foreach (var fixtureRating in Model)
+        {
+            <tr class="odds-line" data-id="@fixtureRating.Date.Date">
+                <td class="text-center no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Date)</td>
+                <td class="no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Division)</td>
+                <td>@Html.DisplayFor(modelItem => fixtureRating.HomeTeam) v @Html.DisplayFor(modelItem => fixtureRating.AwayTeam)</td>
+                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="H" data-odds="@fixtureRating.HomeOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.HomeOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "H" ? "btn-success" : fixtureRating.LowerRecommended == "H" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.HomeOdds)</td>
+                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="D" data-odds="@fixtureRating.DrawOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.DrawOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "D" ? "btn-success" : fixtureRating.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.DrawOdds)</td>
+                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="A" data-odds="@fixtureRating.AwayOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.AwayOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "A" ? "btn-success" : fixtureRating.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.AwayOdds)</span></td>               
+            </tr>
+        }
+    </table>
+}
+
+<script src="~/js/fixtures.js" asp-append-version="true"></script>
