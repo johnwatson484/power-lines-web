@@ -20,12 +20,13 @@ COPY --chown=dotnet:dotnet ./PowerLinesWeb.Tests/ ./PowerLinesWeb.Tests/
 COPY --chown=dotnet:dotnet ./PowerLinesWeb/ ./PowerLinesWeb/
 RUN dotnet publish ./PowerLinesWeb/ -c Release -o /home/dotnet/out
 
-ARG PORT=5000
+ARG PORT=5001
 ENV PORT ${PORT}
-ENV ASPNETCORE_ENVIRONMENT=development
+ENV ASPNETCORE_ENVIRONMENT development
+ENV ASPNETCORE_URLS http://*:5000;https://*:5001
 EXPOSE ${PORT}
 # Override entrypoint using shell form so that environment variables are picked up
-ENTRYPOINT dotnet watch --project ./PowerLinesWeb run --urls "http://*:${PORT}"
+ENTRYPOINT dotnet watch --project ./PowerLinesWeb run
 
 # Production
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine AS production
@@ -37,9 +38,9 @@ USER dotnet
 WORKDIR /home/dotnet
 
 COPY --from=development /home/dotnet/out/ ./
-ARG PORT=5000
-ENV ASPNETCORE_URLS http://*:${PORT}
-ENV ASPNETCORE_ENVIRONMENT=production
+ARG PORT=5001
+ENV ASPNETCORE_URLS http://*:5000;https://*:5001
+ENV ASPNETCORE_ENVIRONMENT production
 EXPOSE ${PORT}
 # Override entrypoint using shell form so that environment variables are picked up
 ENTRYPOINT dotnet PowerLinesWeb.dll
