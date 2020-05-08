@@ -1,24 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PowerLinesWeb.Models;
-using PowerLinesWeb.Services;
+using PowerLinesWeb.Fixtures;
+using System.Threading.Tasks;
 
 namespace PowerLinesWeb.Controllers
 {
     public class FixturesController : Controller
     {
         private readonly ILogger<FixturesController> logger;
-        IFixtureService fixtureService;
+        IFixtureApi fixtureApi;
 
-        public FixturesController(ILogger<FixturesController> logger, IFixtureService fixtureService)
+        public FixturesController(ILogger<FixturesController> logger, IFixtureApi fixtureApi)
         {
             this.logger = logger;
-            this.fixtureService = fixtureService;
+            this.fixtureApi = fixtureApi;
         }
 
         public IActionResult Index()
         {
-            return View(fixtureService.GetFixtures());
+            var fixtures = Task.Run(() => fixtureApi.GetFixtures()).Result;
+            return View(fixtures);
         }
     }
 }

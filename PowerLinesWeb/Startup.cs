@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PowerLinesWeb.Services;
+using PowerLinesWeb.Fixtures;
 
 namespace PowerLinesWeb
 {
@@ -27,7 +27,10 @@ namespace PowerLinesWeb
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
-            services.AddScoped<IFixtureService, FixtureService>();
+            var fixtureUrl = Configuration.GetSection("FixtureUrl").Get<FixtureUrl>();
+            services.AddSingleton(fixtureUrl);
+
+            services.AddScoped<IFixtureApi, FixtureApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

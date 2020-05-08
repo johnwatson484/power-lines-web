@@ -25,6 +25,7 @@ else
     <table class="table table-condensed table-hover">
         <tr>
             <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].Date)</th>
+            <th class="no-mobile">@Html.DisplayNameFor(model => model[0].Country)</th>
             <th class="no-mobile">@Html.DisplayNameFor(model => model[0].Division)</th>
             <th>Fixture</th>
             <th class="text-center">@Html.DisplayNameFor(model => model[0].HomeOdds)</th>
@@ -35,11 +36,12 @@ else
         {
             <tr class="odds-line" data-id="@fixtureRating.Date.Date">
                 <td class="text-center no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Date)</td>
+                <td class="no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Country)</td>
                 <td class="no-mobile">@Html.DisplayFor(modelItem => fixtureRating.Division)</td>
                 <td>@Html.DisplayFor(modelItem => fixtureRating.HomeTeam) v @Html.DisplayFor(modelItem => fixtureRating.AwayTeam)</td>
-                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="H" data-odds="@fixtureRating.HomeOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.HomeOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "H" ? "btn-success" : fixtureRating.LowerRecommended == "H" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.HomeOdds)</td>
-                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="D" data-odds="@fixtureRating.DrawOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.DrawOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "D" ? "btn-success" : fixtureRating.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.DrawOdds)</td>
-                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="A" data-odds="@fixtureRating.AwayOdds" class="selector btn @(fixtureRating.Valid == false ? "btn-default disabled" : fixtureRating.AwayOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "A" ? "btn-success" : fixtureRating.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.AwayOdds)</span></td>               
+                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="H" data-odds="@fixtureRating.HomeOdds" class="selector btn @(fixtureRating.IsValid == false ? "btn-default disabled" : fixtureRating.HomeOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "H" ? "btn-success" : fixtureRating.LowerRecommended == "H" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.HomeOdds)</td>
+                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="D" data-odds="@fixtureRating.DrawOdds" class="selector btn @(fixtureRating.IsValid == false ? "btn-default disabled" : fixtureRating.DrawOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "D" ? "btn-success" : fixtureRating.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.DrawOdds)</td>
+                <td class="text-center"><span data-id="@fixtureRating.FixtureId" data-outcome="A" data-odds="@fixtureRating.AwayOdds" class="selector btn @(fixtureRating.IsValid == false ? "btn-default disabled" : fixtureRating.AwayOdds == 0 ? "btn-danger" : fixtureRating.Recommended == "A" ? "btn-success" : fixtureRating.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixtureRating.AwayOdds)</span></td>               
             </tr>
         }
     </table>
