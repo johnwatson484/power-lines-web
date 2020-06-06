@@ -17,11 +17,6 @@ container:
   comPlusEnableDiagnostics: 0
   fixtureEndpoint: http://power-lines-fixture-service
 
-postgresService:
-  postgresHost: power-lines-web-postgres
-  postgresExternalName: host.docker.internal
-  postgresPort: 5432
-
 ingress:
   class: nginx
   host:
