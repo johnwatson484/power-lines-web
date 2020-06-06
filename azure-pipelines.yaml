@@ -1,55 +1,111 @@
 trigger:
 - master
 
+resources:
+  repositories:
+  - repository: helmRepo
+    type: github
+    endpoint: John D Watson
+    name: johnwatson484/helm-charts
+
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
+variables:
+  repo: power-lines-web
+  helmRepo: helm-charts
+  helmRepositoryUrl: git@github.com:johnwatson484/helm-charts.git
+  version:
+  containerRepository: johnwatson484/power-lines-web
+  helmChartPath: helm/power-lines-web
+  project: PowerLinesWeb
 
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: '2.2.x'
+steps: 
+  - checkout: self
+    displayName: Clone repository
 
-  - task: SonarQubePrepare@4
+  - task: PowerShell@2
+    displayName: Set version
     inputs:
-      SonarQube: 'SonarQube'
-      scannerMode: 'MSBuild'
-      projectKey: 'power-lines-web'
-      projectName: 'power-lines-web'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+      targetType: 'inline'
+      script: |
+        $csprojVersion = ([xml](Get-Content '$(Agent.BuildDirectory)/s/$(repo)/$(project)/$(project).csproj')).Project.PropertyGroup.Version
+        Write-Host "##vso[task.setvariable variable=version;]$csprojVersion"
 
-  - task: UseDotNet@2
+  - task: Docker@2
+    displayName: Build image
     inputs:
-      packageType: 'sdk'
-      version: '3.1.x'
-
-  - task: DotNetCoreCLI@2
-    inputs:
+      containerRegistry: 'DockerHub'
+      repository: '$(containerRepository)'
       command: 'build'
-      projects: '**/*.sln'
+      Dockerfile: '$(Agent.BuildDirectory)/s/$(repo)/Dockerfile'
+      tags: |
+        $(version)
+        latest
+      arguments: '--target production'
+      addPipelineData: false
 
-  - task: UseDotNet@2
+  - task: Docker@2
+    displayName: Push image
     inputs:
-      packageType: 'sdk'
-      version: '2.2.x'
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        docker-compose -f docker-compose.test.yaml build
-        docker-compose -f docker-compose.test.yaml up
+      containerRegistry: 'DockerHub'
+      repository: '$(containerRepository)'
+      command: 'push'
+      tags: |
+        $(version)
+        latest
+      addPipelineData: false
 
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        docker-compose -f docker-compose.yaml build
+  - script: |
+      sed -i -e 's/image: .*/image: johnwatson484\/$(repo):$(version)/' $(Agent.BuildDirectory)/s/$(repo)/$(helmChartPath)/values.yaml
+    displayName: Update Helm values
   
-  - task: SonarQubeAnalyze@4
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
-  - task: SonarQubePublish@4
+  - task: HelmInstaller@1
+    displayName: Install Helm
     inputs:
-      pollingTimeoutSec: '300'
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
+      helmVersionToInstall: 'latest'
+
+  - checkout: helmRepo
+    displayName: Clone Helm repository
+
+  - script: |
+      helm package $(Agent.BuildDirectory)/s/$(repo)/$(helmChartPath) --version $(version) --destination $(Agent.BuildDirectory)/s/$(helmRepo) --dependency-update
+    displayName: Package Helm
+
+  - task: DownloadSecureFile@1
+    name: sshKey
+    displayName: Download SSH key
+    inputs:
+      secureFile: 'GitHub-Helm-Deploy-Key'
+
+  - script: |
+      mkdir ~/.ssh && mv $(sshKey.secureFilePath) ~/.ssh/id_rsa
+      chmod 700 ~/.ssh && chmod 600 ~/.ssh/id_rsa
+      ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+    displayName: Install SSH key
+  
+  - script: |
+      cd $(Agent.BuildDirectory)/s/$(helmRepo)
+      helm repo index . --merge ./index.yaml
+      git config --global user.email "azuredevops@microsoft.com"
+      git config --global user.name "Azure DevOps"
+      git remote set-url --push origin $(helmRepositoryUrl)
+      git add .
+      git commit -m "$(repo) updated by Azure DevOps"
+      git push origin HEAD:master
+    displayName: Update Helm repo
+
+  - task: GitHubRelease@1
+    displayName: GitHub release
+    inputs:
+      gitHubConnection: 'John D Watson PAT'
+      repositoryName: '$(Build.Repository.Name)'
+      action: 'create'
+      target: '$(Build.SourceVersion)'
+      tagSource: 'userSpecifiedTag'
+      tag: '$(version)'
+      title: '$(version)'
+      releaseNotesSource: 'inline'
+      changeLogCompareToRelease: 'lastFullRelease'
+      changeLogType: 'commitBased'
+    continueOnError: true
