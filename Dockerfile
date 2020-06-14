@@ -11,6 +11,7 @@ RUN addgroup -g 1000 dotnet \
 USER dotnet
 WORKDIR /home/dotnet
 
+COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
 RUN mkdir -p /home/dotnet/PowerLinesWeb/ /home/dotnet/PowerLinesWeb.Tests/
 COPY --chown=dotnet:dotnet ./PowerLinesWeb.Tests/*.csproj ./PowerLinesWeb.Tests/
 RUN dotnet restore ./PowerLinesWeb.Tests/PowerLinesWeb.Tests.csproj
