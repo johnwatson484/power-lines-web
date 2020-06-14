@@ -5,4 +5,5 @@ data:
   ASPNETCORE_ENVIRONMENT: {{ quote .Values.environment }}
   ASPNETCORE_URLS: http://*:{{ .Values.container.port }}
   FixtureUrl__Endpoint: {{ quote .Values.container.fixtureEndpoint }}
+  AccuracyUrl__Endpoint: {{ quote .Values.container.accuracyEndpoint }}
 {{- end -}}

@@ -1,0 +1,32 @@
+@model List<PowerLinesWeb.Models.Accuracy>
+
+@if (Model == null || Model.Count == 0)
+{
+    <h3>Insufficient data for analysis...</h3>
+}
+else
+{
+    <h3>Accuracy</h3>
+
+    <table class="table table-condensed table-hover  table-sm">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model[0].Division)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model[0].Matches)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model[0].Recommended)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model[0].RecommendedAccuracy)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model[0].LowerRecommended)</th>
+            <th class="ftr">@Html.DisplayNameFor(model => model[0].LowerRecommendedAccuracy)</th>
+        </tr>
+        @foreach (var division in Model)
+        {
+          <tr>
+            <td>@Html.DisplayFor(modelItem => division.Division)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => division.Matches)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => division.Recommended)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => division.RecommendedAccuracy)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => division.LowerRecommended)</td>
+            <td class="ftr">@Html.DisplayFor(modelItem => division.LowerRecommendedAccuracy)</td>
+          </tr>
+        }
+    </table>    
+}

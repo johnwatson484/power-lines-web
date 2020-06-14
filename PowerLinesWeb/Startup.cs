@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PowerLinesWeb.Accuracy;
 using PowerLinesWeb.Fixtures;
 
 namespace PowerLinesWeb
@@ -30,7 +31,11 @@ namespace PowerLinesWeb
             var fixtureUrl = Configuration.GetSection("FixtureUrl").Get<FixtureUrl>();
             services.AddSingleton(fixtureUrl);
 
+            var accuracyUrl = Configuration.GetSection("AccuracyUrl").Get<AccuracyUrl>();
+            services.AddSingleton(accuracyUrl);
+
             services.AddScoped<IFixtureApi, FixtureApi>();
+            services.AddScoped<IAccuracyApi, AccuracyApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

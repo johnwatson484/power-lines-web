@@ -7,6 +7,7 @@ services:
       - "5000:5000"
     environment: 
       FixtureUrl__Endpoint: http://power-lines-fixture-service:5002
+      AccuracyUrl__Endpoint: http://power-lines-accuracy-service:5001
     volumes:
       - ./PowerLinesWeb:/home/dotnet/PowerLinesWeb
       - ./PowerLinesWeb.Tests:/home/dotnet/PowerLinesWeb.Tests

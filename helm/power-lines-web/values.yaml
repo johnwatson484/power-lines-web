@@ -16,6 +16,7 @@ container:
   port: 5000
   comPlusEnableDiagnostics: 0
   fixtureEndpoint: http://power-lines-fixture-service
+  accuracyEndpoint: http://power-lines-accuracy-service
 
 ingress:
   class: nginx
