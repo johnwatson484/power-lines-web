@@ -19,6 +19,7 @@ variables:
   containerRepository: johnwatson484/power-lines-web
   helmChartPath: helm/power-lines-web
   project: PowerLinesWeb
+  releaseExists: false
 
 steps: 
   - checkout: self
@@ -95,6 +96,14 @@ steps:
       git push origin HEAD:master
     displayName: Update Helm repo
 
+  - task: PowerShell@2
+    displayName: Check GitHub release
+    inputs:
+      targetType: 'inline'
+      script: |
+        $releaseExists = (Invoke-RestMethod -SkipHttpErrorCheck -Uri 'https://api.github.com/repos/johnwatson484/$(repo)/releases/tags/$(version)').tag_name -eq '$(version)'
+        Write-Host "##vso[task.setvariable variable=releaseExists;]$releaseExists"
+
   - task: GitHubRelease@1
     displayName: GitHub release
     inputs:
@@ -109,3 +118,4 @@ steps:
       changeLogCompareToRelease: 'lastFullRelease'
       changeLogType: 'commitBased'
     continueOnError: true
+    condition: and(succeeded(), eq(variables.releaseExists, false))
