@@ -9,7 +9,7 @@ namespace PowerLinesWeb.Accuracy
 {
     public class AccuracyApi : IAccuracyApi
     {
-        AccuracyUrl accuracyUrl;
+        readonly AccuracyUrl accuracyUrl;
 
         public AccuracyApi(AccuracyUrl accuracyUrl)
         {

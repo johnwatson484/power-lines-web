@@ -7,12 +7,10 @@ namespace PowerLinesWeb.Controllers
 {
     public class AccuracyController : Controller
     {
-        private readonly ILogger<AccuracyController> logger;
-        IAccuracyApi accuracyApi;
+        readonly IAccuracyApi accuracyApi;
 
-        public AccuracyController(ILogger<AccuracyController> logger, IAccuracyApi accuracyApi)
+        public AccuracyController(IAccuracyApi accuracyApi)
         {
-            this.logger = logger;
             this.accuracyApi = accuracyApi;
         }
 

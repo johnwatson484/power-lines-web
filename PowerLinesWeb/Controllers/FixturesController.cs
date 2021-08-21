@@ -7,12 +7,10 @@ namespace PowerLinesWeb.Controllers
 {
     public class FixturesController : Controller
     {
-        private readonly ILogger<FixturesController> logger;
-        IFixtureApi fixtureApi;
+        readonly IFixtureApi fixtureApi;
 
-        public FixturesController(ILogger<FixturesController> logger, IFixtureApi fixtureApi)
+        public FixturesController(IFixtureApi fixtureApi)
         {
-            this.logger = logger;
             this.fixtureApi = fixtureApi;
         }
 

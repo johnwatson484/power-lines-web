@@ -9,7 +9,7 @@ namespace PowerLinesWeb.Fixtures
 {
     public class FixtureApi : IFixtureApi
     {
-        FixtureUrl fixtureUrl;
+        readonly FixtureUrl fixtureUrl;
 
         public FixtureApi(FixtureUrl fixtureUrl)
         {
