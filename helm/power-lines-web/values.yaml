@@ -1,33 +1,17 @@
-environment: development
+environment: production
 name: power-lines-web
 image: power-lines-web
 
-service:
-  port: 80
-
 container:
-  imagePullPolicy: IfNotPresent
   requestMemory: 60Mi
   requestCpu: 60m
   limitMemory: 250Mi
   limitCpu: 250m
-  readOnlyRootFilesystem: false
-  allowPrivilegeEscalation: false
   port: 5000
   comPlusEnableDiagnostics: 0
   fixtureEndpoint: http://power-lines-fixture-service
   accuracyEndpoint: http://power-lines-accuracy-service
 
-ingress:
-  class: nginx
-  host:
-  certIssuer: letsencrypt
+ingress: {}
 
-deployment:
-  restartPolicy: Always
-  replicas: 1
-  minReadySeconds: 5
-  redeployOnChange: update this field to force a change
-  imagePullSecret:
-  runAsNonRoot: true
-  runAsUser: 1000
+deployment: {}

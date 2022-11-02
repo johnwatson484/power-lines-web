@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   power-lines-web:
     build:
