@@ -3,7 +3,6 @@
 metadata:
   annotations:
   {{- if .Values.ingress.host }}
-    cert-manager.io/cluster-issuer: {{ .Values.ingress.certIssuer }}
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/session-cookie-name: "affinity"
