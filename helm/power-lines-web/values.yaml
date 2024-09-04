@@ -12,6 +12,7 @@ container:
   fixtureEndpoint: http://power-lines-fixture-service
   accuracyEndpoint: http://power-lines-accuracy-service
 
-ingress: {}
+ingress:
+  host: powerlines.lynxmagnus.com
 
 deployment: {}
