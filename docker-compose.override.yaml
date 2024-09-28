@@ -10,3 +10,8 @@ services:
     volumes:
       - ./PowerLinesWeb:/home/dotnet/PowerLinesWeb
       - ./PowerLinesWeb.Tests:/home/dotnet/PowerLinesWeb.Tests
+
+networks:
+  power-lines:
+    driver: bridge
+    name: power-lines
