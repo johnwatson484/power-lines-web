@@ -10,6 +10,8 @@ services:
     volumes:
       - ./PowerLinesWeb:/home/dotnet/PowerLinesWeb
       - ./PowerLinesWeb.Tests:/home/dotnet/PowerLinesWeb.Tests
+    networks:
+      - power-lines
 
 networks:
   power-lines:
