@@ -1,23 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PowerLinesWeb.Accuracy;
-using System.Threading.Tasks;
 
-namespace PowerLinesWeb.Controllers
+namespace PowerLinesWeb.Controllers;
+
+[Route("[controller]")]
+public class AccuracyController(IAccuracyApi accuracyApi) : Controller
 {
-    public class AccuracyController : Controller
+    readonly IAccuracyApi accuracyApi = accuracyApi;
+
+    [Route("")]
+    [HttpGet]
+    public IActionResult Index()
     {
-        readonly IAccuracyApi accuracyApi;
-
-        public AccuracyController(IAccuracyApi accuracyApi)
-        {
-            this.accuracyApi = accuracyApi;
-        }
-
-        public IActionResult Index()
-        {
-            var accuracy = Task.Run(() => accuracyApi.GetAccuracy()).Result;
-            return View(accuracy);
-        }
+        var accuracy = Task.Run(() => accuracyApi.GetAccuracy()).Result;
+        return View(accuracy);
     }
 }

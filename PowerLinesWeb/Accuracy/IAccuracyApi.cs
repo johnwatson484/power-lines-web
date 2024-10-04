@@ -1,11 +1,7 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using PowerLinesWeb.Models;
+namespace PowerLinesWeb.Accuracy;
 
-namespace PowerLinesWeb.Accuracy
+public interface IAccuracyApi
 {
-    public interface IAccuracyApi
-    {
-        Task<List<Models.Accuracy>> GetAccuracy();
-    }
+    Task<List<Models.Accuracy>> GetAccuracy();
 }
+

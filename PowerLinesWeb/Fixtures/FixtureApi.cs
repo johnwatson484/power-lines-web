@@ -1,42 +1,29 @@
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using PowerLinesWeb.Models;
 using Newtonsoft.Json;
-using System;
+using Microsoft.Extensions.Options;
 
-namespace PowerLinesWeb.Fixtures
+namespace PowerLinesWeb.Fixtures;
+
+public class FixtureApi(IOptions<FixtureOptions> fixtureOptions) : IFixtureApi
 {
-    public class FixtureApi : IFixtureApi
+    readonly FixtureOptions fixtureOptions = fixtureOptions.Value;
+
+    public async Task<List<Fixture>> GetFixtures()
     {
-        readonly FixtureUrl fixtureUrl;
+        var fixtures = new List<Fixture>();
 
-        public FixtureApi(FixtureUrl fixtureUrl)
+        try
         {
-            this.fixtureUrl = fixtureUrl;
+            using var httpClient = new HttpClient();
+            using var response = await httpClient.GetAsync(string.Format("{0}/{1}", fixtureOptions.Endpoint, fixtureOptions.Fixtures));
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            fixtures = JsonConvert.DeserializeObject<List<Fixture>>(apiResponse);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Fixtures API unavailable: {0}", ex);
         }
 
-        public async Task<List<Fixture>> GetFixtures()
-        {
-            var fixtures = new List<Fixture>();
-
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    using (var response = await httpClient.GetAsync(string.Format("{0}/{1}", fixtureUrl.Endpoint, fixtureUrl.Fixtures)))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        fixtures = JsonConvert.DeserializeObject<List<Fixture>>(apiResponse);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Fixtures API unavailable: {0}", ex);
-            }
-
-            return fixtures;
-        }
+        return fixtures;
     }
 }

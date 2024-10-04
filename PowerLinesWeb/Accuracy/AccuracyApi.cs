@@ -1,42 +1,28 @@
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using PowerLinesWeb.Models;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
 
-namespace PowerLinesWeb.Accuracy
+namespace PowerLinesWeb.Accuracy;
+
+public class AccuracyApi(IOptions<AccuracyOptions> accuracyOptions) : IAccuracyApi
 {
-    public class AccuracyApi : IAccuracyApi
+    readonly AccuracyOptions accuracyOptions = accuracyOptions.Value;
+
+    public async Task<List<Models.Accuracy>> GetAccuracy()
     {
-        readonly AccuracyUrl accuracyUrl;
+        var accuracy = new List<Models.Accuracy>();
 
-        public AccuracyApi(AccuracyUrl accuracyUrl)
+        try
         {
-            this.accuracyUrl = accuracyUrl;
+            using var httpClient = new HttpClient();
+            using var response = await httpClient.GetAsync(string.Format("{0}/{1}", accuracyOptions.Endpoint, accuracyOptions.Accuracy));
+            string apiResponse = await response.Content.ReadAsStringAsync();
+            accuracy = JsonConvert.DeserializeObject<List<Models.Accuracy>>(apiResponse);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Accuracy API unavailable: {0}", ex);
         }
 
-        public async Task<List<Models.Accuracy>> GetAccuracy()
-        {
-            var accuracy = new List<Models.Accuracy>();
-
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    using (var response = await httpClient.GetAsync(string.Format("{0}/{1}", accuracyUrl.Endpoint, accuracyUrl.Accuracy)))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        accuracy = JsonConvert.DeserializeObject<List<Models.Accuracy>>(apiResponse);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Accuracy API unavailable: {0}", ex);
-            }
-
-            return accuracy;
-        }
+        return accuracy;
     }
 }

@@ -1,23 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PowerLinesWeb.Fixtures;
-using System.Threading.Tasks;
 
-namespace PowerLinesWeb.Controllers
+namespace PowerLinesWeb.Controllers;
+
+[Route("[controller]")]
+public class FixturesController(IFixtureApi fixtureApi) : Controller
 {
-    public class FixturesController : Controller
+    readonly IFixtureApi fixtureApi = fixtureApi;
+
+    [Route("")]
+    public IActionResult Index()
     {
-        readonly IFixtureApi fixtureApi;
-
-        public FixturesController(IFixtureApi fixtureApi)
-        {
-            this.fixtureApi = fixtureApi;
-        }
-
-        public IActionResult Index()
-        {
-            var fixtures = Task.Run(() => fixtureApi.GetFixtures()).Result;
-            return View(fixtures);
-        }
+        var fixtures = Task.Run(() => fixtureApi.GetFixtures()).Result;
+        return View(fixtures);
     }
 }

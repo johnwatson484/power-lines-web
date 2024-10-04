@@ -1,11 +1,8 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using PowerLinesWeb.Models;
 
-namespace PowerLinesWeb.Fixtures
+namespace PowerLinesWeb.Fixtures;
+
+public interface IFixtureApi
 {
-    public interface IFixtureApi
-    {
-        Task<List<Fixture>> GetFixtures();
-    }
+    Task<List<Fixture>> GetFixtures();
 }
