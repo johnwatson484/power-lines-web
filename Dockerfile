@@ -11,9 +11,6 @@ RUN addgroup -g 1000 dotnet \
 USER dotnet
 WORKDIR /home/dotnet
 
-COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
-RUN mkdir -p /home/dotnet/PowerLinesWeb/
-COPY --chown=dotnet:dotnet ./PowerLinesWeb/*.csproj ./PowerLinesWeb/
 COPY --chown=dotnet:dotnet . .
 
 RUN dotnet publish ./PowerLinesWeb/ -c Release -o /home/dotnet/out
