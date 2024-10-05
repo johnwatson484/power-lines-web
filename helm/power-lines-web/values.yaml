@@ -4,7 +4,7 @@ container:
   port: 5000
   comPlusEnableDiagnostics: 0
 
-config:
+configMap:
   environment: production
   fixtureEndpoint: http://power-lines-fixture-service
   accuracyEndpoint: http://power-lines-accuracy-service
