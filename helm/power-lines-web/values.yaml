@@ -1,14 +1,11 @@
-environment: production
-name: power-lines-web
-image: power-lines-web
-
 container:
-  requestMemory: 60Mi
-  requestCpu: 60m
-  limitMemory: 250Mi
-  limitCpu: 250m
+  image: power-lines-web
+  resourceTier: M
   port: 5000
   comPlusEnableDiagnostics: 0
+
+config:
+  environment: production
   fixtureEndpoint: http://power-lines-fixture-service
   accuracyEndpoint: http://power-lines-accuracy-service
 

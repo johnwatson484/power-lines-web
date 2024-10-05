@@ -2,8 +2,8 @@
 {{- define "power-lines-web.configmap" -}}
 data:
   COMPLUS_ENABLEDIAGNOSTICS: {{ quote .Values.container.comPlusEnableDiagnostics }}
-  ASPNETCORE_ENVIRONMENT: {{ quote .Values.environment }}
+  ASPNETCORE_ENVIRONMENT: {{ quote .Values.config.environment }}
   ASPNETCORE_URLS: http://*:{{ .Values.container.port }}
-  FIXTUREURL__ENDPOINT: {{ quote .Values.container.fixtureEndpoint }}
-  ACCURACYURL__ENDPOINT: {{ quote .Values.container.accuracyEndpoint }}
+  FIXTUREURL__ENDPOINT: {{ quote .Values.config.fixtureEndpoint }}
+  ACCURACYURL__ENDPOINT: {{ quote .Values.config.accuracyEndpoint }}
 {{- end -}}
