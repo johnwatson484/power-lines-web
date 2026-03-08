@@ -19,3 +19,4 @@ extends:
     framework: net
     deploy: true
     namespace: power-lines
+    sonarcloud: false
