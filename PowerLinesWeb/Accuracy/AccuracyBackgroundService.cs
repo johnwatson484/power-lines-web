@@ -25,11 +25,18 @@ public class AccuracyBackgroundService : BackgroundService
 
     private void CalculateAccuracy(object state)
     {
-        var lastOddsDate = GetLastOddsDate();
-
-        if (lastOddsDate.HasValue)
+        try
         {
-            CheckPendingAccuracy(lastOddsDate.Value);
+            var lastOddsDate = GetLastOddsDate();
+
+            if (lastOddsDate.HasValue)
+            {
+                CheckPendingAccuracy(lastOddsDate.Value);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("AccuracyBackgroundService error: {0}", ex.Message);
         }
     }
 

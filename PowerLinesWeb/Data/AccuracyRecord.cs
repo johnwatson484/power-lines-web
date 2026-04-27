@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PowerLinesWeb.Data;
@@ -5,6 +6,7 @@ namespace PowerLinesWeb.Data;
 [Table("accuracy")]
 public class AccuracyRecord
 {
+    [Key]
     [Column("accuracyId")]
     public int AccuracyId { get; set; }
 

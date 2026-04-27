@@ -25,14 +25,21 @@ public class ResultAnalysisBackgroundService : BackgroundService
 
     protected void GetMatchOdds(object state)
     {
-        var lastResultDate = GetLastResultDate();
-
-        if (lastResultDate == null || lastResultDate.Value > DateTime.UtcNow.AddMinutes(-10))
+        try
         {
-            return;
-        }
+            var lastResultDate = GetLastResultDate();
 
-        CheckPendingResults(lastResultDate.Value);
+            if (lastResultDate == null || lastResultDate.Value > DateTime.UtcNow.AddMinutes(-10))
+            {
+                return;
+            }
+
+            CheckPendingResults(lastResultDate.Value);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("ResultAnalysisBackgroundService error: {0}", ex.Message);
+        }
     }
 
     private DateTime? GetLastResultDate()

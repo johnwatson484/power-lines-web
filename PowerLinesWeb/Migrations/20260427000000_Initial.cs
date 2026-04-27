@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace PowerLinesWeb.Migrations
 {
-    /// <inheritdoc />
+    [Microsoft.EntityFrameworkCore.Migrations.Migration("20260427000000_Initial")]
     public partial class Initial : Migration
     {
         /// <inheritdoc />

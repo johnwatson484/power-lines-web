@@ -26,11 +26,18 @@ public class FixtureAnalysisBackgroundService : BackgroundService
 
     protected void GetMatchOdds(object state)
     {
-        var lastResultDate = GetLastResultDate();
-
-        if (lastResultDate.HasValue)
+        try
         {
-            CheckPendingFixtures(lastResultDate.Value);
+            var lastResultDate = GetLastResultDate();
+
+            if (lastResultDate.HasValue)
+            {
+                CheckPendingFixtures(lastResultDate.Value);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("FixtureAnalysisBackgroundService error: {0}", ex.Message);
         }
     }
 
