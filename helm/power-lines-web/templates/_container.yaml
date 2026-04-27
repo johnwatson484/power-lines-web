@@ -1,2 +1,0 @@
-{{- define "power-lines-web.container" -}}
-{{- end -}}

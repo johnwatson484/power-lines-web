@@ -2,15 +2,72 @@ services:
   power-lines-web:
     build:
       target: development
+    depends_on:
+      power-lines-message:
+        condition: service_healthy
+      power-lines-web-postgres:
+        condition: service_healthy
     ports:
       - "5000:5000"
-    environment: 
-      FIXTUREURL__ENDPOINT: http://power-lines-fixture-service:5002
-      ACCURACYURL__ENDPOINT: http://power-lines-accuracy-service:5001
+    environment:
+      CONNECTIONSTRINGS__POWERLINESWEB: "Server=power-lines-web-postgres;Port=5432;Database=power_lines;User Id=postgres;Password=postgres;"
+      MESSAGE__HOST: power-lines-message
+      MESSAGE__PORT: 5672
+      MESSAGE__USERNAME: rabbitmq
+      MESSAGE__PASSWORD: rabbitmq
+      MESSAGE__FIXTUREQUEUE: fixtures
+      MESSAGE__FIXTURESUBSCRIPTION: fixtures-web
+      MESSAGE__RESULTQUEUE: results
+      MESSAGE__RESULTSUBSCRIPTION: results-web
+      THRESHOLD__HIGHER: "0.7"
+      THRESHOLD__LOWER: "0.65"
     volumes:
       - ./PowerLinesWeb:/home/dotnet/PowerLinesWeb
     networks:
       - power-lines
+
+  power-lines-message:
+    image: rabbitmq:3-management-alpine
+    container_name: power-lines-message
+    hostname: power-lines-message
+    environment:
+      RABBITMQ_ERLANG_COOKIE: rabbitmq
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - power-lines
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping --erlang-cookie rabbitmq
+      interval: 10s
+      retries: 5
+      start_period: 1s
+      timeout: 10s
+
+  power-lines-web-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: power_lines
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "6000:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - power-lines
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d power_lines"]
+      interval: 10s
+      retries: 5
+      start_period: 1s
+      timeout: 10s
+
+volumes:
+  postgres_data: {}
 
 networks:
   power-lines:

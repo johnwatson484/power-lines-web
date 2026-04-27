@@ -1,13 +1,27 @@
+using Microsoft.EntityFrameworkCore;
 using PowerLinesWeb.Accuracy;
+using PowerLinesWeb.Analysis;
+using PowerLinesWeb.Data;
 using PowerLinesWeb.Fixtures;
+using PowerLinesWeb.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<FixtureOptions>(builder.Configuration.GetSection(key: "FixtureUrl"));
-builder.Services.Configure<AccuracyOptions>(builder.Configuration.GetSection(key: "AccuracyUrl"));
+builder.Services.Configure<MessageOptions>(builder.Configuration.GetSection(key: "Message"));
+builder.Services.Configure<ThresholdOptions>(builder.Configuration.GetSection(key: "Threshold"));
 
-builder.Services.AddScoped<IFixtureApi, FixtureApi>();
-builder.Services.AddScoped<IAccuracyApi, AccuracyApi>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PowerLinesWeb"), options =>
+        options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null)));
+
+builder.Services.AddScoped<IFixtureService, FixtureService>();
+builder.Services.AddScoped<IAccuracyService, AccuracyService>();
+builder.Services.AddScoped<IAnalysisService, AnalysisService>();
+
+builder.Services.AddHostedService<MessageService>();
+builder.Services.AddHostedService<FixtureAnalysisBackgroundService>();
+builder.Services.AddHostedService<ResultAnalysisBackgroundService>();
+builder.Services.AddHostedService<AccuracyBackgroundService>();
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -57,4 +71,13 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseStaticFiles();
 
+ApplyMigrations(app.Services);
+
 await app.RunAsync();
+
+static void ApplyMigrations(IServiceProvider serviceProvider)
+{
+    using var scope = serviceProvider.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}

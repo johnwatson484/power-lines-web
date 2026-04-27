@@ -1,5 +1,4 @@
-[![Build Status](https://dev.azure.com/johnwatson484/John%20D%20Watson/_apis/build/status/johnwatson484.power-lines-web?branchName=master)](https://dev.azure.com/johnwatson484/John%20D%20Watson/_build/latest?definitionId=35&branchName=master)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnwatson484_power-lines-web&metric=alert_status)](https://sonarcloud.io/dashboard?id=johnwatson484_power-lines-web)
+[![Build Status](https://github.com/johnwatson484/power-lines-web/actions/workflows/build.yaml/badge.svg)](https://github.com/johnwatson484/power-lines-web/actions/workflows/build.yaml)
 
 # Power Lines Web
 Web front end

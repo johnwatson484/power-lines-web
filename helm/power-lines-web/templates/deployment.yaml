@@ -1,3 +1,0 @@
-{{- include "helm-library.deployment" (list . "power-lines-web.deployment") -}}
-{{- define "power-lines-web.deployment" -}}
-{{- end -}}

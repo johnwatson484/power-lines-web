@@ -1,3 +1,0 @@
-{{- include "helm-library.ingress" (list . "power-lines-web.ingress") -}}
-{{- define "power-lines-web.ingress" -}}
-{{- end -}}

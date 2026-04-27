@@ -1,9 +1,0 @@
-{{- include "helm-library.configmap" (list . "power-lines-web.configmap") -}}
-{{- define "power-lines-web.configmap" -}}
-data:
-  COMPLUS_ENABLEDIAGNOSTICS: {{ quote .Values.container.comPlusEnableDiagnostics }}
-  ASPNETCORE_URLS: http://*:{{ .Values.container.port }}
-  ASPNETCORE_ENVIRONMENT: {{ quote .Values.configMap.environment }}
-  FIXTUREURL__ENDPOINT: {{ quote .Values.configMap.fixtureEndpoint }}
-  ACCURACYURL__ENDPOINT: {{ quote .Values.configMap.accuracyEndpoint }}
-{{- end -}}

@@ -4,15 +4,15 @@ using PowerLinesWeb.Accuracy;
 namespace PowerLinesWeb.Controllers;
 
 [Route("[controller]")]
-public class AccuracyController(IAccuracyApi accuracyApi) : Controller
+public class AccuracyController(IAccuracyService accuracyService) : Controller
 {
-    readonly IAccuracyApi accuracyApi = accuracyApi;
+    readonly IAccuracyService accuracyService = accuracyService;
 
     [Route("")]
     [HttpGet]
     public IActionResult Index()
     {
-        var accuracy = Task.Run(() => accuracyApi.GetAccuracy()).Result;
+        var accuracy = accuracyService.Get();
         return View(accuracy);
     }
 }

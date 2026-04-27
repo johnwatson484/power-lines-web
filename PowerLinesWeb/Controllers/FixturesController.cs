@@ -4,14 +4,14 @@ using PowerLinesWeb.Fixtures;
 namespace PowerLinesWeb.Controllers;
 
 [Route("[controller]")]
-public class FixturesController(IFixtureApi fixtureApi) : Controller
+public class FixturesController(IFixtureService fixtureService) : Controller
 {
-    readonly IFixtureApi fixtureApi = fixtureApi;
+    readonly IFixtureService fixtureService = fixtureService;
 
     [Route("")]
     public IActionResult Index()
     {
-        var fixtures = Task.Run(() => fixtureApi.GetFixtures()).Result;
+        var fixtures = fixtureService.Get();
         return View(fixtures);
     }
 }
