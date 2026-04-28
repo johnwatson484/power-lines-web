@@ -71,13 +71,23 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseStaticFiles();
 
-ApplyMigrations(app.Services);
+await ApplyMigrations(app.Services);
 
 await app.RunAsync();
 
-static void ApplyMigrations(IServiceProvider serviceProvider)
+static async Task ApplyMigrations(IServiceProvider serviceProvider)
 {
     using var scope = serviceProvider.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        Console.WriteLine("Applying database migrations...");
+        await db.Database.MigrateAsync();
+        Console.WriteLine("Database migrations complete.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database migration failed: {ex}");
+        throw;
+    }
 }

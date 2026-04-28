@@ -107,8 +107,3 @@ public async Task<List<MyModel>> GetAsync()
 - Use multi-stage Alpine builds: `sdk:8.0-alpine` (build) → `aspnet:8.0-alpine` (runtime).
 - Run as non-root user (`dotnet:1000`).
 - Expose port 5000; set `ASPNETCORE_URLS=http://+:5000`.
-
-## Helm
-
-- Chart inherits from `helm-library`; add new environment variables under `values.yaml` `env:` block.
-- Service endpoints follow the pattern: `http://power-lines-{service}-service`.

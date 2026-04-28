@@ -1,11 +1,15 @@
 using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using PowerLinesWeb.Data;
 
 #nullable disable
 
 namespace PowerLinesWeb.Migrations
 {
+    [DbContext(typeof(ApplicationDbContext))]
     [Microsoft.EntityFrameworkCore.Migrations.Migration("20260427000000_Initial")]
     public partial class Initial : Migration
     {

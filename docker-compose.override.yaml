@@ -10,7 +10,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      CONNECTIONSTRINGS__POWERLINESWEB: "Server=power-lines-web-postgres;Port=5432;Database=power_lines;User Id=postgres;Password=postgres;"
+      CONNECTIONSTRINGS__POWERLINESWEB: "Server=power-lines-web-postgres;Port=5432;Database=power_lines_web;User Id=postgres;Password=postgres;"
       MESSAGE__HOST: power-lines-message
       MESSAGE__PORT: 5672
       MESSAGE__USERNAME: rabbitmq
@@ -50,7 +50,7 @@ services:
   power-lines-web-postgres:
     image: postgres:11.4-alpine
     environment:
-      POSTGRES_DB: power_lines
+      POSTGRES_DB: power_lines_web
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -60,7 +60,7 @@ services:
     networks:
       - power-lines
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d power_lines"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d power_lines_web"]
       interval: 10s
       retries: 5
       start_period: 1s
