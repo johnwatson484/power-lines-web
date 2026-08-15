@@ -5,6 +5,8 @@
     <ImplicitUsings>true</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <!-- Allows the tests to run on a newer runtime when the net8.0 runtime is not installed locally. -->
+    <RollForward>LatestMajor</RollForward>
   </PropertyGroup>
 
   <ItemGroup>

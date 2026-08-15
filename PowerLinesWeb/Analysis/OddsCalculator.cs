@@ -3,10 +3,11 @@ using PowerLinesWeb.Extensions;
 
 namespace PowerLinesWeb.Analysis;
 
-public class OddsCalculator(int id, GoalDistribution goalDistribution, ThresholdOptions thresholdOptions)
+public class OddsCalculator(int id, GoalDistribution goalDistribution, ThresholdOptions thresholdOptions, ModelOptions modelOptions)
 {
     readonly GoalDistribution goalDistribution = goalDistribution;
     readonly ThresholdOptions thresholdOptions = thresholdOptions;
+    readonly ModelOptions modelOptions = modelOptions;
     readonly AnalysisMatchOdds matchOdds = new AnalysisMatchOdds(id);
 
     public AnalysisMatchOdds GetMatchOdds()
@@ -19,6 +20,12 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, Threshold
 
     private decimal ConvertProbabilityToOdds(decimal probability)
     {
+        // A vanishing probability is an unbackable price, not a price of zero.
+        if (probability <= 1 / modelOptions.MaxOdds)
+        {
+            return modelOptions.MaxOdds;
+        }
+
         return Math.Round(DecimalExtensions.SafeDivide(1, probability), 2);
     }
 

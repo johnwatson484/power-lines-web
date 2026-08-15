@@ -26,5 +26,23 @@ public class GoalDistribution
                 ScoreProbabilities.Add(scoreProbability);
             }
         }
+
+        Normalise();
+    }
+
+    // The grid is truncated at a maximum scoreline, so it must be rescaled back to a total of 1.
+    private void Normalise()
+    {
+        var total = ScoreProbabilities.Sum(x => x.Probability);
+
+        if (total <= 0)
+        {
+            return;
+        }
+
+        foreach (var scoreProbability in ScoreProbabilities)
+        {
+            scoreProbability.Scale(1 / total);
+        }
     }
 }

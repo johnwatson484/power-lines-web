@@ -9,7 +9,6 @@ namespace PowerLinesWeb.Fixtures;
 public class FixtureAnalysisBackgroundService : BackgroundService
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private Timer timer;
     private readonly int frequencyInMinutes;
 
     public FixtureAnalysisBackgroundService(IServiceScopeFactory serviceScopeFactory, int frequencyInMinutes = 1)
@@ -18,13 +17,25 @@ public class FixtureAnalysisBackgroundService : BackgroundService
         this.frequencyInMinutes = frequencyInMinutes;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        timer = new Timer(GetMatchOdds, null, TimeSpan.Zero, TimeSpan.FromMinutes(frequencyInMinutes));
-        return Task.CompletedTask;
+        // PeriodicTimer waits for each run to finish, so a slow cycle cannot overlap the next.
+        using var timer = new PeriodicTimer(TimeSpan.FromMinutes(frequencyInMinutes));
+
+        try
+        {
+            do
+            {
+                GetMatchOdds();
+            }
+            while (await timer.WaitForNextTickAsync(stoppingToken));
+        }
+        catch (OperationCanceledException)
+        {
+        }
     }
 
-    protected void GetMatchOdds(object state)
+    protected void GetMatchOdds()
     {
         try
         {
@@ -88,6 +99,11 @@ public class FixtureAnalysisBackgroundService : BackgroundService
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             var odds = analysisService.GetMatchOdds(analysisFixture);
+
+            if (odds == null)
+            {
+                continue;
+            }
 
             var matchOdds = new MatchOdds
             {
