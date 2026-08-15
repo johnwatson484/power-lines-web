@@ -83,6 +83,11 @@ public class FixtureAnalysisBackgroundService : BackgroundService
 
     private void AnalyseFixtures(List<Fixture> fixtures)
     {
+        // One scope for the whole batch so the ratings provider can reuse its fits across fixtures.
+        using var scope = serviceScopeFactory.CreateScope();
+        var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         foreach (var fixture in fixtures)
         {
             var analysisFixture = new AnalysisFixture
@@ -93,10 +98,6 @@ public class FixtureAnalysisBackgroundService : BackgroundService
                 HomeTeam = fixture.HomeTeam,
                 AwayTeam = fixture.AwayTeam
             };
-
-            using var scope = serviceScopeFactory.CreateScope();
-            var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             var odds = analysisService.GetMatchOdds(analysisFixture);
 

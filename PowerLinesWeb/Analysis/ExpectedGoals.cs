@@ -1,3 +1,3 @@
 namespace PowerLinesWeb.Analysis;
 
-public record ExpectedGoals(decimal Home, decimal Away);
+public record ExpectedGoals(double Home, double Away);

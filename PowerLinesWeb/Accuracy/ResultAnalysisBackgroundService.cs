@@ -88,6 +88,11 @@ public class ResultAnalysisBackgroundService : BackgroundService
 
     private void AnalyseResults(List<Result> results)
     {
+        // One scope for the whole batch so the ratings provider can reuse its fits across results.
+        using var scope = serviceScopeFactory.CreateScope();
+        var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         foreach (var result in results)
         {
             var analysisFixture = new AnalysisFixture
@@ -98,10 +103,6 @@ public class ResultAnalysisBackgroundService : BackgroundService
                 HomeTeam = result.HomeTeam,
                 AwayTeam = result.AwayTeam
             };
-
-            using var scope = serviceScopeFactory.CreateScope();
-            var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             var odds = analysisService.GetMatchOdds(analysisFixture);
 
