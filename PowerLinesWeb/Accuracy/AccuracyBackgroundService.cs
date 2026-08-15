@@ -102,25 +102,12 @@ public class AccuracyBackgroundService : BackgroundService
                 .Where(x => x.Division == division && x.ResultMatchOdds != null)
                 .ToList();
 
-            var accuracy = new AccuracyRecord
-            {
-                Division = division,
-                Matches = testResults.Count,
-                Recommended = testResults.Count(x => x.ResultMatchOdds.IsRecommended),
-                LowerRecommended = testResults.Count(x => x.ResultMatchOdds.IsLowerRecommended),
-                Calculated = DateTime.UtcNow
-            };
-
-            var recommendedCount = accuracy.Recommended;
-            var lowerRecommendedCount = accuracy.LowerRecommended;
-
-            accuracy.RecommendedAccuracy = Math.Round(DecimalExtensions.SafeDivide(
-                testResults.Count(x => x.ResultMatchOdds.Recommended == x.FullTimeResult), recommendedCount), 2);
-            accuracy.LowerRecommendedAccuracy = Math.Round(DecimalExtensions.SafeDivide(
-                testResults.Count(x => x.ResultMatchOdds.LowerRecommended == x.FullTimeResult), lowerRecommendedCount), 2);
-
-            dbContext.Accuracy.Upsert(accuracy)
+            dbContext.Accuracy.Upsert(AccuracyCalculator.Calculate(division, testResults))
                 .On(x => new { x.Division })
+                .Run();
+
+            dbContext.AccuracyCalibration.UpsertRange(AccuracyCalculator.CalculateCalibration(division, testResults))
+                .On(x => new { x.Division, x.LowerBound })
                 .Run();
         }
     }

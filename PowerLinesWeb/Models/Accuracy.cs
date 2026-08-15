@@ -20,5 +20,28 @@ public class Accuracy
     [Display(Name = "Low Accuracy")]
     [DisplayFormat(DataFormatString = "{0:P0}")]
     public decimal LowerRecommendedAccuracy { get; set; }
+    [Display(Name = "Always Home")]
+    [DisplayFormat(DataFormatString = "{0:P0}")]
+    public decimal BaselineAccuracy { get; set; }
+    [Display(Name = "Log Loss")]
+    [DisplayFormat(DataFormatString = "{0:n4}")]
+    public decimal LogLoss { get; set; }
+    [Display(Name = "Brier")]
+    [DisplayFormat(DataFormatString = "{0:n4}")]
+    public decimal BrierScore { get; set; }
+    [Display(Name = "Market Log Loss")]
+    [DisplayFormat(DataFormatString = "{0:n4}")]
+    public decimal MarketLogLoss { get; set; }
+    [Display(Name = "Value Bets")]
+    public int ValueBets { get; set; }
+    [Display(Name = "Value Wins")]
+    public int ValueWins { get; set; }
+    [Display(Name = "Value ROI")]
+    [DisplayFormat(DataFormatString = "{0:P1}")]
+    public decimal ValueRoi { get; set; }
+
+    // Only meaningful where the market log loss was measured on the same matches.
+    public bool BeatsMarket => MarketLogLoss > 0 && LogLoss > 0 && LogLoss < MarketLogLoss;
+
     public DateTime Calculated { get; set; }
 }

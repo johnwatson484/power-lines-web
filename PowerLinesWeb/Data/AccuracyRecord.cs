@@ -28,6 +28,33 @@ public class AccuracyRecord
     [Column("lowerRecommendedAccuracy")]
     public decimal LowerRecommendedAccuracy { get; set; }
 
+    [Column("baselineAccuracy")]
+    public decimal BaselineAccuracy { get; set; }
+
+    [Column("scoredMatches")]
+    public int ScoredMatches { get; set; }
+
+    [Column("logLoss")]
+    public decimal LogLoss { get; set; }
+
+    [Column("brierScore")]
+    public decimal BrierScore { get; set; }
+
+    [Column("pricedMatches")]
+    public int PricedMatches { get; set; }
+
+    [Column("marketLogLoss")]
+    public decimal MarketLogLoss { get; set; }
+
+    [Column("valueBets")]
+    public int ValueBets { get; set; }
+
+    [Column("valueWins")]
+    public int ValueWins { get; set; }
+
+    [Column("valueRoi")]
+    public decimal ValueRoi { get; set; }
+
     [Column("calculated")]
     public DateTime Calculated { get; set; }
 }

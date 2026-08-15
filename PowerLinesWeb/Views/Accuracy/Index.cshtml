@@ -17,6 +17,12 @@ else
             <th class="text-center">@Html.DisplayNameFor(model => model[0].RecommendedAccuracy)</th>
             <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].LowerRecommended)</th>
             <th class="text-center">@Html.DisplayNameFor(model => model[0].LowerRecommendedAccuracy)</th>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].BaselineAccuracy)</th>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].LogLoss)</th>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].MarketLogLoss)</th>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].BrierScore)</th>
+            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].ValueBets)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model[0].ValueRoi)</th>
         </tr>
         @foreach (var division in Model)
         {
@@ -28,7 +34,19 @@ else
             <td class="text-center">@Html.DisplayFor(modelItem => division.RecommendedAccuracy)</td>
             <td class="text-center no-mobile">@Html.DisplayFor(modelItem => division.LowerRecommended)</td>
             <td class="text-center">@Html.DisplayFor(modelItem => division.LowerRecommendedAccuracy)</td>
+            <td class="text-center no-mobile">@Html.DisplayFor(modelItem => division.BaselineAccuracy)</td>
+            <td class="text-center no-mobile @(division.BeatsMarket ? "text-success" : "")">@Html.DisplayFor(modelItem => division.LogLoss)</td>
+            <td class="text-center no-mobile">@Html.DisplayFor(modelItem => division.MarketLogLoss)</td>
+            <td class="text-center no-mobile">@Html.DisplayFor(modelItem => division.BrierScore)</td>
+            <td class="text-center no-mobile">@division.ValueWins / @division.ValueBets</td>
+            <td class="text-center @(division.ValueRoi > 0 ? "text-success" : division.ValueRoi < 0 ? "text-danger" : "")">@Html.DisplayFor(modelItem => division.ValueRoi)</td>
           </tr>
         }
-    </table>    
+    </table>
+
+    <p class="text-muted small">
+        Log loss and Brier score measure how well calibrated the probabilities are, and lower is better.
+        Log loss is highlighted where it beats the bookmakers' own prices on the same matches. Value ROI
+        is the return from level stakes on every selection the model priced as value.
+    </p>
 }
