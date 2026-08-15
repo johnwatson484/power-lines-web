@@ -29,6 +29,13 @@ public class AccuracyService(ApplicationDbContext dbContext) : IAccuracyService
                 RecommendedAccuracy = record.RecommendedAccuracy,
                 LowerRecommended = record.LowerRecommended,
                 LowerRecommendedAccuracy = record.LowerRecommendedAccuracy,
+                BaselineAccuracy = record.BaselineAccuracy,
+                LogLoss = record.LogLoss,
+                BrierScore = record.BrierScore,
+                MarketLogLoss = record.MarketLogLoss,
+                ValueBets = record.ValueBets,
+                ValueWins = record.ValueWins,
+                ValueRoi = record.ValueRoi,
                 Calculated = record.Calculated
             });
         }

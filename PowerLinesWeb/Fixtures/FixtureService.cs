@@ -34,10 +34,17 @@ public class FixtureService(ApplicationDbContext dbContext) : IFixtureService
                 AwayOdds = fixture.MatchOdds?.Away ?? 0,
                 HomeGoals = fixture.MatchOdds?.HomeGoals ?? 0,
                 AwayGoals = fixture.MatchOdds?.AwayGoals ?? 0,
+                HomeProbability = fixture.MatchOdds?.HomeProbability ?? 0,
+                DrawProbability = fixture.MatchOdds?.DrawProbability ?? 0,
+                AwayProbability = fixture.MatchOdds?.AwayProbability ?? 0,
                 ExpectedGoals = fixture.MatchOdds?.ExpectedGoals ?? 0,
                 IsValid = fixture.MatchOdds != null && !(fixture.MatchOdds.Home == 0 && fixture.MatchOdds.Draw == 0 && fixture.MatchOdds.Away == 0),
                 Recommended = fixture.MatchOdds?.Recommended ?? "X",
                 LowerRecommended = fixture.MatchOdds?.LowerRecommended ?? "X",
+                ValueSelection = fixture.MatchOdds?.ValueSelection ?? "X",
+                ValueEdge = fixture.MatchOdds?.ValueEdge ?? 0,
+                ValueOdds = fixture.MatchOdds?.ValueOdds ?? 0,
+                ValueStake = fixture.MatchOdds?.ValueStake ?? 0,
                 Calculated = fixture.MatchOdds?.Calculated ?? default
             });
         }

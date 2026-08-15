@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Result> Results { get; set; }
     public DbSet<ResultMatchOdds> ResultMatchOdds { get; set; }
     public DbSet<AccuracyRecord> Accuracy { get; set; }
+    public DbSet<AccuracyCalibrationRecord> AccuracyCalibration { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,5 +26,8 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<AccuracyRecord>()
             .HasIndex(x => x.Division).IsUnique();
+
+        modelBuilder.Entity<AccuracyCalibrationRecord>()
+            .HasIndex(x => new { x.Division, x.LowerBound }).IsUnique();
     }
 }

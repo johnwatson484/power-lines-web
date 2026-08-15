@@ -29,11 +29,32 @@ public class ResultMatchOdds
     [Column("expectedGoals")]
     public decimal ExpectedGoals { get; set; }
 
+    [Column("homeProbability")]
+    public decimal HomeProbability { get; set; }
+
+    [Column("drawProbability")]
+    public decimal DrawProbability { get; set; }
+
+    [Column("awayProbability")]
+    public decimal AwayProbability { get; set; }
+
     [Column("recommended")]
     public string Recommended { get; set; }
 
     [Column("lowerRecommended")]
     public string LowerRecommended { get; set; }
+
+    [Column("valueSelection")]
+    public string ValueSelection { get; set; }
+
+    [Column("valueEdge")]
+    public decimal ValueEdge { get; set; }
+
+    [Column("valueOdds")]
+    public decimal ValueOdds { get; set; }
+
+    [Column("valueStake")]
+    public decimal ValueStake { get; set; }
 
     [Column("calculated")]
     public DateTime Calculated { get; set; }
@@ -41,4 +62,6 @@ public class ResultMatchOdds
     public bool IsRecommended => Recommended != "X";
 
     public bool IsLowerRecommended => LowerRecommended != "X";
+
+    public bool IsValue => ValueSelection != "X";
 }

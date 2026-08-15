@@ -3,22 +3,59 @@ using PowerLinesWeb.Extensions;
 
 namespace PowerLinesWeb.Analysis;
 
-public class OddsCalculator(int id, GoalDistribution goalDistribution, ThresholdOptions thresholdOptions)
+public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdds marketOdds, ThresholdOptions thresholdOptions, ModelOptions modelOptions, BettingOptions bettingOptions, ProbabilityCalibrator calibrator = null)
 {
     readonly GoalDistribution goalDistribution = goalDistribution;
     readonly ThresholdOptions thresholdOptions = thresholdOptions;
+    readonly ModelOptions modelOptions = modelOptions;
+    readonly BettingOptions bettingOptions = bettingOptions;
+    readonly ProbabilityCalibrator calibrator = calibrator ?? ProbabilityCalibrator.None;
     readonly AnalysisMatchOdds matchOdds = new AnalysisMatchOdds(id);
+    MatchProbabilities probabilities = MatchProbabilities.None;
 
     public AnalysisMatchOdds GetMatchOdds()
     {
+        CalculateProbabilities();
         CalculateResultOdds();
         CalculateScoreOdds();
         CalculateRecommendations();
+        CalculateValue();
         return matchOdds;
+    }
+
+    private void CalculateProbabilities()
+    {
+        var raw = new MatchProbabilities(GetRawProbability('H'), GetRawProbability('D'), GetRawProbability('A'));
+        probabilities = Calibrate(raw);
+        matchOdds.HomeProbability = probabilities.Home;
+        matchOdds.DrawProbability = probabilities.Draw;
+        matchOdds.AwayProbability = probabilities.Away;
+    }
+
+    // Calibrating each result independently no longer leaves them summing to one, so they are rescaled back.
+    private MatchProbabilities Calibrate(MatchProbabilities raw)
+    {
+        var home = calibrator.Calibrate(raw.Home);
+        var draw = calibrator.Calibrate(raw.Draw);
+        var away = calibrator.Calibrate(raw.Away);
+        var total = home + draw + away;
+
+        if (total <= 0)
+        {
+            return raw;
+        }
+
+        return new MatchProbabilities(home / total, draw / total, away / total);
     }
 
     private decimal ConvertProbabilityToOdds(decimal probability)
     {
+        // A vanishing probability is an unbackable price, not a price of zero.
+        if (probability <= 1 / modelOptions.MaxOdds)
+        {
+            return modelOptions.MaxOdds;
+        }
+
         return Math.Round(DecimalExtensions.SafeDivide(1, probability), 2);
     }
 
@@ -30,6 +67,11 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, Threshold
     }
 
     private decimal GetResultProbability(char result)
+    {
+        return probabilities.Get(result);
+    }
+
+    private decimal GetRawProbability(char result)
     {
         return goalDistribution.ScoreProbabilities.Where(x => x.Result == result).Sum(x => x.Probability);
     }
@@ -80,5 +122,48 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, Threshold
             return 'A';
         }
         return 'X';
+    }
+
+    // A recommendation says which result is most likely. Value says whether the price on offer is
+    // longer than that likelihood justifies, which is the only thing that makes a bet profitable.
+    private void CalculateValue()
+    {
+        var market = OddsConverter.RemoveMargin(marketOdds);
+
+        if (!market.HasProbabilities)
+        {
+            return;
+        }
+
+        foreach (var result in new[] { 'H', 'D', 'A' })
+        {
+            var price = marketOdds.Get(result);
+
+            if (price < bettingOptions.MinOdds || price > bettingOptions.MaxOdds)
+            {
+                continue;
+            }
+
+            var edge = GetResultProbability(result) - market.Get(result);
+
+            if (edge < bettingOptions.MinEdge || edge <= matchOdds.ValueEdge)
+            {
+                continue;
+            }
+
+            matchOdds.ValueSelection = char.ToString(result);
+            matchOdds.ValueEdge = edge;
+            matchOdds.ValueOdds = price;
+            matchOdds.ValueStake = GetStake(GetResultProbability(result), price);
+        }
+    }
+
+    // Fractional Kelly, because a full Kelly stake on a probability this uncertain is reckless.
+    private decimal GetStake(decimal probability, decimal price)
+    {
+        var profit = price - 1;
+        var stake = (probability * price - 1) / profit;
+
+        return stake <= 0 ? 0 : Math.Round(stake * bettingOptions.KellyFraction, 4);
     }
 }

@@ -1,21 +1,17 @@
 namespace PowerLinesWeb.Analysis;
 
-public class Poisson
+public static class Poisson
 {
-    const double euler = 2.71828;
-
-    public double GetProbability(int randomVariable, double averageRateOfSuccess)
+    public static double GetProbability(int goals, double expectedGoals)
     {
-        return Math.Pow(euler, -averageRateOfSuccess) * Math.Pow(averageRateOfSuccess, randomVariable) / Factorial(randomVariable);
-    }
+        // Built up by recurrence rather than lambda^k / k! so the factorial cannot overflow.
+        var probability = Math.Exp(-expectedGoals);
 
-    private int Factorial(int n)
-    {
-        int value = 1;
-        for (int i = 1; i <= n; i++)
+        for (var i = 1; i <= goals; i++)
         {
-            value *= i;
+            probability *= expectedGoals / i;
         }
-        return value;
+
+        return probability;
     }
 }

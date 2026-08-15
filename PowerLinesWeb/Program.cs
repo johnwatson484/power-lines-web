@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PowerLinesWeb.Accuracy;
 using PowerLinesWeb.Analysis;
+using PowerLinesWeb.Analysis.Ratings;
 using PowerLinesWeb.Data;
 using PowerLinesWeb.Fixtures;
 using PowerLinesWeb.Messaging;
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<MessageOptions>(builder.Configuration.GetSection(key: "Message"));
 builder.Services.Configure<ThresholdOptions>(builder.Configuration.GetSection(key: "Threshold"));
+builder.Services.Configure<ModelOptions>(builder.Configuration.GetSection(key: "Model"));
+builder.Services.Configure<BettingOptions>(builder.Configuration.GetSection(key: "Betting"));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PowerLinesWeb"), options =>
@@ -16,6 +19,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IFixtureService, FixtureService>();
 builder.Services.AddScoped<IAccuracyService, AccuracyService>();
+builder.Services.AddScoped<IRatingsProvider, RatingsProvider>();
+builder.Services.AddScoped<ICalibrationProvider, CalibrationProvider>();
 builder.Services.AddScoped<IAnalysisService, AnalysisService>();
 
 builder.Services.AddHostedService<MessageService>();

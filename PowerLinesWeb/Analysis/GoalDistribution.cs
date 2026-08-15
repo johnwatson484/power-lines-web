@@ -15,7 +15,7 @@ public class GoalDistribution
         ScoreProbabilities = new List<ScoreProbability>();
     }
 
-    public void CalculateDistribution()
+    public void CalculateDistribution(DixonColes lowScoreCorrection)
     {
         foreach (var homeGoalProbability in HomeGoalProbabilities)
         {
@@ -23,8 +23,27 @@ public class GoalDistribution
             {
                 var scoreProbability = new ScoreProbability(homeGoalProbability, awayGoalProbability);
                 scoreProbability.CalculateProbability();
+                scoreProbability.Scale((decimal)lowScoreCorrection.GetAdjustment(homeGoalProbability.Goals, awayGoalProbability.Goals));
                 ScoreProbabilities.Add(scoreProbability);
             }
+        }
+
+        Normalise();
+    }
+
+    // The grid is truncated at a maximum scoreline, so it must be rescaled back to a total of 1.
+    private void Normalise()
+    {
+        var total = ScoreProbabilities.Sum(x => x.Probability);
+
+        if (total <= 0)
+        {
+            return;
+        }
+
+        foreach (var scoreProbability in ScoreProbabilities)
+        {
+            scoreProbability.Scale(1 / total);
         }
     }
 }

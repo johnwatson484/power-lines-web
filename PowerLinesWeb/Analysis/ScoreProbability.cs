@@ -26,4 +26,9 @@ public class ScoreProbability(GoalProbability homeGoalProbability, GoalProbabili
     {
         Probability = HomeGoalProbability.Probability * AwayGoalProbability.Probability;
     }
+
+    public void Scale(decimal factor)
+    {
+        Probability *= factor;
+    }
 }

@@ -1,3 +1,4 @@
+using FlexLabs.EntityFrameworkCore.Upsert;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -76,14 +77,24 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
         var fixture = JsonConvert.DeserializeObject<Fixture>(message);
         using var scope = serviceScopeFactory.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         try
         {
-            dbContext.Fixtures.Add(fixture);
-            dbContext.SaveChanges();
+            // Upsert so a corrected re-import (e.g. updated odds) reaches fixtures already seen, not just new ones.
+            dbContext.Fixtures.Upsert(fixture)
+                .On(x => new { x.Date, x.HomeTeam, x.AwayTeam })
+                .WhenMatched(x => new Fixture
+                {
+                    Division = fixture.Division,
+                    HomeOddsAverage = fixture.HomeOddsAverage,
+                    DrawOddsAverage = fixture.DrawOddsAverage,
+                    AwayOddsAverage = fixture.AwayOddsAverage
+                })
+                .Run();
         }
-        catch (DbUpdateException)
+        catch (Exception ex)
         {
-            Console.WriteLine("{0} v {1} exists, skipping", fixture.HomeTeam, fixture.AwayTeam);
+            Console.WriteLine("Error saving fixture {0} v {1}: {2}", fixture.HomeTeam, fixture.AwayTeam, ex);
         }
     }
 
@@ -92,14 +103,32 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
         var result = JsonConvert.DeserializeObject<Result>(message);
         using var scope = serviceScopeFactory.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         try
         {
-            dbContext.Results.Add(result);
-            dbContext.SaveChanges();
+            // Upsert so a corrected re-import (e.g. updated odds) reaches results already seen, not just new ones.
+            // Created is deliberately left out of WhenMatched so a re-import cannot reset it and stall the debounce
+            // in ResultAnalysisBackgroundService, which waits for Created to stop changing before it backtests.
+            dbContext.Results.Upsert(result)
+                .On(x => new { x.Date, x.HomeTeam, x.AwayTeam })
+                .WhenMatched(x => new Result
+                {
+                    Division = result.Division,
+                    FullTimeHomeGoals = result.FullTimeHomeGoals,
+                    FullTimeAwayGoals = result.FullTimeAwayGoals,
+                    FullTimeResult = result.FullTimeResult,
+                    HalfTimeHomeGoals = result.HalfTimeHomeGoals,
+                    HalfTimeAwayGoals = result.HalfTimeAwayGoals,
+                    HalfTimeResult = result.HalfTimeResult,
+                    HomeOddsAverage = result.HomeOddsAverage,
+                    DrawOddsAverage = result.DrawOddsAverage,
+                    AwayOddsAverage = result.AwayOddsAverage
+                })
+                .Run();
         }
-        catch (DbUpdateException)
+        catch (Exception ex)
         {
-            Console.WriteLine("{0} v {1} {2} exists, skipping", result.HomeTeam, result.AwayTeam, result.Date.Year);
+            Console.WriteLine("Error saving result {0} v {1} {2}: {3}", result.HomeTeam, result.AwayTeam, result.Date.Year, ex);
         }
     }
 }

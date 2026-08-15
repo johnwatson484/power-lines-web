@@ -1,5 +1,20 @@
 @model List<PowerLinesWeb.Models.Fixture>
 
+@functions {
+    string GetOddsTooltip(PowerLinesWeb.Models.Fixture fixture, string result, decimal probability)
+    {
+        if (fixture.Recommended == result)
+        {
+            return $"Recommended — {probability:p0} probability";
+        }
+        if (fixture.LowerRecommended == result)
+        {
+            return $"Weak pick — {probability:p0} probability";
+        }
+        return $"{probability:p0} probability";
+    }
+}
+
 @if (Model == null || Model.Count == 0)
 {
     <h3>New fixtures coming soon...</h3>
@@ -7,6 +22,14 @@
 else
 {
     <h3>Full Time Result</h3>
+
+    <div class="alert alert-secondary small mb-3">
+        <span class="btn btn-success btn-sm disabled">1</span> Recommended &mdash; the model's most confident pick (&ge; 70% probability).
+        <span class="btn btn-warning btn-sm disabled ml-2">1</span> Weak pick &mdash; a leaning pick (65&ndash;70% probability).
+        <span class="badge badge-pill badge-warning ml-2">V</span> Value &mdash; the price on offer is longer than the model's own probability justifies.
+        This is a <strong>different signal from Recommended</strong>, not a stronger version of it, and it is currently experimental:
+        backtested return has been negative. Hover any odds or the Value badge for details.
+    </div>
 
     if (Model.Select(x => x.Date.Date).Distinct().Count() > 1)
     {
@@ -32,7 +55,8 @@ else
             <th class="text-center">@Html.DisplayNameFor(model => model[0].DrawOdds)</th>
             <th class="text-center">@Html.DisplayNameFor(model => model[0].AwayOdds)</th>
             <th class="text-center">@Html.DisplayNameFor(model => model[0].ExpectedScore)</th>
-            <th></th>
+            <th class="text-center" data-toggle="tooltip" title="Backed against the model's own price, not the bookmakers' — see the legend above">@Html.DisplayNameFor(model => model[0].ValueSelection)</th>
+            <th class="text-center" data-toggle="tooltip" title="Model's expected total goals for this match">xG</th>
         </tr>
         @foreach (var fixture in Model)
         {
@@ -41,11 +65,17 @@ else
                 <td class="no-mobile">@Html.DisplayFor(modelItem => fixture.Country)</td>
                 <td class="no-mobile">@Html.DisplayFor(modelItem => fixture.Division)</td>
                 <td>@Html.DisplayFor(modelItem => fixture.HomeTeam) v @Html.DisplayFor(modelItem => fixture.AwayTeam)</td>
-                <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.HomeOdds == 0 ? "btn-danger" : fixture.Recommended == "H" ? "btn-success" : fixture.LowerRecommended == "H" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.HomeOdds)</td>
-                <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.DrawOdds == 0 ? "btn-danger" : fixture.Recommended == "D" ? "btn-success" : fixture.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.DrawOdds)</td>
-                <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.AwayOdds == 0 ? "btn-danger" : fixture.Recommended == "A" ? "btn-success" : fixture.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.AwayOdds)</span></td>
+                <td class="text-center"><span data-id="@fixture.FixtureId" data-toggle="tooltip" title="@GetOddsTooltip(fixture, "H", fixture.HomeProbability)" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.HomeOdds == 0 ? "btn-danger" : fixture.Recommended == "H" ? "btn-success" : fixture.LowerRecommended == "H" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.HomeOdds)</span></td>
+                <td class="text-center"><span data-id="@fixture.FixtureId" data-toggle="tooltip" title="@GetOddsTooltip(fixture, "D", fixture.DrawProbability)" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.DrawOdds == 0 ? "btn-danger" : fixture.Recommended == "D" ? "btn-success" : fixture.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.DrawOdds)</span></td>
+                <td class="text-center"><span data-id="@fixture.FixtureId" data-toggle="tooltip" title="@GetOddsTooltip(fixture, "A", fixture.AwayProbability)" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.AwayOdds == 0 ? "btn-danger" : fixture.Recommended == "A" ? "btn-success" : fixture.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.AwayOdds)</span></td>
                 <td class="text-center">@Html.DisplayFor(modelItem => fixture.ExpectedScore)</td>
-                <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.HomeOdds == 0 ? "btn-danger" : "btn-default")">@Html.DisplayFor(modelItem => fixture.ExpectedGoals)</td>
+                <td class="text-center">
+                    @if (fixture.IsValue)
+                    {
+                        <span class="badge badge-pill badge-warning" data-toggle="tooltip" title="Value: edge @fixture.ValueEdge.ToString("p1") at @fixture.ValueOdds.ToString("n2"), stake @fixture.ValueStake.ToString("p1") of bank. Experimental — backtested return has been negative.">@fixture.ValueSelection</span>
+                    }
+                </td>
+                <td class="text-center">@Html.DisplayFor(modelItem => fixture.ExpectedGoals)</td>
             </tr>
         }
     </table>

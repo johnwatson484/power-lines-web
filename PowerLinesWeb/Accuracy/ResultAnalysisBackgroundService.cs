@@ -1,5 +1,6 @@
 using FlexLabs.EntityFrameworkCore.Upsert;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PowerLinesWeb.Analysis;
 using PowerLinesWeb.Data;
 
@@ -8,7 +9,6 @@ namespace PowerLinesWeb.Accuracy;
 public class ResultAnalysisBackgroundService : BackgroundService
 {
     private readonly IServiceScopeFactory serviceScopeFactory;
-    private Timer timer;
     private readonly int frequencyInMinutes;
 
     public ResultAnalysisBackgroundService(IServiceScopeFactory serviceScopeFactory, int frequencyInMinutes = 60)
@@ -17,13 +17,25 @@ public class ResultAnalysisBackgroundService : BackgroundService
         this.frequencyInMinutes = frequencyInMinutes;
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        timer = new Timer(GetMatchOdds, null, TimeSpan.Zero, TimeSpan.FromMinutes(frequencyInMinutes));
-        return Task.CompletedTask;
+        // PeriodicTimer waits for each run to finish, so a slow cycle cannot overlap the next.
+        using var timer = new PeriodicTimer(TimeSpan.FromMinutes(frequencyInMinutes));
+
+        try
+        {
+            do
+            {
+                GetMatchOdds();
+            }
+            while (await timer.WaitForNextTickAsync(stoppingToken));
+        }
+        catch (OperationCanceledException)
+        {
+        }
     }
 
-    protected void GetMatchOdds(object state)
+    protected void GetMatchOdds()
     {
         try
         {
@@ -54,11 +66,13 @@ public class ResultAnalysisBackgroundService : BackgroundService
 
     private void CheckPendingResults(DateTime lastResultDate)
     {
-        DateTime startDate = new(DateTime.UtcNow.Year - 3, 9, 1);
         List<Result> pendingResults;
         using (var scope = serviceScopeFactory.CreateScope())
         {
             var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var modelOptions = scope.ServiceProvider.GetRequiredService<IOptions<ModelOptions>>().Value;
+            var startDate = DateTime.UtcNow.Date.AddYears(-modelOptions.BacktestYears);
+
             pendingResults = dbContext.Results.AsNoTracking()
                 .Include(x => x.ResultMatchOdds)
                 .Where(x => x.Date >= startDate
@@ -74,6 +88,11 @@ public class ResultAnalysisBackgroundService : BackgroundService
 
     private void AnalyseResults(List<Result> results)
     {
+        // One scope for the whole batch so the ratings provider can reuse its fits across results.
+        using var scope = serviceScopeFactory.CreateScope();
+        var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
         foreach (var result in results)
         {
             var analysisFixture = new AnalysisFixture
@@ -82,14 +101,16 @@ public class ResultAnalysisBackgroundService : BackgroundService
                 Division = result.Division,
                 Date = result.Date,
                 HomeTeam = result.HomeTeam,
-                AwayTeam = result.AwayTeam
+                AwayTeam = result.AwayTeam,
+                MarketOdds = new MarketOdds(result.HomeOddsAverage, result.DrawOddsAverage, result.AwayOddsAverage)
             };
 
-            using var scope = serviceScopeFactory.CreateScope();
-            var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
             var odds = analysisService.GetMatchOdds(analysisFixture);
+
+            if (odds == null)
+            {
+                continue;
+            }
 
             var resultMatchOdds = new ResultMatchOdds
             {
@@ -100,8 +121,15 @@ public class ResultAnalysisBackgroundService : BackgroundService
                 HomeGoals = odds.HomeGoals,
                 AwayGoals = odds.AwayGoals,
                 ExpectedGoals = odds.ExpectedGoals,
+                HomeProbability = odds.HomeProbability,
+                DrawProbability = odds.DrawProbability,
+                AwayProbability = odds.AwayProbability,
                 Recommended = odds.Recommended,
                 LowerRecommended = odds.LowerRecommended,
+                ValueSelection = odds.ValueSelection,
+                ValueEdge = odds.ValueEdge,
+                ValueOdds = odds.ValueOdds,
+                ValueStake = odds.ValueStake,
                 Calculated = odds.Calculated
             };
 
