@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IFixtureService, FixtureService>();
 builder.Services.AddScoped<IAccuracyService, AccuracyService>();
 builder.Services.AddScoped<IRatingsProvider, RatingsProvider>();
+builder.Services.AddScoped<ICalibrationProvider, CalibrationProvider>();
 builder.Services.AddScoped<IAnalysisService, AnalysisService>();
 
 builder.Services.AddHostedService<MessageService>();

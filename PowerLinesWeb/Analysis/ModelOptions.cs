@@ -11,4 +11,7 @@ public class ModelOptions
     public double PriorMatches { get; set; } = 5;
     public int MaxIterations { get; set; } = 100;
     public double Tolerance { get; set; } = 0.000001;
+
+    // Below this many backtested predictions, a calibration bucket is too noisy to trust.
+    public int MinCalibrationPredictions { get; set; } = 30;
 }

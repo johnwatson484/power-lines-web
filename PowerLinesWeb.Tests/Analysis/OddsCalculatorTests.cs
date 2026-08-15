@@ -1,4 +1,5 @@
 using PowerLinesWeb.Analysis;
+using PowerLinesWeb.Data;
 
 namespace PowerLinesWeb.Tests.Analysis;
 
@@ -135,12 +136,32 @@ public class OddsCalculatorTests
         Assert.That(odds.ValueSelection, Is.EqualTo("D"));
     }
 
+    [Test]
+    public void Calibrated_probabilities_still_sum_to_one()
+    {
+        var buckets = new List<AccuracyCalibrationRecord>
+        {
+            new() { LowerBound = 0.0m, UpperBound = 0.5m, Predicted = 0.2m, Observed = 0.4m, Predictions = 100 },
+            new() { LowerBound = 0.5m, UpperBound = 1.0m, Predicted = 0.8m, Observed = 0.6m, Predictions = 100 }
+        };
+        var calibrator = ProbabilityCalibrator.Build(buckets, minPredictions: 30);
+
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], MarketOdds.None, new BettingOptions(), calibrator);
+
+        Assert.That(odds.HomeProbability + odds.DrawProbability + odds.AwayProbability, Is.EqualTo(1m).Within(0.0001m));
+    }
+
     private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities)
     {
         return Calculate(homeGoalProbabilities, awayGoalProbabilities, MarketOdds.None, new BettingOptions());
     }
 
     private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, MarketOdds marketOdds, BettingOptions bettingOptions)
+    {
+        return Calculate(homeGoalProbabilities, awayGoalProbabilities, marketOdds, bettingOptions, ProbabilityCalibrator.None);
+    }
+
+    private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, MarketOdds marketOdds, BettingOptions bettingOptions, ProbabilityCalibrator calibrator)
     {
         var distribution = new GoalDistribution();
 
@@ -153,6 +174,6 @@ public class OddsCalculatorTests
         distribution.CalculateDistribution(DixonColes.None);
 
         var thresholdOptions = new ThresholdOptions { Higher = 0.7m, Lower = 0.65m };
-        return new OddsCalculator(1, distribution, marketOdds, thresholdOptions, new ModelOptions(), bettingOptions).GetMatchOdds();
+        return new OddsCalculator(1, distribution, marketOdds, thresholdOptions, new ModelOptions(), bettingOptions, calibrator).GetMatchOdds();
     }
 }

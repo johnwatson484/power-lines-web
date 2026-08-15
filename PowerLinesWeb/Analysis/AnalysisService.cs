@@ -3,9 +3,10 @@ using PowerLinesWeb.Analysis.Ratings;
 
 namespace PowerLinesWeb.Analysis;
 
-public class AnalysisService(IRatingsProvider ratingsProvider, IOptions<ThresholdOptions> thresholdOptions, IOptions<ModelOptions> modelOptions, IOptions<BettingOptions> bettingOptions) : IAnalysisService
+public class AnalysisService(IRatingsProvider ratingsProvider, ICalibrationProvider calibrationProvider, IOptions<ThresholdOptions> thresholdOptions, IOptions<ModelOptions> modelOptions, IOptions<BettingOptions> bettingOptions) : IAnalysisService
 {
     readonly IRatingsProvider ratingsProvider = ratingsProvider;
+    readonly ICalibrationProvider calibrationProvider = calibrationProvider;
     readonly ThresholdOptions thresholdOptions = thresholdOptions.Value;
     readonly ModelOptions modelOptions = modelOptions.Value;
     readonly BettingOptions bettingOptions = bettingOptions.Value;
@@ -21,8 +22,9 @@ public class AnalysisService(IRatingsProvider ratingsProvider, IOptions<Threshol
 
         var expectedGoals = ratings.GetExpectedGoals(fixture.HomeTeam, fixture.AwayTeam);
         var goalDistribution = CalculateGoalDistribution(expectedGoals, new DixonColes(expectedGoals, ratings.LowScoreCorrelation));
+        var calibrator = calibrationProvider.Get(fixture.Division);
 
-        var oddsCalculator = new OddsCalculator(fixture.Id, goalDistribution, fixture.MarketOdds, thresholdOptions, modelOptions, bettingOptions);
+        var oddsCalculator = new OddsCalculator(fixture.Id, goalDistribution, fixture.MarketOdds, thresholdOptions, modelOptions, bettingOptions, calibrator);
         return oddsCalculator.GetMatchOdds();
     }
 

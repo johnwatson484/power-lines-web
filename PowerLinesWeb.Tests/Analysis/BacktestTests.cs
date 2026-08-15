@@ -89,6 +89,7 @@ public class BacktestTests
     {
         return new AnalysisService(
             new FixedRatingsProvider(ratings),
+            new NoCalibrationProvider(),
             Options.Create(new ThresholdOptions { Higher = 0.7m, Lower = 0.65m }),
             Options.Create(new ModelOptions()),
             Options.Create(new BettingOptions()));
@@ -141,5 +142,10 @@ public class BacktestTests
     private class FixedRatingsProvider(TeamRatings ratings) : IRatingsProvider
     {
         public TeamRatings Get(string division, DateTime asOf) => ratings;
+    }
+
+    private class NoCalibrationProvider : ICalibrationProvider
+    {
+        public ProbabilityCalibrator Get(string division) => ProbabilityCalibrator.None;
     }
 }

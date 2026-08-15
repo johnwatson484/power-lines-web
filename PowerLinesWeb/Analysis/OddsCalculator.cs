@@ -3,13 +3,15 @@ using PowerLinesWeb.Extensions;
 
 namespace PowerLinesWeb.Analysis;
 
-public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdds marketOdds, ThresholdOptions thresholdOptions, ModelOptions modelOptions, BettingOptions bettingOptions)
+public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdds marketOdds, ThresholdOptions thresholdOptions, ModelOptions modelOptions, BettingOptions bettingOptions, ProbabilityCalibrator calibrator = null)
 {
     readonly GoalDistribution goalDistribution = goalDistribution;
     readonly ThresholdOptions thresholdOptions = thresholdOptions;
     readonly ModelOptions modelOptions = modelOptions;
     readonly BettingOptions bettingOptions = bettingOptions;
+    readonly ProbabilityCalibrator calibrator = calibrator ?? ProbabilityCalibrator.None;
     readonly AnalysisMatchOdds matchOdds = new AnalysisMatchOdds(id);
+    MatchProbabilities probabilities = MatchProbabilities.None;
 
     public AnalysisMatchOdds GetMatchOdds()
     {
@@ -23,9 +25,27 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
 
     private void CalculateProbabilities()
     {
-        matchOdds.HomeProbability = GetResultProbability('H');
-        matchOdds.DrawProbability = GetResultProbability('D');
-        matchOdds.AwayProbability = GetResultProbability('A');
+        var raw = new MatchProbabilities(GetRawProbability('H'), GetRawProbability('D'), GetRawProbability('A'));
+        probabilities = Calibrate(raw);
+        matchOdds.HomeProbability = probabilities.Home;
+        matchOdds.DrawProbability = probabilities.Draw;
+        matchOdds.AwayProbability = probabilities.Away;
+    }
+
+    // Calibrating each result independently no longer leaves them summing to one, so they are rescaled back.
+    private MatchProbabilities Calibrate(MatchProbabilities raw)
+    {
+        var home = calibrator.Calibrate(raw.Home);
+        var draw = calibrator.Calibrate(raw.Draw);
+        var away = calibrator.Calibrate(raw.Away);
+        var total = home + draw + away;
+
+        if (total <= 0)
+        {
+            return raw;
+        }
+
+        return new MatchProbabilities(home / total, draw / total, away / total);
     }
 
     private decimal ConvertProbabilityToOdds(decimal probability)
@@ -47,6 +67,11 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
     }
 
     private decimal GetResultProbability(char result)
+    {
+        return probabilities.Get(result);
+    }
+
+    private decimal GetRawProbability(char result)
     {
         return goalDistribution.ScoreProbabilities.Where(x => x.Result == result).Sum(x => x.Probability);
     }
