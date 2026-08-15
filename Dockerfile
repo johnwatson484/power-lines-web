@@ -22,6 +22,11 @@ ENV ASPNETCORE_URLS=http://*:5000
 EXPOSE ${PORT}
 ENTRYPOINT ["dotnet", "watch", "--project", "./PowerLinesWeb", "run"]
 
+# Test
+FROM development AS test
+
+ENTRYPOINT ["dotnet", "test", "./PowerLinesWeb.Tests/"]
+
 # Production
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS production
 
