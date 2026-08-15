@@ -9,6 +9,9 @@ public class TeamRatings(string division, DateTime asOf, double averageGoals)
     public double AverageGoals { get; } = averageGoals;
     public double HomeAdvantage { get; set; } = 1;
 
+    // Dixon-Coles rho, fitted across the whole division rather than per team.
+    public double LowScoreCorrelation { get; set; }
+
     public IReadOnlyCollection<TeamRating> Teams => teams.Values;
 
     public TeamRating GetOrAdd(string team)

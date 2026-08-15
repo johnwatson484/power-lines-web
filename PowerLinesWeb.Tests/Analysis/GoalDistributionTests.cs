@@ -58,7 +58,7 @@ public class GoalDistributionTests
             distribution.AwayGoalProbabilities.Add(new GoalProbability(goals, (decimal)Poisson.GetProbability(goals, awayExpectedGoals)));
         }
 
-        distribution.CalculateDistribution();
+        distribution.CalculateDistribution(DixonColes.None);
         return distribution;
     }
 

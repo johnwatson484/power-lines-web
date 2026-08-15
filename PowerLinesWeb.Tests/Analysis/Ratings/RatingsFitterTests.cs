@@ -101,6 +101,34 @@ public class RatingsFitterTests
     }
 
     [Test]
+    public void Fit_recovers_the_low_score_correlation_it_was_generated_from()
+    {
+        var matches = BuildSyntheticLeague(seasons: 200, correlation: -0.12);
+        var ratings = RatingsFitter.Fit("E0", new DateTime(2026, 1, 1), matches, Options());
+
+        Assert.That(ratings.LowScoreCorrelation, Is.EqualTo(-0.12).Within(0.03));
+    }
+
+    [Test]
+    public void Fit_leaves_the_correlation_at_zero_for_independent_goals()
+    {
+        Assert.That(syntheticFit.Value.LowScoreCorrelation, Is.EqualTo(0).Within(0.02));
+    }
+
+    [Test]
+    public void Fit_favours_recent_form_when_a_half_life_is_set()
+    {
+        var matches = BuildDeclineLeague();
+        var asOf = new DateTime(2026, 1, 1);
+
+        var undecayed = RatingsFitter.Fit("E0", asOf, matches, Options()).Find("Faded").Attack;
+        var decayed = RatingsFitter.Fit("E0", asOf, matches, Options(halfLifeDays: 365)).Find("Faded").Attack;
+
+        // The team was strong five years ago and poor since, so decay should rate it lower.
+        Assert.That(decayed, Is.LessThan(undecayed - 0.1));
+    }
+
+    [Test]
     public void Fit_returns_empty_ratings_when_there_is_no_history()
     {
         var ratings = RatingsFitter.Fit("E0", new DateTime(2026, 1, 1), [], Options());
@@ -109,9 +137,44 @@ public class RatingsFitterTests
         Assert.That(ratings.AverageGoals, Is.EqualTo(0));
     }
 
-    private static ModelOptions Options(double priorMatches = 5)
+    private static ModelOptions Options(double priorMatches = 5, double halfLifeDays = 0)
     {
-        return new ModelOptions { PriorMatches = priorMatches, HalfLifeDays = 0, MaxIterations = 200, Tolerance = 1e-10 };
+        return new ModelOptions { PriorMatches = priorMatches, HalfLifeDays = halfLifeDays, MaxIterations = 200, Tolerance = 1e-10 };
+    }
+
+    // A league where one team scores freely for a season and then dries up.
+    private static List<Result> BuildDeclineLeague()
+    {
+        var matches = new List<Result>();
+        var date = new DateTime(2021, 1, 1);
+
+        for (var round = 0; round < 400; round++)
+        {
+            date = date.AddDays(4);
+            var faded = round < 100;
+
+            matches.Add(new Result
+            {
+                Division = "E0",
+                Date = date,
+                HomeTeam = "Faded",
+                AwayTeam = round % 2 == 0 ? "Rival" : "Other",
+                FullTimeHomeGoals = faded ? 4 : 0,
+                FullTimeAwayGoals = faded ? 0 : 2
+            });
+
+            matches.Add(new Result
+            {
+                Division = "E0",
+                Date = date,
+                HomeTeam = "Rival",
+                AwayTeam = "Other",
+                FullTimeHomeGoals = 1,
+                FullTimeAwayGoals = 1
+            });
+        }
+
+        return matches;
     }
 
     private static double TrueHomeGoals(string home, string away)
@@ -124,7 +187,7 @@ public class RatingsFitterTests
         return baseline * trueRatings[away].Attack * trueRatings[home].Defence;
     }
 
-    private static List<Result> BuildSyntheticLeague(int seasons)
+    private static List<Result> BuildSyntheticLeague(int seasons, double correlation = 0)
     {
         var random = new Random(20260815);
         var matches = new List<Result>();
@@ -137,14 +200,17 @@ public class RatingsFitterTests
                 foreach (var away in trueRatings.Keys.Where(x => x != home))
                 {
                     date = date.AddDays(1);
+                    var expected = new ExpectedGoals(TrueHomeGoals(home, away), TrueAwayGoals(home, away));
+                    var score = SampleScore(random, expected, correlation);
+
                     matches.Add(new Result
                     {
                         Division = "E0",
                         Date = date,
                         HomeTeam = home,
                         AwayTeam = away,
-                        FullTimeHomeGoals = SamplePoisson(random, TrueHomeGoals(home, away)),
-                        FullTimeAwayGoals = SamplePoisson(random, TrueAwayGoals(home, away))
+                        FullTimeHomeGoals = score.Home,
+                        FullTimeAwayGoals = score.Away
                     });
                 }
             }
@@ -152,6 +218,26 @@ public class RatingsFitterTests
 
         return matches;
     }
+
+    // Rejection sampling, so the sampled scores follow the corrected distribution exactly rather than
+    // an approximation of it.
+    private static (int Home, int Away) SampleScore(Random random, ExpectedGoals expectedGoals, double correlation)
+    {
+        var ceiling = Math.Max(1, LowScorelines.Max(x => DixonColes.GetAdjustment(x.Home, x.Away, expectedGoals, correlation)));
+
+        while (true)
+        {
+            var home = SamplePoisson(random, expectedGoals.Home);
+            var away = SamplePoisson(random, expectedGoals.Away);
+
+            if (random.NextDouble() * ceiling <= DixonColes.GetAdjustment(home, away, expectedGoals, correlation))
+            {
+                return (home, away);
+            }
+        }
+    }
+
+    private static (int Home, int Away)[] LowScorelines => [(0, 0), (0, 1), (1, 0), (1, 1)];
 
     private static int SamplePoisson(Random random, double expectedGoals)
     {

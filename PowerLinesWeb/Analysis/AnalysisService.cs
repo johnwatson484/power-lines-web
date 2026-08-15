@@ -18,13 +18,14 @@ public class AnalysisService(IRatingsProvider ratingsProvider, IOptions<Threshol
             return null;
         }
 
-        var goalDistribution = CalculateGoalDistribution(ratings.GetExpectedGoals(fixture.HomeTeam, fixture.AwayTeam));
+        var expectedGoals = ratings.GetExpectedGoals(fixture.HomeTeam, fixture.AwayTeam);
+        var goalDistribution = CalculateGoalDistribution(expectedGoals, new DixonColes(expectedGoals, ratings.LowScoreCorrelation));
 
         var oddsCalculator = new OddsCalculator(fixture.Id, goalDistribution, thresholdOptions, modelOptions);
         return oddsCalculator.GetMatchOdds();
     }
 
-    private GoalDistribution CalculateGoalDistribution(ExpectedGoals expectedGoals)
+    private GoalDistribution CalculateGoalDistribution(ExpectedGoals expectedGoals, DixonColes lowScoreCorrection)
     {
         var goalDistribution = new GoalDistribution();
 
@@ -34,7 +35,7 @@ public class AnalysisService(IRatingsProvider ratingsProvider, IOptions<Threshol
             goalDistribution.AwayGoalProbabilities.Add(GetGoalProbability(goals, expectedGoals.Away));
         }
 
-        goalDistribution.CalculateDistribution();
+        goalDistribution.CalculateDistribution(lowScoreCorrection);
         return goalDistribution;
     }
 

@@ -69,7 +69,7 @@ public class OddsCalculatorTests
             distribution.AwayGoalProbabilities.Add(new GoalProbability(goals, awayGoalProbabilities[goals]));
         }
 
-        distribution.CalculateDistribution();
+        distribution.CalculateDistribution(DixonColes.None);
 
         var thresholdOptions = new ThresholdOptions { Higher = 0.7m, Lower = 0.65m };
         return new OddsCalculator(1, distribution, thresholdOptions, new ModelOptions()).GetMatchOdds();

@@ -15,7 +15,7 @@ public class GoalDistribution
         ScoreProbabilities = new List<ScoreProbability>();
     }
 
-    public void CalculateDistribution()
+    public void CalculateDistribution(DixonColes lowScoreCorrection)
     {
         foreach (var homeGoalProbability in HomeGoalProbabilities)
         {
@@ -23,6 +23,7 @@ public class GoalDistribution
             {
                 var scoreProbability = new ScoreProbability(homeGoalProbability, awayGoalProbability);
                 scoreProbability.CalculateProbability();
+                scoreProbability.Scale((decimal)lowScoreCorrection.GetAdjustment(homeGoalProbability.Goals, awayGoalProbability.Goals));
                 ScoreProbabilities.Add(scoreProbability);
             }
         }
