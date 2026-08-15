@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MessageOptions>(builder.Configuration.GetSection(key: "Message"));
 builder.Services.Configure<ThresholdOptions>(builder.Configuration.GetSection(key: "Threshold"));
 builder.Services.Configure<ModelOptions>(builder.Configuration.GetSection(key: "Model"));
+builder.Services.Configure<BettingOptions>(builder.Configuration.GetSection(key: "Betting"));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PowerLinesWeb"), options =>

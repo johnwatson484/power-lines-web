@@ -48,6 +48,24 @@ public class Fixture
     public bool IsValid { get; set; }
     public string Recommended { get; set; }
     public string LowerRecommended { get; set; }
+
+    [Display(Name = "Value")]
+    public string ValueSelection { get; set; }
+
+    [Display(Name = "Edge")]
+    [DisplayFormat(DataFormatString = "{0:p1}")]
+    public decimal ValueEdge { get; set; }
+
+    [Display(Name = "Price")]
+    [DisplayFormat(DataFormatString = "{0:n2}")]
+    public decimal ValueOdds { get; set; }
+
+    [Display(Name = "Stake")]
+    [DisplayFormat(DataFormatString = "{0:p1}")]
+    public decimal ValueStake { get; set; }
+
+    public bool IsValue => ValueSelection != null && ValueSelection != "X";
+
     public DateTime Calculated { get; set; }
 }
 

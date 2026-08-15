@@ -59,7 +59,88 @@ public class OddsCalculatorTests
         Assert.That(odds.AwayGoals, Is.EqualTo(0));
     }
 
+    [Test]
+    public void Result_probabilities_are_reported_alongside_the_odds()
+    {
+        var odds = Calculate(homeGoalProbabilities: [0.2m, 0.8m], awayGoalProbabilities: [1m, 0m]);
+
+        Assert.That(odds.HomeProbability, Is.EqualTo(0.8m));
+        Assert.That(odds.DrawProbability, Is.EqualTo(0.2m));
+        Assert.That(odds.AwayProbability, Is.EqualTo(0m));
+    }
+
+    [Test]
+    public void No_value_is_found_without_market_prices()
+    {
+        var odds = Calculate(homeGoalProbabilities: [0.2m, 0.8m], awayGoalProbabilities: [1m, 0m]);
+
+        Assert.That(odds.ValueSelection, Is.EqualTo("X"));
+        Assert.That(odds.ValueStake, Is.EqualTo(0m));
+    }
+
+    [Test]
+    public void A_price_longer_than_the_model_believes_is_flagged_as_value()
+    {
+        // The model makes home an 80% shot, the market prices it around 45%.
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], new MarketOdds(2.20m, 3.40m, 3.40m), new BettingOptions());
+
+        Assert.That(odds.ValueSelection, Is.EqualTo("H"));
+        Assert.That(odds.ValueOdds, Is.EqualTo(2.20m));
+        Assert.That(odds.ValueEdge, Is.GreaterThan(0.3m));
+        Assert.That(odds.ValueStake, Is.GreaterThan(0m));
+    }
+
+    [Test]
+    public void A_price_that_matches_the_model_is_not_value()
+    {
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], new MarketOdds(1.25m, 5m, 100m), new BettingOptions { MinOdds = 1m, MaxOdds = 1000m });
+
+        Assert.That(odds.ValueSelection, Is.EqualTo("X"));
+    }
+
+    [Test]
+    public void An_edge_below_the_minimum_is_ignored()
+    {
+        var marketOdds = new MarketOdds(2.20m, 3.40m, 3.40m);
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { MinEdge = 0.9m });
+
+        Assert.That(odds.ValueSelection, Is.EqualTo("X"));
+    }
+
+    [Test]
+    public void Prices_outside_the_backable_range_are_ignored()
+    {
+        var marketOdds = new MarketOdds(2.20m, 3.40m, 3.40m);
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { MinOdds = 3m, MaxOdds = 10m });
+
+        Assert.That(odds.ValueSelection, Is.EqualTo("X"));
+    }
+
+    [Test]
+    public void The_stake_scales_with_the_kelly_fraction()
+    {
+        var marketOdds = new MarketOdds(2.20m, 3.40m, 3.40m);
+        var full = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { KellyFraction = 1m });
+        var quarter = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { KellyFraction = 0.25m });
+
+        Assert.That(quarter.ValueStake, Is.EqualTo(full.ValueStake / 4).Within(0.0001m));
+    }
+
+    [Test]
+    public void A_draw_can_be_value_even_though_it_is_never_the_most_likely_result()
+    {
+        var odds = Calculate([0.5m, 0.5m], [0.5m, 0.5m], new MarketOdds(4m, 4m, 4m), new BettingOptions());
+
+        Assert.That(odds.Recommended, Is.EqualTo("X"));
+        Assert.That(odds.ValueSelection, Is.EqualTo("D"));
+    }
+
     private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities)
+    {
+        return Calculate(homeGoalProbabilities, awayGoalProbabilities, MarketOdds.None, new BettingOptions());
+    }
+
+    private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, MarketOdds marketOdds, BettingOptions bettingOptions)
     {
         var distribution = new GoalDistribution();
 
@@ -72,6 +153,6 @@ public class OddsCalculatorTests
         distribution.CalculateDistribution(DixonColes.None);
 
         var thresholdOptions = new ThresholdOptions { Higher = 0.7m, Lower = 0.65m };
-        return new OddsCalculator(1, distribution, thresholdOptions, new ModelOptions()).GetMatchOdds();
+        return new OddsCalculator(1, distribution, marketOdds, thresholdOptions, new ModelOptions(), bettingOptions).GetMatchOdds();
     }
 }

@@ -3,19 +3,29 @@ using PowerLinesWeb.Extensions;
 
 namespace PowerLinesWeb.Analysis;
 
-public class OddsCalculator(int id, GoalDistribution goalDistribution, ThresholdOptions thresholdOptions, ModelOptions modelOptions)
+public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdds marketOdds, ThresholdOptions thresholdOptions, ModelOptions modelOptions, BettingOptions bettingOptions)
 {
     readonly GoalDistribution goalDistribution = goalDistribution;
     readonly ThresholdOptions thresholdOptions = thresholdOptions;
     readonly ModelOptions modelOptions = modelOptions;
+    readonly BettingOptions bettingOptions = bettingOptions;
     readonly AnalysisMatchOdds matchOdds = new AnalysisMatchOdds(id);
 
     public AnalysisMatchOdds GetMatchOdds()
     {
+        CalculateProbabilities();
         CalculateResultOdds();
         CalculateScoreOdds();
         CalculateRecommendations();
+        CalculateValue();
         return matchOdds;
+    }
+
+    private void CalculateProbabilities()
+    {
+        matchOdds.HomeProbability = GetResultProbability('H');
+        matchOdds.DrawProbability = GetResultProbability('D');
+        matchOdds.AwayProbability = GetResultProbability('A');
     }
 
     private decimal ConvertProbabilityToOdds(decimal probability)
@@ -87,5 +97,48 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, Threshold
             return 'A';
         }
         return 'X';
+    }
+
+    // A recommendation says which result is most likely. Value says whether the price on offer is
+    // longer than that likelihood justifies, which is the only thing that makes a bet profitable.
+    private void CalculateValue()
+    {
+        var market = OddsConverter.RemoveMargin(marketOdds);
+
+        if (!market.HasProbabilities)
+        {
+            return;
+        }
+
+        foreach (var result in new[] { 'H', 'D', 'A' })
+        {
+            var price = marketOdds.Get(result);
+
+            if (price < bettingOptions.MinOdds || price > bettingOptions.MaxOdds)
+            {
+                continue;
+            }
+
+            var edge = GetResultProbability(result) - market.Get(result);
+
+            if (edge < bettingOptions.MinEdge || edge <= matchOdds.ValueEdge)
+            {
+                continue;
+            }
+
+            matchOdds.ValueSelection = char.ToString(result);
+            matchOdds.ValueEdge = edge;
+            matchOdds.ValueOdds = price;
+            matchOdds.ValueStake = GetStake(GetResultProbability(result), price);
+        }
+    }
+
+    // Fractional Kelly, because a full Kelly stake on a probability this uncertain is reckless.
+    private decimal GetStake(decimal probability, decimal price)
+    {
+        var profit = price - 1;
+        var stake = (probability * price - 1) / profit;
+
+        return stake <= 0 ? 0 : Math.Round(stake * bettingOptions.KellyFraction, 4);
     }
 }

@@ -32,6 +32,7 @@ else
             <th class="text-center">@Html.DisplayNameFor(model => model[0].DrawOdds)</th>
             <th class="text-center">@Html.DisplayNameFor(model => model[0].AwayOdds)</th>
             <th class="text-center">@Html.DisplayNameFor(model => model[0].ExpectedScore)</th>
+            <th class="text-center">@Html.DisplayNameFor(model => model[0].ValueSelection)</th>
             <th></th>
         </tr>
         @foreach (var fixture in Model)
@@ -45,6 +46,12 @@ else
                 <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.DrawOdds == 0 ? "btn-danger" : fixture.Recommended == "D" ? "btn-success" : fixture.LowerRecommended == "D" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.DrawOdds)</td>
                 <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.AwayOdds == 0 ? "btn-danger" : fixture.Recommended == "A" ? "btn-success" : fixture.LowerRecommended == "A" ? "btn-warning" : "btn-default")">@Html.DisplayFor(modelItem => fixture.AwayOdds)</span></td>
                 <td class="text-center">@Html.DisplayFor(modelItem => fixture.ExpectedScore)</td>
+                <td class="text-center">
+                    @if (fixture.IsValue)
+                    {
+                        <span class="btn btn-success" title="Edge @fixture.ValueEdge.ToString("p1") at @fixture.ValueOdds.ToString("n2"), stake @fixture.ValueStake.ToString("p1") of bank">@fixture.ValueSelection</span>
+                    }
+                </td>
                 <td class="text-center"><span data-id="@fixture.FixtureId" class="selector btn @(fixture.IsValid == false ? "btn-default disabled" : fixture.HomeOdds == 0 ? "btn-danger" : "btn-default")">@Html.DisplayFor(modelItem => fixture.ExpectedGoals)</td>
             </tr>
         }

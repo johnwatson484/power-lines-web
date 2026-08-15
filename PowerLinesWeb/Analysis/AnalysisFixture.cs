@@ -7,4 +7,5 @@ public class AnalysisFixture
     public DateTime Date { get; set; }
     public string HomeTeam { get; set; }
     public string AwayTeam { get; set; }
+    public MarketOdds MarketOdds { get; set; } = MarketOdds.None;
 }

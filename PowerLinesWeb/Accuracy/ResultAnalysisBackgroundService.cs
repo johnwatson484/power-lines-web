@@ -101,7 +101,8 @@ public class ResultAnalysisBackgroundService : BackgroundService
                 Division = result.Division,
                 Date = result.Date,
                 HomeTeam = result.HomeTeam,
-                AwayTeam = result.AwayTeam
+                AwayTeam = result.AwayTeam,
+                MarketOdds = new MarketOdds(result.HomeOddsAverage, result.DrawOddsAverage, result.AwayOddsAverage)
             };
 
             var odds = analysisService.GetMatchOdds(analysisFixture);
@@ -120,8 +121,15 @@ public class ResultAnalysisBackgroundService : BackgroundService
                 HomeGoals = odds.HomeGoals,
                 AwayGoals = odds.AwayGoals,
                 ExpectedGoals = odds.ExpectedGoals,
+                HomeProbability = odds.HomeProbability,
+                DrawProbability = odds.DrawProbability,
+                AwayProbability = odds.AwayProbability,
                 Recommended = odds.Recommended,
                 LowerRecommended = odds.LowerRecommended,
+                ValueSelection = odds.ValueSelection,
+                ValueEdge = odds.ValueEdge,
+                ValueOdds = odds.ValueOdds,
+                ValueStake = odds.ValueStake,
                 Calculated = odds.Calculated
             };
 
