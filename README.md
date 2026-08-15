@@ -64,9 +64,12 @@ Odds come from a goals model fitted to past results in the same division, not fr
    `MaxGoals` each. Independent Poisson understates draws, so the four lowest scorelines are rescaled by the
    Dixon-Coles correction, whose correlation is itself fitted by a bounded search. The grid is truncated, so
    it is renormalised back to a total of one.
-4. **Result probabilities and odds.** Summing the grid by result gives the 1X2 probabilities, and the odds
-   shown are their reciprocals. A team without enough history in the division is not priced at all, rather
-   than being priced from no evidence.
+4. **Result probabilities.** Summing the grid by result gives the raw 1X2 probabilities.
+5. **Recalibration.** Each probability is remapped against the division's own backtested calibration curve
+   (10 buckets of predicted vs observed frequency, isotonic so it can only rise with probability), so a
+   division whose 70% calls have only come in 55% of the time gets pulled back down. The three recalibrated
+   probabilities are rescaled back to sum to one, and the odds shown are their reciprocals. A team without
+   enough history in the division is not priced at all, rather than being priced from no evidence.
 
 Fixtures and results go through the same code. Results are re-priced using only matches played strictly
 before them, so backtested accuracy is measured out of sample.
@@ -85,6 +88,12 @@ Two separate signals are shown, and they answer different questions.
 
 Value depends on the fixture feed carrying prices. Where prices are missing, no value is flagged and the
 rest of the analysis is unaffected.
+
+**Value is experimental.** Backtested over 21,076 real matches across all 22 leagues (3 years, walk-forward),
+value bets returned -9.8% at level stakes, and the model's own log loss (1.0137) is worse than the market's
+(0.9989) in every single division. Recalibration and a higher `MinEdge` improved this from an initial -13.8%,
+but did not make it profitable. Treat Value as a research signal, not a source of picks to stake real money
+on, until this changes.
 
 # Accuracy metrics
 
@@ -113,6 +122,7 @@ rules measured over every analysed match.
 | `HalfLifeDays` | Days after which a match counts for half as much. `0` disables decay. |
 | `PriorMatches` | Strength of the pull towards league average for thin-sample teams, in matches. |
 | `MaxIterations` / `Tolerance` | Stopping conditions for the fit. |
+| `MinCalibrationPredictions` | Backtested predictions a calibration bucket needs before it is trusted. |
 
 ## `Betting`
 | Setting | Purpose |
@@ -129,8 +139,12 @@ rules measured over every analysed match.
 
 # Known limitations and outstanding work
 
-1. `HalfLifeDays` defaults to 365 but has not been tuned against real out-of-sample log loss. The backtest
-   in the test project runs on synthetic data only.
+1. ~~`HalfLifeDays` defaults to 365 but has not been tuned against real out-of-sample log loss.~~ Tuned: a
+   grid search over {0, 180, 365, 730} days against the real 3-year walk-forward backtest (21,076 matches)
+   found 365 already gives the lowest log loss (1.0150 vs 1.0233 at 0, 1.0163 at 180, 1.0169 at 730) — a
+   clean U-shape with the minimum at the current default. No change made; the default is now evidenced
+   rather than assumed. See `PowerLinesWeb.Tests/Analysis/HalfLifeDaysSweepTests.cs` to re-run this sweep
+   (an `[Explicit]` test, ~15-20 minutes per candidate against real data).
 2. Promoted and relegated teams have no rating in their new division, so odds are suppressed until
    `MinTeamMatches` is met. Transferring ratings across divisions with an offset is the proper fix.
 3. Ratings are fitted per division in isolation, so attack and defence values are not comparable between
@@ -153,6 +167,17 @@ rules measured over every analysed match.
 13. Background service failures surface only as console output, with no alerting.
 14. Model parameters are fitted from data but the configuration around them is tuned by hand and not
     revisited as new seasons arrive.
+15. Probabilities are recalibrated against the division's own backtested calibration history
+    (`accuracy_calibration`), but that history has to exist first — a division seeing this for the first
+    time, or one whose buckets fall below `MinCalibrationPredictions`, gets no recalibration until enough
+    backtested predictions accumulate.
+16. Recalibration and a raised `MinEdge` reduced value's backtested loss (-13.8% → -9.8% ROI) but did not
+    make it positive, and the model's log loss is still worse than the market's in every division. The
+    root cause has not been fixed, only the exposure to it reduced. Bivariate margin-removal methods
+    (limitation 7) or a genuinely stronger model (limitation 5) are more likely to close this gap than
+    further threshold tuning — a `MinEdge` sweep from 3% to 20% found no threshold that was profitable.
+17. Home advantage is fitted from the same time-decayed weights as attack and defence (confirmed, not a
+    bug), so it already receives the same recency weighting — no separate decay curve was needed.
 
 # Responsible gambling
 
