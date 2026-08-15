@@ -14,15 +14,15 @@ else
             <th>@Html.DisplayNameFor(model => model[0].Division)</th>
             <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].Matches)</th>
             <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].Recommended)</th>
-            <th class="text-center">@Html.DisplayNameFor(model => model[0].RecommendedAccuracy)</th>
+            <th class="text-center" data-toggle="tooltip" title="Hit rate when the model's top pick clears the higher confidence threshold">@Html.DisplayNameFor(model => model[0].RecommendedAccuracy)</th>
             <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].LowerRecommended)</th>
-            <th class="text-center">@Html.DisplayNameFor(model => model[0].LowerRecommendedAccuracy)</th>
-            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].BaselineAccuracy)</th>
-            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].LogLoss)</th>
-            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].MarketLogLoss)</th>
-            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].BrierScore)</th>
-            <th class="text-center no-mobile">@Html.DisplayNameFor(model => model[0].ValueBets)</th>
-            <th class="text-center">@Html.DisplayNameFor(model => model[0].ValueRoi)</th>
+            <th class="text-center" data-toggle="tooltip" title="Hit rate when the model's top pick clears only the lower confidence threshold">@Html.DisplayNameFor(model => model[0].LowerRecommendedAccuracy)</th>
+            <th class="text-center no-mobile" data-toggle="tooltip" title="Always backing the home side, the do-nothing baseline any recommendation has to beat">@Html.DisplayNameFor(model => model[0].BaselineAccuracy)</th>
+            <th class="text-center no-mobile" data-toggle="tooltip" title="How well calibrated the model's probabilities are, not just whether the top pick won. Lower is better.">@Html.DisplayNameFor(model => model[0].LogLoss)</th>
+            <th class="text-center no-mobile" data-toggle="tooltip" title="The same measure for the bookmakers' own de-margined prices &mdash; the bar the model has to beat">@Html.DisplayNameFor(model => model[0].MarketLogLoss)</th>
+            <th class="text-center no-mobile" data-toggle="tooltip" title="Another calibration measure, penalising confident wrong calls more than log loss">@Html.DisplayNameFor(model => model[0].BrierScore)</th>
+            <th class="text-center no-mobile" data-toggle="tooltip" title="Wins / total bets flagged as Value in backtest &mdash; a hit rate, not a profit figure">@Html.DisplayNameFor(model => model[0].ValueBets)</th>
+            <th class="text-center" data-toggle="tooltip" title="Return from level stakes on every Value selection, backtested &mdash; currently negative in most leagues">@Html.DisplayNameFor(model => model[0].ValueRoi)</th>
         </tr>
         @foreach (var division in Model)
         {
@@ -47,6 +47,9 @@ else
     <p class="text-muted small">
         Log loss and Brier score measure how well calibrated the probabilities are, and lower is better.
         Log loss is highlighted where it beats the bookmakers' own prices on the same matches. Value ROI
-        is the return from level stakes on every selection the model priced as value.
+        is the return from level stakes on every selection the model priced as value &mdash; it answers a
+        different question from Recommended accuracy, and today it is usually negative, so treat the Value
+        signal on the Fixtures page as experimental rather than a source of picks to stake on. Hover any
+        column heading for a one-line explanation.
     </p>
 }

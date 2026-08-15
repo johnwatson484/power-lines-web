@@ -34,6 +34,10 @@ public class Fixture
     public int HomeGoals { get; set; }
     public int AwayGoals { get; set; }
 
+    public decimal HomeProbability { get; set; }
+    public decimal DrawProbability { get; set; }
+    public decimal AwayProbability { get; set; }
+
     [Display(Name = "Prediction")]
     public string ExpectedScore
     {

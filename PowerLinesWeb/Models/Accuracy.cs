@@ -32,7 +32,7 @@ public class Accuracy
     [Display(Name = "Market Log Loss")]
     [DisplayFormat(DataFormatString = "{0:n4}")]
     public decimal MarketLogLoss { get; set; }
-    [Display(Name = "Value Bets")]
+    [Display(Name = "Value W/L")]
     public int ValueBets { get; set; }
     [Display(Name = "Value Wins")]
     public int ValueWins { get; set; }
