@@ -121,6 +121,8 @@ public class ResultAnalysisBackgroundService : BackgroundService
                 HomeGoals = odds.HomeGoals,
                 AwayGoals = odds.AwayGoals,
                 ExpectedGoals = odds.ExpectedGoals,
+                HomeXg = odds.HomeXg,
+                AwayXg = odds.AwayXg,
                 HomeProbability = odds.HomeProbability,
                 DrawProbability = odds.DrawProbability,
                 AwayProbability = odds.AwayProbability,

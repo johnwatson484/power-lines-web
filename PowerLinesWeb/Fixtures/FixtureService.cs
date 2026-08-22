@@ -34,6 +34,8 @@ public class FixtureService(ApplicationDbContext dbContext) : IFixtureService
                 AwayOdds = fixture.MatchOdds?.Away ?? 0,
                 HomeGoals = fixture.MatchOdds?.HomeGoals ?? 0,
                 AwayGoals = fixture.MatchOdds?.AwayGoals ?? 0,
+                HomeXg = fixture.MatchOdds?.HomeXg ?? 0,
+                AwayXg = fixture.MatchOdds?.AwayXg ?? 0,
                 HomeProbability = fixture.MatchOdds?.HomeProbability ?? 0,
                 DrawProbability = fixture.MatchOdds?.DrawProbability ?? 0,
                 AwayProbability = fixture.MatchOdds?.AwayProbability ?? 0,

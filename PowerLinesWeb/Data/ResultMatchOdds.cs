@@ -29,6 +29,12 @@ public class ResultMatchOdds
     [Column("expectedGoals")]
     public decimal ExpectedGoals { get; set; }
 
+    [Column("homeXg")]
+    public decimal HomeXg { get; set; }
+
+    [Column("awayXg")]
+    public decimal AwayXg { get; set; }
+
     [Column("homeProbability")]
     public decimal HomeProbability { get; set; }
 

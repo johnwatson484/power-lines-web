@@ -24,7 +24,7 @@ public class AnalysisService(IRatingsProvider ratingsProvider, ICalibrationProvi
         var goalDistribution = CalculateGoalDistribution(expectedGoals, new DixonColes(expectedGoals, ratings.LowScoreCorrelation));
         var calibrator = calibrationProvider.Get(fixture.Division);
 
-        var oddsCalculator = new OddsCalculator(fixture.Id, goalDistribution, fixture.MarketOdds, thresholdOptions, modelOptions, bettingOptions, calibrator);
+        var oddsCalculator = new OddsCalculator(fixture.Id, goalDistribution, fixture.MarketOdds, thresholdOptions, modelOptions, bettingOptions, calibrator, expectedGoals);
         return oddsCalculator.GetMatchOdds();
     }
 

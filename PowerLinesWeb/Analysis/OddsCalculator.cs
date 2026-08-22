@@ -3,13 +3,14 @@ using PowerLinesWeb.Extensions;
 
 namespace PowerLinesWeb.Analysis;
 
-public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdds marketOdds, ThresholdOptions thresholdOptions, ModelOptions modelOptions, BettingOptions bettingOptions, ProbabilityCalibrator calibrator = null)
+public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdds marketOdds, ThresholdOptions thresholdOptions, ModelOptions modelOptions, BettingOptions bettingOptions, ProbabilityCalibrator calibrator = null, ExpectedGoals expectedGoals = null)
 {
     readonly GoalDistribution goalDistribution = goalDistribution;
     readonly ThresholdOptions thresholdOptions = thresholdOptions;
     readonly ModelOptions modelOptions = modelOptions;
     readonly BettingOptions bettingOptions = bettingOptions;
     readonly ProbabilityCalibrator calibrator = calibrator ?? ProbabilityCalibrator.None;
+    readonly ExpectedGoals expectedGoals = expectedGoals ?? new ExpectedGoals(0, 0);
     readonly AnalysisMatchOdds matchOdds = new AnalysisMatchOdds(id);
     MatchProbabilities probabilities = MatchProbabilities.None;
 
@@ -80,13 +81,9 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
     {
         matchOdds.HomeGoals = goalDistribution.HomeGoalProbabilities.OrderByDescending(x => x.Probability).First().Goals;
         matchOdds.AwayGoals = goalDistribution.AwayGoalProbabilities.OrderByDescending(x => x.Probability).First().Goals;
-        matchOdds.ExpectedGoals = ConvertProbabilityToOdds(GetExpectedGoalsProbability());
-    }
-
-    private decimal GetExpectedGoalsProbability()
-    {
-        return goalDistribution.ScoreProbabilities.First(x => x.HomeGoalProbability.Goals == matchOdds.HomeGoals
-            && x.AwayGoalProbability.Goals == matchOdds.AwayGoals).Probability;
+        matchOdds.HomeXg = Math.Round((decimal)expectedGoals.Home, 2);
+        matchOdds.AwayXg = Math.Round((decimal)expectedGoals.Away, 2);
+        matchOdds.ExpectedGoals = matchOdds.HomeXg + matchOdds.AwayXg;
     }
 
     private void CalculateRecommendations()

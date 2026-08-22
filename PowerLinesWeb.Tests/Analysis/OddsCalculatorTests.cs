@@ -151,9 +151,9 @@ public class OddsCalculatorTests
         Assert.That(odds.HomeProbability + odds.DrawProbability + odds.AwayProbability, Is.EqualTo(1m).Within(0.0001m));
     }
 
-    private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities)
+    private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, ExpectedGoals expectedGoals = null)
     {
-        return Calculate(homeGoalProbabilities, awayGoalProbabilities, MarketOdds.None, new BettingOptions());
+        return Calculate(homeGoalProbabilities, awayGoalProbabilities, MarketOdds.None, new BettingOptions(), ProbabilityCalibrator.None, expectedGoals);
     }
 
     private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, MarketOdds marketOdds, BettingOptions bettingOptions)
@@ -161,7 +161,7 @@ public class OddsCalculatorTests
         return Calculate(homeGoalProbabilities, awayGoalProbabilities, marketOdds, bettingOptions, ProbabilityCalibrator.None);
     }
 
-    private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, MarketOdds marketOdds, BettingOptions bettingOptions, ProbabilityCalibrator calibrator)
+    private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, MarketOdds marketOdds, BettingOptions bettingOptions, ProbabilityCalibrator calibrator, ExpectedGoals expectedGoals = null)
     {
         var distribution = new GoalDistribution();
 
@@ -174,6 +174,6 @@ public class OddsCalculatorTests
         distribution.CalculateDistribution(DixonColes.None);
 
         var thresholdOptions = new ThresholdOptions { Higher = 0.7m, Lower = 0.65m };
-        return new OddsCalculator(1, distribution, marketOdds, thresholdOptions, new ModelOptions(), bettingOptions, calibrator).GetMatchOdds();
+        return new OddsCalculator(1, distribution, marketOdds, thresholdOptions, new ModelOptions(), bettingOptions, calibrator, expectedGoals).GetMatchOdds();
     }
 }

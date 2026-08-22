@@ -8,6 +8,8 @@ public class AnalysisMatchOdds(int id)
     public decimal Away { get; set; }
     public int HomeGoals { get; set; }
     public int AwayGoals { get; set; }
+    public decimal HomeXg { get; set; }
+    public decimal AwayXg { get; set; }
     public decimal ExpectedGoals { get; set; }
     public decimal HomeProbability { get; set; }
     public decimal DrawProbability { get; set; }

@@ -33,6 +33,8 @@ public class Fixture
 
     public int HomeGoals { get; set; }
     public int AwayGoals { get; set; }
+    public decimal HomeXg { get; set; }
+    public decimal AwayXg { get; set; }
 
     public decimal HomeProbability { get; set; }
     public decimal DrawProbability { get; set; }
@@ -43,7 +45,7 @@ public class Fixture
     {
         get
         {
-            return string.Format("{0} : {1}", HomeGoals, AwayGoals);
+            return string.Format("{0:0.00} : {1:0.00}", HomeXg, AwayXg);
         }
     }
 

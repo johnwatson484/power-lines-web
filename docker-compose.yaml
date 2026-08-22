@@ -1,3 +1,5 @@
+name: power-lines
+
 services:
   power-lines-web:
     build:
