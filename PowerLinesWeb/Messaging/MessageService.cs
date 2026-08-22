@@ -15,16 +15,12 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
     private Consumer fixtureConsumer;
     private Consumer resultConsumer;
 
-    public override Task StartAsync(CancellationToken cancellationToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Connecting here (rather than in StartAsync) keeps a slow or unreachable broker from delaying the host itself.
         CreateConnection();
         CreateFixtureConsumer();
         CreateResultConsumer();
-        return base.StartAsync(cancellationToken);
-    }
-
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
-    {
         fixtureConsumer.Listen(new Action<string>(ReceiveFixtureMessage));
         resultConsumer.Listen(new Action<string>(ReceiveResultMessage));
         return Task.CompletedTask;
@@ -33,7 +29,7 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
         await base.StopAsync(cancellationToken);
-        connection.CloseConnection();
+        connection?.CloseConnection();
     }
 
     protected void CreateConnection()
