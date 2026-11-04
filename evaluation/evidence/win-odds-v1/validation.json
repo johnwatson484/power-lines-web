@@ -1,7 +1,7 @@
 {
   "WebTests": 106,
   "WebTestRuntime": ".NET 8.0.33",
-  "CompanionParserTests": 4,
+  "CompanionParserTests": 5,
   "PersistenceDatabase": "Isolated PostgreSQL 11.4, same Npgsql retry strategy as host",
   "Transport": "Isolated RabbitMQ fixture/result/import completion exchanges; separate smoke DB",
   "ProductionContainerUid": 1000,
@@ -18,5 +18,6 @@
     "Pre-existing Docker ENV syntax warning"
   ],
   "PinnedContainerReproductionHelper": "Passed: exact predictions.csv, report.json and calibration.json SHA-256 values",
-  "CompanionParserRuntime": ".NET 8.0.33"
+  "CompanionParserRuntime": ".NET 8.0.33",
+  "SourceSeasonRegression": "Source URL season overrides calendar partition for postponed 2019/20 results"
 }
