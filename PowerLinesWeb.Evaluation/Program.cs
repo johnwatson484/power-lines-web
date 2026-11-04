@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text.Json;
 using PowerLinesWeb.Evaluation;
@@ -16,17 +17,38 @@ if (System.IO.File.Exists(Path.Combine(output, "COMPLETE"))) throw new InvalidOp
 var manifestText = System.IO.File.ReadAllText(manifestPath);
 var manifest = JsonSerializer.Deserialize<EvaluationManifest>(manifestText, Replay.Json) ?? throw new FormatException("Invalid manifest");
 string Sha(string path) => Convert.ToHexString(SHA256.HashData(System.IO.File.ReadAllBytes(path))).ToLowerInvariant();
-if (Sha(snapshotPath) != manifest.SnapshotSha256 || Sha(quotesPath) != manifest.QuotesSha256) throw new InvalidOperationException("Snapshot/quote fingerprint differs from frozen manifest");
+string DataSha(string path)
+{
+    using var file = System.IO.File.OpenRead(path);
+    using Stream stream = path.EndsWith(".gz") ? new GZipStream(file, CompressionMode.Decompress) : file;
+    return Convert.ToHexString(SHA256.HashData(stream)).ToLowerInvariant();
+}
+string ReadText(string path)
+{
+    using var file = System.IO.File.OpenRead(path);
+    using Stream stream = path.EndsWith(".gz") ? new GZipStream(file, CompressionMode.Decompress) : file;
+    using var reader = new StreamReader(stream); return reader.ReadToEnd();
+}
+if (DataSha(snapshotPath) != manifest.SnapshotSha256 || DataSha(quotesPath) != manifest.QuotesSha256) throw new InvalidOperationException("Snapshot/quote fingerprint differs from frozen manifest");
 if (manifest.DevelopmentFrom >= manifest.HoldoutFrom || manifest.HoldoutFrom > manifest.HoldoutThrough || manifest.DevelopmentBlocks.Any(x => x >= manifest.HoldoutFrom)) throw new ArgumentException("Invalid chronological boundaries");
 var manifestHash = Sha(manifestPath);
-var code = Process.Start(new ProcessStartInfo("git", "rev-parse HEAD") { RedirectStandardOutput = true });
-var codeSha = code.StandardOutput.ReadToEnd().Trim(); code.WaitForExit();
+string ReadCodeSha()
+{
+    try
+    {
+        using var code = Process.Start(new ProcessStartInfo("git", "rev-parse HEAD") { RedirectStandardOutput = true, RedirectStandardError = true });
+        var sha = code.StandardOutput.ReadToEnd().Trim(); code.WaitForExit();
+        return code.ExitCode == 0 ? sha : "Unavailable; provide --code-sha";
+    }
+    catch (System.ComponentModel.Win32Exception) { return "Unavailable; provide --code-sha"; }
+}
+var codeSha = arguments.GetValueOrDefault("--code-sha") ?? ReadCodeSha();
 var sourceFiles = Directory.GetFiles("PowerLinesWeb/Analysis", "*.cs", SearchOption.AllDirectories).Concat(Directory.GetFiles("PowerLinesWeb.Evaluation", "*.cs")).Order(StringComparer.Ordinal).ToList();
 var implementationHash = ForecastVersions.Hash(sourceFiles.Select(x => new { Path = x, Sha = Sha(x) }));
-Tournament.WriteJson(Path.Combine(output, "run.json"), new { Status = "Running", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, CodeSha = codeSha, ImplementationHash = implementationHash });
+Tournament.WriteJson(Path.Combine(output, "run.json"), new { Status = "Running", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, CodeSha = codeSha, ImplementationHash = implementationHash });
 System.IO.File.WriteAllText(Path.Combine(output, "manifest.json"), manifestText);
 var data = Replay.ReadSnapshot(snapshotPath);
-var quotes = JsonSerializer.Deserialize<List<QualifiedQuote>>(System.IO.File.ReadAllText(quotesPath), Replay.Json).ToDictionary(x => x.Id);
+var quotes = JsonSerializer.Deserialize<List<QualifiedQuote>>(ReadText(quotesPath), Replay.Json).ToDictionary(x => x.Id);
 Tournament.WriteJson(Path.Combine(output, "cohort-ids.json"), new { Development = data.Where(x => x.Date >= manifest.DevelopmentFrom && x.Date < manifest.HoldoutFrom).Select(x => x.ResultId), Final = data.Where(x => x.Date >= manifest.HoldoutFrom && x.Date <= manifest.HoldoutThrough).Select(x => x.ResultId), Diagnostic = data.Where(x => x.Date > manifest.HoldoutThrough && x.Date <= manifest.DiagnosticThrough).Select(x => x.ResultId) });
 var tournament = new Tournament(manifest, quotes, manifestHash);
 List<RawPrediction> Raw(string stage, DateTime from, DateTime through, IReadOnlyList<Recipe> recipes)
@@ -60,6 +82,6 @@ var final = Raw("final", manifest.HoldoutFrom, manifest.DiagnosticThrough, final
 var report = tournament.Report(final, frozen, output, data);
 var checksums = Directory.GetFiles(output).Where(x => Path.GetFileName(x) is not ("run.json" or "COMPLETE" or "checksums.json")).Order(StringComparer.Ordinal).ToDictionary(x => Path.GetFileName(x), Sha);
 Tournament.WriteJson(Path.Combine(output, "checksums.json"), checksums);
-Tournament.WriteJson(Path.Combine(output, "run.json"), new { ArtifactChecksumsHash = Sha(Path.Combine(output, "checksums.json")), Id = ForecastVersions.Hash(new { manifestHash, implementationHash }), Status = "Completed", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, CodeSha = codeSha, ImplementationHash = implementationHash, TestFrom = manifest.HoldoutFrom, TestThrough = manifest.HoldoutThrough, CompletedAt = DateTime.UtcNow });
+Tournament.WriteJson(Path.Combine(output, "run.json"), new { ArtifactChecksumsHash = Sha(Path.Combine(output, "checksums.json")), Id = ForecastVersions.Hash(new { manifestHash, implementationHash }), Status = "Completed", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, CodeSha = codeSha, ImplementationHash = implementationHash, TestFrom = manifest.HoldoutFrom, TestThrough = manifest.HoldoutThrough, CompletedAt = DateTime.UtcNow });
 System.IO.File.WriteAllText(Path.Combine(output, "COMPLETE"), Sha(Path.Combine(output, "report.json")) + "\n");
 Console.WriteLine(System.IO.File.ReadAllText(Path.Combine(output, "report.md")));
