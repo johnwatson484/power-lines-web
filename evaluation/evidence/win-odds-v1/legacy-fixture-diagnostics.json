@@ -1,0 +1,9 @@
+{
+  "FixtureCount": 165,
+  "StoredForecasts": 123,
+  "StrongWinFlags": 6,
+  "LowerWinFlagsIncludingStrong": 11,
+  "MinForecastDate": "2026-08-22T16:35:03.014683",
+  "MaxForecastDate": "2026-08-22T16:35:08.217343",
+  "SourceSchemaMigration": "20260822113939_AddExpectedGoalsPerSide"
+}

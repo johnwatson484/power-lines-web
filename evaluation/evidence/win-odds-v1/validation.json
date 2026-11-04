@@ -1,0 +1,20 @@
+{
+  "WebTests": 106,
+  "WebTestRuntime": ".NET 8.0.33",
+  "CompanionParserTests": 4,
+  "PersistenceDatabase": "Isolated PostgreSQL 11.4, same Npgsql retry strategy as host",
+  "Transport": "Isolated RabbitMQ fixture/result/import completion exchanges; separate smoke DB",
+  "ProductionContainerUid": 1000,
+  "FixtureAndCompletedAccuracyHttpStatus": 200,
+  "SharedDatabaseMigrated": false,
+  "Unrun": [
+    "Legacy explicit real-DB half-life sweeps",
+    "Legacy explicit MinEdge sweep",
+    "Joint DC / multinomial / Elo experiments",
+    "Prospective restored feed / actual offer collection"
+  ],
+  "Warnings": [
+    "Pre-existing explicit MinEdge sweep CA2021 cast warning; sweep not used",
+    "Pre-existing Docker ENV syntax warning"
+  ]
+}

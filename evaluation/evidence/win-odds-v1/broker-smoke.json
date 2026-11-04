@@ -1,0 +1,9 @@
+{
+  "Network": "isolated disposable network/broker/PostgreSQL",
+  "FixtureRevisionAfterIdenticalAndChangedQuote": 2,
+  "ResultRevisionAfterCorrection": 2,
+  "CreatedPreserved": true,
+  "CompletedImportEvents": 1,
+  "HttpFixtureAndCompletedAccuracy": 200,
+  "ActualAvailableOffers": 0
+}

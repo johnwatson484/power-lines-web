@@ -1,0 +1,13 @@
+{
+  "ArtifactChecksumsHash": "16800f0f6fef88c67db701741b698b9722f1b4b1ef64e38022142b29d75a7501",
+  "Id": "106fbdc172af8e464685c45078541bad06bd7207cf2b65160ed8459c1d348d42",
+  "Status": "Completed",
+  "DatasetHash": "0302ecb224ef6643f740b04705f27b39bf9d0e4c8fec8c9e24518324cb9afb7c",
+  "ManifestHash": "90ddb8c3335370ea14cfcd63f8508187a9fa74426ceebd789f4c73a0154ab9d9",
+  "Runtime": ".NET 8.0.33",
+  "CodeSha": "42ed5287113e6cf8dafc3f17a58dc2aac9a75869",
+  "ImplementationHash": "7975fe0b849452739c17942137d70a98b85b879a6dddc08bb948803a63041c74",
+  "TestFrom": "2025-08-01T00:00:00",
+  "TestThrough": "2026-07-31T00:00:00",
+  "CompletedAt": "2026-11-04T20:56:53.58669Z"
+}

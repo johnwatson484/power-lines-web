@@ -17,4 +17,4 @@ TestResults/
 production-values.yaml
 
 # Offline snapshots and downloaded source CSVs are local artifacts.
-artifacts/
+artifacts

@@ -1,0 +1,2784 @@
+{
+  "Files": [
+    {
+      "Season": "1718",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/B1.csv",
+      "Sha256": "4fea24437fc7c897e3995fd760f7719209df7c9344c8681d52e42a6bf814d88f",
+      "Rows": 240,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/D1.csv",
+      "Sha256": "033227408247769568111af49de2a50f6951c87e6d43f9e1a01e73d647bced3e",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/D2.csv",
+      "Sha256": "e1477b5b276982911ab0076fd40d681ccf1a729c23af1c64789d58284fb1e4a1",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/E0.csv",
+      "Sha256": "4f3389365ef3f7ac966764ed8ba67cf3b79f5aebed18dd224099c4b2c98bc67b",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/E1.csv",
+      "Sha256": "04d07d578d818bdcd6b95d43e79f10a6a26be01b45be6190b09ebdeaeba0a7ce",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/E2.csv",
+      "Sha256": "a380ad5058b2dfd46bc82e7969ffbe020396a68d1a5f1c613cd7031e0e68dae0",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/E3.csv",
+      "Sha256": "a414014fb3939d0175c97df261f29ef185466f9e5548755a5cb5b5f567a2f8f8",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/EC.csv",
+      "Sha256": "5d8096f056b99a4f809d3913ea5dce1a23b2006cdbfdb4861507557edaccfb2b",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/F1.csv",
+      "Sha256": "95997fd3c3e13be3101b216fe9b26a9ce6715ac6b76b115e44926c12b90977e6",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/F2.csv",
+      "Sha256": "e56a496b5fcd27cb3daada4beb8cff8d7e399120ea98a5352ab2cdd781bb625e",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/G1.csv",
+      "Sha256": "f14a718411dd27e11677d4a00539b4e629586e85bc20cd3dbfab6d0a4b5be1bf",
+      "Rows": 240,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/I1.csv",
+      "Sha256": "664a8874d3a33923036120c4162e72f13887e0897b51effe27f89969c79c335d",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/I2.csv",
+      "Sha256": "3afb24479d5e7709661db114a13fde735457a092130949e9d503874fb97392a8",
+      "Rows": 462,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/N1.csv",
+      "Sha256": "2cb6dd2f12b3c4493fbeb73ca8c14a3be0c528e1e9d3fb774fd109ff1624613b",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/P1.csv",
+      "Sha256": "c485bfd69cd837e6b62769917d2ba22c410160da6fe0e087c8708dd7b8c6db73",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/SC0.csv",
+      "Sha256": "3f4bdeb28e3802efe19961c114f1085fd4341c5b437f4a68f12ac59277304029",
+      "Rows": 228,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/SC1.csv",
+      "Sha256": "762e42c857170ddf515e48c833ccf0b43d7ed2c2563854c5a424cd6c0351bed1",
+      "Rows": 180,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/SC2.csv",
+      "Sha256": "a2ae904b4f36bce0791668903e7ec35d5229a07d87a6e82f3ea4956b70139e7e",
+      "Rows": 180,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/SC3.csv",
+      "Sha256": "fbde336fecb4a328681f3dcf6e12d98f994e09e37a604f54155959127d7b45a6",
+      "Rows": 180,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/SP1.csv",
+      "Sha256": "5786719e06d1a5387cb90fac71597c890f496df19e8e1aa868bbc852f7e730fd",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/SP2.csv",
+      "Sha256": "2ebe70adceddcb8957f0e6f90a80d5d9c00f199ab524250e2f00cb29073f0bfd",
+      "Rows": 462,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1718",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1718/T1.csv",
+      "Sha256": "46bd389c3d1f7359e5cf614c409f5aa716cb095ce708f7631f6720cbae1d27a8",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/B1.csv",
+      "Sha256": "19c3b2a685b9a624f172d2794529caec385a957a96ddc6ca399a59bafc0b9cb4",
+      "Rows": 240,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/D1.csv",
+      "Sha256": "f03ee41b741aca9c43cbafb800bbc6f01ca9d7ed19c1a9dd4c309389280cfe11",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/D2.csv",
+      "Sha256": "a258ba6a1c59aa61c667772c6382d12f31a943ac17b16159360bc71ee483b59c",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/E0.csv",
+      "Sha256": "7c096b3c2ecd54c6993d22eeea73450c2bde11e3457238b226b8f43c62dfc35e",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/E1.csv",
+      "Sha256": "112eedf787e26e00aac1442ef86e7fee5d4a43f86552ff2dac31ceb95a849487",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/E2.csv",
+      "Sha256": "a60bc928d4aaf8a52fc00fc6f1efecb99e84756c9627b84856db7c7a6b53e64e",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/E3.csv",
+      "Sha256": "7494db528e217926bd03d9d469dd52d7043c85b8c9e9fc7f477ea5675383291c",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/EC.csv",
+      "Sha256": "2b613fe6875c43fb581174ab20d1f1231b706b9d6e13bb67b262e0ce60e58add",
+      "Rows": 552,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/F1.csv",
+      "Sha256": "31559a4d8b52eff6f78e13a9b33d7b844e4f41d823dd1cf5c1aaa61c51eaaf9c",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/F2.csv",
+      "Sha256": "83d90c5520088aae55eee86948acd8fb52dc33e5142c464c5364a7a4ae05b7ab",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/G1.csv",
+      "Sha256": "94b0b965e03c5fc44fa6cba862f9cdd5c883a8e2b96f19d6ded79a6665a434ff",
+      "Rows": 240,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/I1.csv",
+      "Sha256": "2baea8a1fb31096960b5f5797d31dbb6b454eb41b00845e6b0b79feb82a0e3d0",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/I2.csv",
+      "Sha256": "0771dc9ccac8b1e36e6430aeba4e6bddb960eae14b6e196191998ab2fdaa3a82",
+      "Rows": 342,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/N1.csv",
+      "Sha256": "d47418082165dd89849d51dddf3a14e2c302f6de7a9322cf1bd9e678245f6482",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/P1.csv",
+      "Sha256": "e9caf283aa870e4e866b5716660fb86aa5c598cca2f2750ef3642e429a961db5",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/SC0.csv",
+      "Sha256": "12dbf9aed5cbca950209bea7e7beeabb0e8b4412f5e6edd65f65ea0b83a8f903",
+      "Rows": 228,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/SC1.csv",
+      "Sha256": "b347dde5e14fc188476d80da93d6550931b17d45af6b7420125ecc33374f1d87",
+      "Rows": 180,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/SC2.csv",
+      "Sha256": "c0911207565f74a36f246fe459626672eab2d9e4411ccff2b51b0fa0a16e2c5d",
+      "Rows": 180,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/SC3.csv",
+      "Sha256": "6e8f4147dc2de5df37c7887d2958aa8e3ff05ce6e8046d57f5a6d8c12a07d0cb",
+      "Rows": 180,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/SP1.csv",
+      "Sha256": "9b8cece2c85e90e382b30dc4fc5046534f12c6d2b0efa74cd7d1d52e90a0c201",
+      "Rows": 380,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/SP2.csv",
+      "Sha256": "c5393852f1ba364f702db9e3b88b662262ab277b5d5ad6ccc78ce789f5484b00",
+      "Rows": 462,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "1819",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/1819/T1.csv",
+      "Sha256": "515ad5a5602dcc63ddb9062d49d30e1af6974f566676d360741f38e79f912ec2",
+      "Rows": 306,
+      "HasTime": false,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/B1.csv",
+      "Sha256": "1fbc0221c0c017c34ff480268b153959576b0c707dffbeaf3141819a7d8d4363",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/D1.csv",
+      "Sha256": "034d0e1296e944dddf25e3c91b85ef5bd1ad25661b89d73878f5c73bfea4b9fc",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/D2.csv",
+      "Sha256": "104c12866adbba0558ec4bfc727a85d3b04daba5ce01e093fa28bcf1335b5a56",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/E0.csv",
+      "Sha256": "335afcbabeb2939fa10ab39ba3e8215072d0b577cb8d0705c1e44c56e934e703",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/E1.csv",
+      "Sha256": "a181451be4801b9f838daf5f6aaf21e9f09d36042be9e6c15388e71001e772ea",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/E2.csv",
+      "Sha256": "bc3cb4de64d290f682be5941e7512f46216b0758e274ad205547a634d9d70270",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/E3.csv",
+      "Sha256": "dff7be2d8803eca6f5d0d0f5d3c5e96272c450407388150961920cbd85920bf0",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/EC.csv",
+      "Sha256": "cd539a52c1f7bb1b0ebf4d2ebed3d5c5912bc5e70b27e96363b6da754e495270",
+      "Rows": 506,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/F1.csv",
+      "Sha256": "9e9eaefb8704264f8d55a718a119d940de4af7d7b4217ac4097b957406e16213",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/F2.csv",
+      "Sha256": "bc8bdef7a2c73f97e78726bd7a550c851a02b9848f4825230bbec803ab77b41b",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/G1.csv",
+      "Sha256": "073d2d32a6ef02098cf58cdf214acc29616f3c798186500b42b8417a300e77c0",
+      "Rows": 240,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/I1.csv",
+      "Sha256": "6a9555d5a90e652a883fd2862a52545c06e264016cd770347c067a6d7c993170",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/I2.csv",
+      "Sha256": "ec660d62521407d28954db8a136d59a2fd54a036e082b0d82341df6bbb7189ac",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/N1.csv",
+      "Sha256": "1798f02c9e2d55d399503bce4adf82d9cb31969caab01de8a4ac0632947b692a",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/P1.csv",
+      "Sha256": "c4477c4f40da93fbba978fa52b76dc962df3a998a464f9c5ae5462d1b36e3a63",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/SC0.csv",
+      "Sha256": "5814849157392d05df1bd8220a468649434d1e816e9385d65eca2dede98c5dd1",
+      "Rows": 228,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/SC1.csv",
+      "Sha256": "c96943f36d02a85acf46ad76b63ab2c092d4975a3ba0453454458b940c57feeb",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/SC2.csv",
+      "Sha256": "1b7843235487ed3f065393db5b8e6efd72a98263ea10b28a368a4d5664ed70f8",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/SC3.csv",
+      "Sha256": "30c198d842de884804e3d0b9e902db1329dd7172c5e2bda2b2a3f3ac41b493cc",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/SP1.csv",
+      "Sha256": "2d9e619700712823d15716c07715133f8c3b1a09046930dcfc785a38633dee2e",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/SP2.csv",
+      "Sha256": "6f586b7d80dee6785ca248597cf2962145fdd72113588b807159b03baa5df831",
+      "Rows": 462,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2122",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2122/T1.csv",
+      "Sha256": "d945315d283f2c3b48e8ff67d9ac460ccc2c817ad719e0448000db995b5ab9ce",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/B1.csv",
+      "Sha256": "46737ea78b45a1fa6827b733a884c78f2610f37961781336ea7aa6dbfd64dcb4",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/D1.csv",
+      "Sha256": "b716517b25033ce8e0243e967aa961876425a4c41e97c8aa8fa59f2aca061341",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/D2.csv",
+      "Sha256": "9384d3f661faddaeeb34ae990f34e5f79dcbe4b8b3325aa69fee8cc14bc36c01",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/E0.csv",
+      "Sha256": "8442792d3b614c94ea3cf381bd2736805889cc1713169035368fff19c3d02380",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/E1.csv",
+      "Sha256": "cd38ab0586ea8cb4d573c363ff70749117f116da5b2741e5b0ea37da05860b1b",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/E2.csv",
+      "Sha256": "c6c1b7366815c4888e62d7f14443f8052291b4ec8702674c1c0caf04ddf9ace5",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/E3.csv",
+      "Sha256": "96778f4c63843634b4690e34d740eb58bd474a0f08c6be48c1987ce92093fa5a",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/EC.csv",
+      "Sha256": "70c8bded01a211e0e0b9ea11a841a11967bf0c8acab29827a588b7c2e3157062",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/F1.csv",
+      "Sha256": "18ea07d922e8b6360b81189637efd5aaf44779765db856bff208d5b1acf69b2f",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/F2.csv",
+      "Sha256": "14915d41e6e31375f4ea082eb1be888d209b91166e277a157acf15d5d1b29d19",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/G1.csv",
+      "Sha256": "2b24e7a37d96ce56cae2e3e728b3d8f29cf12dfaa9188a10f239331d776e4495",
+      "Rows": 240,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/I1.csv",
+      "Sha256": "9960837f37a97ae700f876c87b85a8b7a2f5a5d05a53077830c21b9db8880c45",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/I2.csv",
+      "Sha256": "00a504d72d16705e8e22e0647138ff185119d1cf0ca12be20ee6e1220857ef70",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/N1.csv",
+      "Sha256": "a52a916c302ab414705fdcbba2077c301f9f0baefd3d519ea5434a2a5f5c4e8f",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/P1.csv",
+      "Sha256": "acb35c152f1198de9d02cdea622bc815e1438bae00d1822e0fe48a787405a84a",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/SC0.csv",
+      "Sha256": "d716ef774542bb04701e1ac03eedf677cfa02422a0974b030824b3002c011730",
+      "Rows": 228,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/SC1.csv",
+      "Sha256": "18fdb4c7ada45b98ea9e46af76f3700a7c3778058978c5db666f33e8fe04eda4",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/SC2.csv",
+      "Sha256": "454fa703938a55ad443482aa04b9f78c4ece4c0478bb98a0e7a202ec933e7bed",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/SC3.csv",
+      "Sha256": "4f28b256ff05a7f0da98871d7dea3bbdc4a1014fe160e3426b016af0b885a47c",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/SP1.csv",
+      "Sha256": "53348112526b5165539df240be350083989bb258f30c0ff7cacbc0165ca7e4b3",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/SP2.csv",
+      "Sha256": "1b233ea48be17ae413b05fd132f8a26ac7f1bc69a4bc9ee2a3470b9909b410a8",
+      "Rows": 462,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2223",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2223/T1.csv",
+      "Sha256": "129aacfe9576679cd287a63c401823b7df4ecd8bddb7eeb1ed0fcd22c867e0e3",
+      "Rows": 342,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/B1.csv",
+      "Sha256": "379d10bd92cecba6349f043f0661e3548e16d8053b234a7cace7493acfb72144",
+      "Rows": 312,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/D1.csv",
+      "Sha256": "1de8bc12a133dbbf71bc6ffda62082642f087f61b1b7c15ae9f2d320876fb07e",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/D2.csv",
+      "Sha256": "411b732f28d0d4101ee8d6da8d0cd61eff1081e83d80ceb844c9cb5c66ffc779",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/E0.csv",
+      "Sha256": "b2e057b0ed959f198b0f63d2391c01239f3608e6de5db68edab3f88e04d07ff3",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/E1.csv",
+      "Sha256": "5737f6cc95c95092b28317f41d3123e2fb09345434efc1c84bbdf15830849ab3",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/E2.csv",
+      "Sha256": "48e5c8d7f3fbb2a0d3ac956f066b129743789b34fe3db41dbcb31363c22fc303",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/E3.csv",
+      "Sha256": "10da9da5badeb696d163154b26fa43875bfc9fd96d2ed81c5e4d5958e7d231ef",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/EC.csv",
+      "Sha256": "ed369da28084d1eb5a6906f9fd7c3e84364ea4de55734a393b9d9058f12021d0",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/F1.csv",
+      "Sha256": "ca0a4bf51d5b1ccfd0e1558ea41de6bb829df6c96c759888a87248d296d5adb7",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/F2.csv",
+      "Sha256": "1a8f4ac24e6c345b67b6837bc8ca3c853fe2d18c0aad933175286b6e219bb0a4",
+      "Rows": 379,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/G1.csv",
+      "Sha256": "2eccea871c9f845ce4078642f35730a6e8db83683a6d49472e9f204dd972813a",
+      "Rows": 240,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/I1.csv",
+      "Sha256": "343a89db026fe4204ebeabd663cdfee8d02a45457828fc1cb63fa630ca170723",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/I2.csv",
+      "Sha256": "b51d65f34c5a7949af3ec030f2fa587f8145ced9bffa1e64291a228f1bdad80b",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/N1.csv",
+      "Sha256": "bbef260d01917668069697c60e5179571600ddca6f3cc353b81d46143697dad4",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/P1.csv",
+      "Sha256": "681e132bee3948b432436e907a935ea8fc4a8ccace86dad67d61be0159035758",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/SC0.csv",
+      "Sha256": "ed2dcf1bb0bdb12e911f0b8435038a85448be27d4fa368202c85be5e8036c341",
+      "Rows": 228,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/SC1.csv",
+      "Sha256": "065052238cf671dfcec9088c7ff4c5134404281fa4ec4af2b453121d5d450919",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/SC2.csv",
+      "Sha256": "84b4537ce5f41cd8980ce494a65a5441421ab2ff977c451189562d711a69c076",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/SC3.csv",
+      "Sha256": "b22d6e43af4508341cb082ec5bbf3063c868aea25db6fda6bfe645db4e0229fc",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/SP1.csv",
+      "Sha256": "5323f596c7ed318e4bce95557a369d809d98501fa499ea5f41350cd45cf3c7d9",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/SP2.csv",
+      "Sha256": "e09c2d18bd41c1f735aba730d31d0db778c0b7086973ae979a52dd814f1d345a",
+      "Rows": 462,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2324",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2324/T1.csv",
+      "Sha256": "17097f7d31bad40f830dc6f0f85090e9f76876e6812ec14997bc80423a05924b",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/B1.csv",
+      "Sha256": "fcc3ec3a7bdd57ec42df76bb03aa1858ee18be88886a379f42b4c7b2e7f5d0eb",
+      "Rows": 312,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/D1.csv",
+      "Sha256": "a295c58033cfe6393cbbc28f7db85671839b960c5f1153fd3678e20ad2adb92e",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/D2.csv",
+      "Sha256": "781b239e26992c92dcace32d59ce2aeb91dfa24fb308b088cb4d6bc404e56ea1",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/E0.csv",
+      "Sha256": "d0c8ce4a96d886cf60cf101f570f4a3893844226f91c7bd769eb568c49edbfa4",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/E1.csv",
+      "Sha256": "f34c340446c916374be66bdc2fb25b87ee7f2662712ca009653d03ac705535f9",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/E2.csv",
+      "Sha256": "d4c0ebde3806714fe01a43935409e803ca35118d746d635480eaf9574d561c49",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/E3.csv",
+      "Sha256": "fd8e1e2483478b14ce7d0cc0317ab4b8fc0abf6e44e76613d855212f8acd760d",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/EC.csv",
+      "Sha256": "efe33452b62a1bc283145dacc5fe22d00f94fde475e263389865a4e45c24dd65",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/F1.csv",
+      "Sha256": "fe6ae6a0c30d05f0ac88e0fc4a31452c7203e2b444703dfa941e22f38f20ab63",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/F2.csv",
+      "Sha256": "0cb8c06cb611e63cd3f393c2a61e4e224efc8bac3d7f6f5532e498e0cb5a3f37",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/G1.csv",
+      "Sha256": "b0d0e4a3dc9054083763f205c808720c51cd55034282303e8a9f1d60be8321c9",
+      "Rows": 233,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/I1.csv",
+      "Sha256": "79d87a5b18771e066ac7419b7876bfd9771a68ca117a9712375d6bc9685abee3",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/I2.csv",
+      "Sha256": "ec5aa4ff25da520a1c03a4f6cf7bc87d318acd25b22270fa9e0080d95ac81b7d",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/N1.csv",
+      "Sha256": "7f97f0a7fd1f9b2cff6ac09588cdc14fd07f19950cb75e821fa58ab41e541d0a",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/P1.csv",
+      "Sha256": "e3cceff81e471c59e72c1f60f81b2e62df21d1a58af167062d4915484da00255",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/SC0.csv",
+      "Sha256": "a7e7c7512a04784c8c8d9a82a3bb24a3c67c9a6afa533a661d8fbbbbec293118",
+      "Rows": 228,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/SC1.csv",
+      "Sha256": "b143cf1d7b88c785fdd08b7ed6c4b9c09198cb8371ccbb0341a0f5b15a6e8328",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/SC2.csv",
+      "Sha256": "ec461780f7761d848a48a6dcc4259feaa452025ca71b11b4349584228f05eec2",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/SC3.csv",
+      "Sha256": "caa183e0b4dfbb68cac3ebd76a4ebeddcd0a2e90a6453d1b357ae76169b45254",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/SP1.csv",
+      "Sha256": "c086e96d6a53f6e6c0fce4e35db0d1728c773b4362323da0161a34769e315a36",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/SP2.csv",
+      "Sha256": "60a8a03e5a477a10bcea5e31379df089d1927b6e388e333e115274dba78b79a3",
+      "Rows": 462,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2425",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2425/T1.csv",
+      "Sha256": "fd91680cc815f356c94fdd733078431ca771707305994ec49c5f1270cf9c9f5c",
+      "Rows": 342,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/B1.csv",
+      "Sha256": "7ba1d75b2f23ab6bf36952fa61b62e80905e2d38fa059ad389106772aebaf481",
+      "Rows": 311,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/D1.csv",
+      "Sha256": "618301a4b39918225a8ccc57f0f839d675e1abd92fa3a3ccd9a67acd7c79dd7f",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/D2.csv",
+      "Sha256": "8bfb275286d7d620c20c7fdb164e4447e114be3de94b8372b7ac3773d71581ef",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/E0.csv",
+      "Sha256": "3e3a8352f9ada6789c508d6ca184424421fed56a30400904a4a327c583407e62",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/E1.csv",
+      "Sha256": "98954c319950f19158624b17a154ef1c56eb7b8d169ef317f28f06d11d0b9a74",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/E2.csv",
+      "Sha256": "4c96eff8a2f20c5e26015af8609c4f90478ff055f58ab6e137cc3445bf4c67ee",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/E3.csv",
+      "Sha256": "eff4fa15cb18857091d1f0666d0b8a6c61eda7a8374feef8f2d8a38244e0e45d",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/EC.csv",
+      "Sha256": "2372229d616a57f9df3d9a401cd942df8e1909ba67017b3793c6aceaf0becf76",
+      "Rows": 552,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/F1.csv",
+      "Sha256": "898b7ddcd373cfe955ae353b1a98cf7f1c8757ca10b69d53039f4e098e88f192",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/F2.csv",
+      "Sha256": "dcedf4dd66f3e0ac8efb8ccd2e5489882068e5630c041702b15c1d0fe70c6017",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/G1.csv",
+      "Sha256": "0f77e72cb9db8f5dcd298d16f20551a82d018b478fc12a67e065241f05810830",
+      "Rows": 236,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/I1.csv",
+      "Sha256": "709ae279617d16af226312bcceac941e71241745ddaf950bdac2b83afad4fcbb",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/I2.csv",
+      "Sha256": "ed4bcece92bb8b09aa94768bc77d3529fa29339ec70fa7867a9fbc3ca0954731",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/N1.csv",
+      "Sha256": "dfb092a866e0df4b4c8fde7778d47f41a4307f5c5ac5a6f55d2276e45c80e604",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/P1.csv",
+      "Sha256": "f1353dc7404bfa0d27daa3ca6c164bb450ec20558ee02fffb7160fae182213dc",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/SC0.csv",
+      "Sha256": "be3c45e08f09a327e3fd5289dd0b362b200f430ed5845cb18df1aca7e3ced2ee",
+      "Rows": 228,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/SC1.csv",
+      "Sha256": "75302af065eee1c5c0c7ac3a44054aec4860d3bddcf9b358c4dc9f295058332c",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/SC2.csv",
+      "Sha256": "57cc448f55cb427f11f1123fcd551dff3d47a7a73de5a0c147982e15cf15625e",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/SC3.csv",
+      "Sha256": "06cc5655e2f72c2e6a9bf4520c1fd82ee9ff5e722cdb3d23293d7980e2173959",
+      "Rows": 180,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/SP1.csv",
+      "Sha256": "4ca2e285f3ee0702f6bc55fcaa4f5a15cb3aef6220735a1d15398131e21d63f5",
+      "Rows": 380,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/SP2.csv",
+      "Sha256": "4986060e5c1d55626aef24c4bbeaaea2278b27a0b7696927405705aaa57405de",
+      "Rows": 462,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2526",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2526/T1.csv",
+      "Sha256": "d35e97d42b53ca870b13683da3998aa2758eeb43280fbe71d5d935bae47cdd23",
+      "Rows": 306,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "B1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/B1.csv",
+      "Sha256": "e929132f74b8d7e79720045dcadcd1a480d2bcc71ae987d11b5fb8717bf94fb1",
+      "Rows": 89,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "D1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/D1.csv",
+      "Sha256": "490b69c06ec2890be818372c7ea3bd5413b7fe6539185890d9eaeb6b59a6f22b",
+      "Rows": 72,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "D2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/D2.csv",
+      "Sha256": "69a893b1e2e8664778a76f05bb5735ca5eb3b521acc8a219143ebcbd4d932009",
+      "Rows": 90,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "E0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/E0.csv",
+      "Sha256": "c429b75f681dc7aaec5641a23320402409530b4b01a9f147bb7e386fe508159b",
+      "Rows": 90,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "E1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/E1.csv",
+      "Sha256": "c7fa2ecb1aaff715701c0bc0f2d812ec46e71dfbfd1540168ecd0ce4d6210fb4",
+      "Rows": 156,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "E2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/E2.csv",
+      "Sha256": "1b76d2bfe20464b512977476f2db1fb66fb38192d737263399085167cb65f13b",
+      "Rows": 155,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "E3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/E3.csv",
+      "Sha256": "e7bac3e1a6c54d7107691c6f95c3c0b4474097636c94d40b6c576fea62c4f9bf",
+      "Rows": 163,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "EC",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/EC.csv",
+      "Sha256": "9c08969ba6ebccb6b3887ed1b241f2f139803425e8799dad9a1c3be07259fb90",
+      "Rows": 189,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "F1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/F1.csv",
+      "Sha256": "18fed04746c2f4d764e02a331d5e94b0ca6c71c102ee82ae95423e4de410f4c0",
+      "Rows": 81,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "F2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/F2.csv",
+      "Sha256": "f578606f30ad2f5a48e1b0953510237fb084b6f1c661185022e8ddcc0c0a0a10",
+      "Rows": 99,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "G1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/G1.csv",
+      "Sha256": "d7533e199c1a9adca758f96472eda0585d623c29e302a8fab36e4c009f68c85b",
+      "Rows": 62,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "I1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/I1.csv",
+      "Sha256": "4138a4f01e96312a7a5dc07450c7a520c3861a479620fe3d102f12d42a6678ba",
+      "Rows": 100,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "I2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/I2.csv",
+      "Sha256": "bbbac49dce77e5dc508b09da2e1668900564ef5b1a3f1edbcdab943ba884363a",
+      "Rows": 100,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "N1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/N1.csv",
+      "Sha256": "5f5cdffe5f8c413ae73bd1988b259d453a05ba6884e2a2b6060a17fa71867ed1",
+      "Rows": 99,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "P1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/P1.csv",
+      "Sha256": "eed51b09af8112e9f2e35d062f67dd07e5ae73ac267cd0235237f30eeabacae8",
+      "Rows": 90,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "SC0",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/SC0.csv",
+      "Sha256": "c4951f7450c2c6bc7521fdf4b928c61fdc9026105c697957ea5477029d55f4f8",
+      "Rows": 69,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "SC1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/SC1.csv",
+      "Sha256": "74f3bf56053af23fe2ddb91cda6fff5e7088b3f1e1756d8aeb09c1213a3fdf87",
+      "Rows": 64,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "SC2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/SC2.csv",
+      "Sha256": "8897cbe5414849bc2e6fbac9241487b6bc3bcb699de1d13796b7988b1087755d",
+      "Rows": 64,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "SC3",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/SC3.csv",
+      "Sha256": "d46e9527ba1ce8668bd8b5c7cfe5156ee7be9c3714ce2c473fd8cb29619b8cb1",
+      "Rows": 60,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "SP1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/SP1.csv",
+      "Sha256": "a382f00d78d85eae814e8b06a4a0d5ba0dd70905156f20b02f8c0e6c28b7c7d6",
+      "Rows": 109,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "SP2",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/SP2.csv",
+      "Sha256": "a464dc5c92ddb7e4867b3e3039d8d9c83f127e55898bd106fb9994de21cb9fbf",
+      "Rows": 131,
+      "HasTime": true,
+      "Error": null
+    },
+    {
+      "Season": "2627",
+      "Division": "T1",
+      "Url": "https://www.football-data.co.uk/mmz4281/2627/T1.csv",
+      "Sha256": "2abfcfb6c19b1c25fbbc6084104bd365a371e2b1136117539a1793eab7b2ef7c",
+      "Rows": 90,
+      "HasTime": true,
+      "Error": null
+    }
+  ],
+  "Cohorts": {
+    "1718/B1": {
+      "Matched": 240,
+      "AverageEqual": 0,
+      "MaximumEqual": 240,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 240
+    },
+    "1718/D2": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1718/F2": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1718/E1": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1718/F1": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1718/E2": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1718/E3": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1718/EC": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1718/SC0": {
+      "Matched": 228,
+      "AverageEqual": 0,
+      "MaximumEqual": 228,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 228
+    },
+    "1718/SC1": {
+      "Matched": 180,
+      "AverageEqual": 0,
+      "MaximumEqual": 180,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 180
+    },
+    "1718/SC2": {
+      "Matched": 180,
+      "AverageEqual": 0,
+      "MaximumEqual": 180,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 180
+    },
+    "1718/SC3": {
+      "Matched": 180,
+      "AverageEqual": 0,
+      "MaximumEqual": 180,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 180
+    },
+    "1718/P1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1718/E0": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1718/N1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1718/T1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1718/D1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1718/SP1": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1718/SP2": {
+      "Matched": 462,
+      "AverageEqual": 0,
+      "MaximumEqual": 462,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 462
+    },
+    "1718/G1": {
+      "Matched": 240,
+      "AverageEqual": 0,
+      "MaximumEqual": 240,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 240
+    },
+    "1718/I1": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1718/I2": {
+      "Matched": 462,
+      "AverageEqual": 0,
+      "MaximumEqual": 462,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 462
+    },
+    "1819/B1": {
+      "Matched": 240,
+      "AverageEqual": 0,
+      "MaximumEqual": 240,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 240
+    },
+    "1819/F2": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1819/D2": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1819/E1": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1819/E2": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1819/E3": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1819/EC": {
+      "Matched": 552,
+      "AverageEqual": 0,
+      "MaximumEqual": 552,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 552
+    },
+    "1819/SC0": {
+      "Matched": 228,
+      "AverageEqual": 0,
+      "MaximumEqual": 228,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 228
+    },
+    "1819/SC1": {
+      "Matched": 180,
+      "AverageEqual": 0,
+      "MaximumEqual": 180,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 180
+    },
+    "1819/SC2": {
+      "Matched": 180,
+      "AverageEqual": 0,
+      "MaximumEqual": 180,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 180
+    },
+    "1819/SC3": {
+      "Matched": 180,
+      "AverageEqual": 0,
+      "MaximumEqual": 180,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 180
+    },
+    "1819/E0": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1819/F1": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1819/N1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1819/P1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1819/T1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1819/SP1": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1819/SP2": {
+      "Matched": 441,
+      "AverageEqual": 0,
+      "MaximumEqual": 441,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 441
+    },
+    "1819/I1": {
+      "Matched": 380,
+      "AverageEqual": 0,
+      "MaximumEqual": 380,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 380
+    },
+    "1819/D1": {
+      "Matched": 306,
+      "AverageEqual": 0,
+      "MaximumEqual": 306,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 306
+    },
+    "1819/I2": {
+      "Matched": 342,
+      "AverageEqual": 0,
+      "MaximumEqual": 342,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 342
+    },
+    "1819/G1": {
+      "Matched": 239,
+      "AverageEqual": 0,
+      "MaximumEqual": 239,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 239
+    },
+    "2122/B1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/D2": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/F2": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/SC0": {
+      "Matched": 228,
+      "AverageEqual": 228,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/SC1": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/SC2": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/SC3": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/E1": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/F1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/P1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/E2": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/E3": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/D1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/E0": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/N1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/SP1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/SP2": {
+      "Matched": 462,
+      "AverageEqual": 462,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/T1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/I2": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/EC": {
+      "Matched": 462,
+      "AverageEqual": 462,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/I1": {
+      "Matched": 379,
+      "AverageEqual": 379,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2122/G1": {
+      "Matched": 240,
+      "AverageEqual": 240,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/D2": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/B1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/E1": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/E2": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/E3": {
+      "Matched": 551,
+      "AverageEqual": 551,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/F2": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/SC0": {
+      "Matched": 228,
+      "AverageEqual": 228,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/SC1": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/SC2": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/SC3": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/D1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/E0": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/F1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/N1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/P1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/T1": {
+      "Matched": 313,
+      "AverageEqual": 313,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/EC": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/I2": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/SP1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/SP2": {
+      "Matched": 462,
+      "AverageEqual": 462,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/I1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2223/G1": {
+      "Matched": 240,
+      "AverageEqual": 240,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/B1": {
+      "Matched": 312,
+      "AverageEqual": 312,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/D2": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/E1": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/SC1": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/E2": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/E3": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/EC": {
+      "Matched": 551,
+      "AverageEqual": 551,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/F2": {
+      "Matched": 379,
+      "AverageEqual": 379,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/SC0": {
+      "Matched": 228,
+      "AverageEqual": 228,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/SC2": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/SC3": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/E0": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/F1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/N1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/P1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/SP1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/SP2": {
+      "Matched": 462,
+      "AverageEqual": 462,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/T1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/D1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/G1": {
+      "Matched": 240,
+      "AverageEqual": 240,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/I2": {
+      "Matched": 379,
+      "AverageEqual": 379,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2324/I1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/B1": {
+      "Matched": 312,
+      "AverageEqual": 312,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/D2": {
+      "Matched": 272,
+      "AverageEqual": 272,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/SC1": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/SC0": {
+      "Matched": 228,
+      "AverageEqual": 228,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/SC2": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/SC3": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/E1": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/E2": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/E3": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/N1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/P1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/T1": {
+      "Matched": 342,
+      "AverageEqual": 342,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/EC": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/SP1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/SP2": {
+      "Matched": 462,
+      "AverageEqual": 462,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/E0": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/F1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/F2": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/I2": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/G1": {
+      "Matched": 233,
+      "AverageEqual": 233,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/I1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2425/D1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/B1": {
+      "Matched": 311,
+      "AverageEqual": 311,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/D2": {
+      "Matched": 272,
+      "AverageEqual": 272,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/E2": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/SC1": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/E3": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/SC0": {
+      "Matched": 228,
+      "AverageEqual": 228,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/SC2": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/SC3": {
+      "Matched": 180,
+      "AverageEqual": 180,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/E1": {
+      "Matched": 552,
+      "AverageEqual": 552,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/N1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/P1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/T1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/EC": {
+      "Matched": 540,
+      "AverageEqual": 540,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/F2": {
+      "Matched": 305,
+      "AverageEqual": 305,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/E0": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/F1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/SP1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/SP2": {
+      "Matched": 462,
+      "AverageEqual": 462,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/D1": {
+      "Matched": 306,
+      "AverageEqual": 306,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/I2": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/G1": {
+      "Matched": 236,
+      "AverageEqual": 236,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2526/I1": {
+      "Matched": 380,
+      "AverageEqual": 380,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/SC0": {
+      "Matched": 12,
+      "AverageEqual": 12,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/SC1": {
+      "Matched": 10,
+      "AverageEqual": 10,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/SC2": {
+      "Matched": 14,
+      "AverageEqual": 14,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/SC3": {
+      "Matched": 15,
+      "AverageEqual": 15,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/B1": {
+      "Matched": 18,
+      "AverageEqual": 18,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/D2": {
+      "Matched": 18,
+      "AverageEqual": 18,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/N1": {
+      "Matched": 18,
+      "AverageEqual": 18,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/P1": {
+      "Matched": 17,
+      "AverageEqual": 17,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/EC": {
+      "Matched": 24,
+      "AverageEqual": 24,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/F2": {
+      "Matched": 18,
+      "AverageEqual": 18,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/E1": {
+      "Matched": 12,
+      "AverageEqual": 12,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/SP2": {
+      "Matched": 11,
+      "AverageEqual": 11,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/T1": {
+      "Matched": 9,
+      "AverageEqual": 9,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/E2": {
+      "Matched": 12,
+      "AverageEqual": 12,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/E3": {
+      "Matched": 12,
+      "AverageEqual": 12,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    },
+    "2627/SP1": {
+      "Matched": 4,
+      "AverageEqual": 4,
+      "MaximumEqual": 0,
+      "ScoreMismatch": 0,
+      "PriceCorrection": 0
+    }
+  },
+  "QualifiedQuotes": 54323,
+  "StagedCorrections": 15478,
+  "Applied": false,
+  "Convention": "Source averages reconciled by score/identity; timing unknown, retrospective comparisons only."
+}
