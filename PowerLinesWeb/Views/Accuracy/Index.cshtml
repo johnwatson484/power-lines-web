@@ -1,4 +1,7 @@
 @model PowerLinesWeb.Models.AccuracyPage
+@functions {
+    string Percent(System.Text.Json.JsonElement value) => value.ValueKind == System.Text.Json.JsonValueKind.Null ? "Unavailable" : value.GetDouble().ToString("P1");
+}
 <h3>Forecast evaluation</h3>
 @if (Model.RunId == null)
 {
@@ -20,8 +23,8 @@ else
         var selected = report.GetProperty("Shortlist");
         <p>Unique H/A shortlist: @selected.GetProperty("Count") (@selected.GetProperty("Home") home, @selected.GetProperty("Away") away).
         Strong: @report.GetProperty("Strong").GetProperty("Count"); broader: @report.GetProperty("Broader").GetProperty("Count").</p>
-        <p>Hit rate: @selected.GetProperty("HitRate").GetDouble().ToString("P1"); mean win probability: @selected.GetProperty("MeanProbability").GetDouble().ToString("P1").
-        Calibration gap (mean probability − hit rate): @selected.GetProperty("CalibrationGap").GetDouble().ToString("P1").</p>
+        <p>Hit rate: @Percent(selected.GetProperty("HitRate")); mean win probability: @Percent(selected.GetProperty("MeanProbability")).
+        Calibration gap (mean probability − hit rate): @Percent(selected.GetProperty("CalibrationGap")).</p>
         <p>Paired model/market comparison: @paired.GetProperty("Count") identical matches.
         Model log loss: @paired.GetProperty("CandidateLogLoss"); market log loss: @paired.GetProperty("BaselineLogLoss").</p>
         <p>Production model promotion: @report.GetProperty("Promotion").GetProperty("FairOddsModel").
