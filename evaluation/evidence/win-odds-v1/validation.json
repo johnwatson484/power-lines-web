@@ -1,5 +1,5 @@
 {
-  "WebTests": 106,
+  "WebTests": 111,
   "WebTestRuntime": ".NET 8.0.33",
   "CompanionParserTests": 5,
   "PersistenceDatabase": "Isolated PostgreSQL 11.4, same Npgsql retry strategy as host",
@@ -19,5 +19,11 @@
   ],
   "PinnedContainerReproductionHelper": "Passed: exact predictions.csv, report.json and calibration.json SHA-256 values",
   "CompanionParserRuntime": ".NET 8.0.33",
-  "SourceSeasonRegression": "Source URL season overrides calendar partition for postponed 2019/20 results"
+  "SourceSeasonRegression": "Source URL season overrides calendar partition for postponed 2019/20 results",
+  "AdditionalRegressions": [
+    "Retained quote keeps original source/hash and immutable decision quote ID",
+    "Independent offer updates and expiry invalidate decisions and stale UI selections",
+    "Completed fixture IDs cannot be recycled for repeated pairings",
+    "Verified kickoff timezone required; summer offsets and ambiguous DST times tested"
+  ]
 }

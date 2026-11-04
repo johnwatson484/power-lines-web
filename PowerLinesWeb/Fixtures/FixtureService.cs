@@ -67,7 +67,7 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
                 PriceKind = quote?.Kind ?? "Legacy average: mapping/timing unqualified"
             };
         }).OrderByDescending(x => Math.Max(x.HomeProbability ?? 0, x.AwayProbability ?? 0)).ThenBy(x => x.Date).ThenBy(x => x.FixtureId).ToList();
-        return new FixturePage { Fixtures = rows, Feeds = status, Higher = thresholds.Higher, Lower = thresholds.Lower, AsOf = now };
+        return new FixturePage { Fixtures = rows, Feeds = status, Higher = thresholds.Higher, Lower = thresholds.Lower, KickoffTimeZone = feeds.FixtureTimeZoneId ?? "unverified", AsOf = now };
     }
     static long? SnapshotQuoteId(string json)
     {

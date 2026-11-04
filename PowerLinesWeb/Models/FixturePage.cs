@@ -6,6 +6,7 @@ public class FixturePage
     public List<DivisionFeedStatus> Feeds { get; set; } = [];
     public decimal Higher { get; set; }
     public decimal Lower { get; set; }
+    public string KickoffTimeZone { get; set; }
     public DateTime AsOf { get; set; }
 }
 

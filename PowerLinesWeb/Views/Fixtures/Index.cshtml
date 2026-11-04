@@ -3,6 +3,7 @@
     ViewData["Title"] = "Win forecasts";
 }
 <h3>Win forecasts</h3>
+<p class="small text-muted">Source kickoff timezone: @Model.KickoffTimeZone.</p>
 <p class="small text-muted">Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Sorted by win probability. No minimum number of picks.</p>
 <div class="btn-group mb-3" role="group" aria-label="Forecast filters">
     <button class="btn btn-secondary forecast-filter" data-filter="all">All fixtures</button>
