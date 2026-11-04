@@ -8,5 +8,13 @@
   },
   "FinalCodeSha": "42ed5287113e6cf8dafc3f17a58dc2aac9a75869",
   "RawCache": "Local development/final raw JSONL caches retained under artifacts; regenerate from the committed compressed inputs.",
-  "LiveDatabaseMigration": "Not applied; read-only check still reports 20260822113939_AddExpectedGoalsPerSide."
+  "LiveDatabaseMigration": "Not applied; read-only check still reports 20260822113939_AddExpectedGoalsPerSide.",
+  "ReproductionCommandVerified": true,
+  "ReproductionCodeSha": "12b969ef555837e1ef1c60df77cb4444690e8305",
+  "NumericalEnvironment": {
+    "Runtime": ".NET 8.0.33",
+    "Platform": "linux-musl-x64",
+    "Architecture": "X64"
+  },
+  "CrossRuntimeObservation": ".NET 10.0.14 matched report/reliability hashes but differs in low-order raw decimal prediction bytes. Use the pinned .NET 8 container for byte-identical predictions."
 }

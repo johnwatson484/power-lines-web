@@ -48,7 +48,7 @@ Qualified model/market comparison uses **7,015 identical IDs**: challenger log l
 
 ## Reproduction and validation
 
-Use .NET 8 from the repository root. None of these evaluation commands starts the ASP.NET host:
+The reproduction helper uses Docker with the tested .NET 8 SDK image pinned by digest, mounts source read-only, and writes only its output directory. The direct console command requires .NET 8. None of these commands starts the ASP.NET host:
 
 ```bash
 python3 scripts/reproduce-evaluation.py --output artifacts/reproduce-locked-final
@@ -65,6 +65,8 @@ dotnet test PowerLinesWeb.Tests/PowerLinesWeb.Tests.csproj --configuration Relea
 Set `POWERLINES_TEST_DB` only to a disposable isolated database named `power_lines_test` to include persistence/job tests; without it those tests explicitly skip. Never point tests or the web host at the full development database for experiments. The EF design-time factory builds migrations without executing `Program`.
 
 Completed checks: **106 web tests** with isolated PostgreSQL and the host retry strategy; **4 companion parser tests**, including the complete E0 source; fixed-snapshot chronological development and protected evaluation; repeated native .NET **8.0.33** predictions/report/reliability hashes; non-root UID 1000 production-container HTTP/security-header smoke; isolated RabbitMQ fixture quote updates/result correction/import-status transport; immutable settlement/publication integration; and complete 380-row staged repair/idempotence/numeric rollback.
+
+The host’s .NET 10.0.14 produced identical report/reliability hashes but different low-order raw probability decimal bytes. Exact prediction hashes therefore use the pinned .NET 8.0.33 Linux container; runtime/platform/architecture also enter raw-cache and run identity. The provided reproduction helper was executed successfully and verified all three recorded hashes without reselecting parameters.
 
 The old explicit real-database half-life/MinEdge sweep tests were **not run**. Their legacy real-DB/calibration assumptions are unsuitable for promotion; the declared half-life/prior ablations ran in the fixed offline evaluator instead. Joint DC fitting, multinomial/Elo and new covariates were not run or promoted. No shared migration, re-import, deployment, merge, bet or prospective feed/offer validation occurred. The .NET 8 build still reports the pre-existing explicit MinEdge-sweep cast analyzer warning and Docker legacy ENV syntax warning; neither test was used as evidence.
 

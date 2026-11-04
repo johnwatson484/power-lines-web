@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reproduce locked final predictions using the recorded .NET 8 SDK/runtime, without web workers."""
 import argparse,pathlib,shutil,subprocess,hashlib,json,os
-p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--container',action='store_true',help='Use the pinned .NET 8 image (automatic when the local SDK/runtime differs)');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--output',required=True);a=p.parse_args()
 root=pathlib.Path(__file__).resolve().parent.parent;evidence=root/'evaluation/evidence/win-odds-v1';out=pathlib.Path(a.output).resolve()
 if out.exists() and any(out.iterdir()):raise SystemExit('Use a new, empty output directory')
 out.mkdir(parents=True,exist_ok=True)

@@ -16,5 +16,7 @@
   "Warnings": [
     "Pre-existing explicit MinEdge sweep CA2021 cast warning; sweep not used",
     "Pre-existing Docker ENV syntax warning"
-  ]
+  ],
+  "PinnedContainerReproductionHelper": "Passed: exact predictions.csv, report.json and calibration.json SHA-256 values",
+  "CompanionParserRuntime": ".NET 8.0.33"
 }
