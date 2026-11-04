@@ -8,7 +8,9 @@ public class DixonColes(ExpectedGoals expectedGoals, double correlation)
     // Leaves an independent Poisson grid untouched.
     public static DixonColes None { get; } = new(new ExpectedGoals(0, 0), 0);
 
-    public double Correlation { get; } = correlation;
+    // Project a league fit into this fixture's feasible interval; zero is the fallback for nonfinite rho.
+    public double Correlation { get; } = double.IsFinite(correlation)
+        ? Math.Clamp(correlation, GetLowerBound(expectedGoals) * .999999, GetUpperBound(expectedGoals) * .999999) : 0;
 
     public double GetAdjustment(int homeGoals, int awayGoals)
     {

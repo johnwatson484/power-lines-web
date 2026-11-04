@@ -1,0 +1,29 @@
+{
+  "WebTests": 111,
+  "WebTestRuntime": ".NET 8.0.33",
+  "CompanionParserTests": 5,
+  "PersistenceDatabase": "Isolated PostgreSQL 11.4, same Npgsql retry strategy as host",
+  "Transport": "Isolated RabbitMQ fixture/result/import completion exchanges; separate smoke DB",
+  "ProductionContainerUid": 1000,
+  "FixtureAndCompletedAccuracyHttpStatus": 200,
+  "SharedDatabaseMigrated": false,
+  "Unrun": [
+    "Legacy explicit real-DB half-life sweeps",
+    "Legacy explicit MinEdge sweep",
+    "Joint DC / multinomial / Elo experiments",
+    "Prospective restored feed / actual offer collection"
+  ],
+  "Warnings": [
+    "Pre-existing explicit MinEdge sweep CA2021 cast warning; sweep not used",
+    "Pre-existing Docker ENV syntax warning"
+  ],
+  "PinnedContainerReproductionHelper": "Passed: exact predictions.csv, report.json and calibration.json SHA-256 values",
+  "CompanionParserRuntime": ".NET 8.0.33",
+  "SourceSeasonRegression": "Source URL season overrides calendar partition for postponed 2019/20 results",
+  "AdditionalRegressions": [
+    "Retained quote keeps original source/hash and immutable decision quote ID",
+    "Independent offer updates and expiry invalidate decisions and stale UI selections",
+    "Completed fixture IDs cannot be recycled for repeated pairings",
+    "Verified kickoff timezone required; summer offsets and ambiguous DST times tested"
+  ]
+}

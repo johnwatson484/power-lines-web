@@ -1,0 +1,101 @@
+{
+  "SnapshotSha256": "0302ecb224ef6643f740b04705f27b39bf9d0e4c8fec8c9e24518324cb9afb7c",
+  "QuotesSha256": "f272f54dbd2721e94c0f3a952b5bee6e7d7e59692ea2703c6dca6096ca0c73a0",
+  "Divisions": [
+    "B1",
+    "D1",
+    "D2",
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "EC",
+    "F1",
+    "F2",
+    "G1",
+    "I1",
+    "I2",
+    "N1",
+    "P1",
+    "SC0",
+    "SC1",
+    "SC2",
+    "SC3",
+    "SP1",
+    "SP2",
+    "T1"
+  ],
+  "RawFrom": "2021-08-01",
+  "DevelopmentFrom": "2022-08-01",
+  "HoldoutFrom": "2025-08-01",
+  "HoldoutThrough": "2026-07-31",
+  "DiagnosticThrough": "2026-08-20",
+  "DevelopmentBlocks": [
+    "2022-08-01",
+    "2023-08-01",
+    "2024-08-01"
+  ],
+  "Recipes": [
+    {
+      "Id": "goals365p5",
+      "HalfLifeDays": 365,
+      "PriorMatches": 5
+    },
+    {
+      "Id": "goals180p5",
+      "HalfLifeDays": 180,
+      "PriorMatches": 5
+    },
+    {
+      "Id": "goals730p5",
+      "HalfLifeDays": 730,
+      "PriorMatches": 5
+    },
+    {
+      "Id": "goals365p10",
+      "HalfLifeDays": 365,
+      "PriorMatches": 10
+    },
+    {
+      "Id": "goals365p20",
+      "HalfLifeDays": 365,
+      "PriorMatches": 20
+    }
+  ],
+  "Temperatures": [
+    0.7,
+    0.85,
+    1,
+    1.15,
+    1.3,
+    1.5,
+    1.75,
+    2
+  ],
+  "BlendWeights": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "ShortlistThresholds": [
+    0.5,
+    0.55,
+    0.6,
+    0.625,
+    0.65,
+    0.675,
+    0.7
+  ],
+  "Seed": 484,
+  "BootstrapResamples": 2000,
+  "MaxHitRateLoss": 0.03,
+  "MinVolumeRatio": 1.25,
+  "MaxCalibrationGap": 0.05,
+  "BrierTolerance": 0.005,
+  "MinSelections": 200,
+  "UpdateRule": "Daily division fit on outcomes strictly before forecast date, six-year window, 100 iterations/tolerance 1e-6. Calibration fixed before each annual development block; final calibration/recipe/blend/policy frozen before holdout. No per-league tuning. Exact snapshot IDs sorted by date/division/resultId.",
+  "QuoteConvention": "Source-reconciled pre-closing averages, observation time unknown; retrospective sensitivity only. Corrected source averages do not modify DB. Market-assisted default is prohibited pending prospective decision-time quotes.",
+  "ResearchLimitation": "Holdout reserved from tuning in this implementation; earlier repository experiments may have used these dates. New future prospective confirmation required after feed restoration."
+}

@@ -13,6 +13,7 @@ public static class Scoring
 
     public static double GetLogLoss(MatchProbabilities probabilities, char result)
     {
+        Validate(probabilities, result);
         return -Math.Log((double)Math.Max(probabilities.Get(result), floor));
     }
 
@@ -20,9 +21,15 @@ public static class Scoring
     // two is the worst possible.
     public static double GetBrierScore(MatchProbabilities probabilities, char result)
     {
+        Validate(probabilities, result);
         return GetSquaredError(probabilities.Home, result == 'H')
             + GetSquaredError(probabilities.Draw, result == 'D')
             + GetSquaredError(probabilities.Away, result == 'A');
+    }
+
+    private static void Validate(MatchProbabilities p, char result)
+    {
+        if (!p.IsValid || result is not ('H' or 'D' or 'A')) throw new ArgumentException("Invalid probability distribution or outcome");
     }
 
     private static double GetSquaredError(decimal probability, bool occurred)

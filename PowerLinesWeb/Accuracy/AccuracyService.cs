@@ -1,45 +1,29 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using PowerLinesWeb.Data;
-using PowerLinesWeb.Fixtures;
+using PowerLinesWeb.Models;
 
 namespace PowerLinesWeb.Accuracy;
 
 public class AccuracyService(ApplicationDbContext dbContext) : IAccuracyService
 {
     readonly ApplicationDbContext dbContext = dbContext;
-
-    public List<PowerLinesWeb.Models.Accuracy> Get()
+    // Legacy reports are not evidence of a completed, reproducible evaluation.
+    public List<Models.Accuracy> Get() => [];
+    public AccuracyPage GetPage()
     {
-        var result = new List<PowerLinesWeb.Models.Accuracy>();
-
-        var records = dbContext.Accuracy.AsNoTracking();
-
-        foreach (var record in records)
+        var run = dbContext.EvaluationRuns.AsNoTracking().Where(x => x.Status == "Completed" && x.CompletedAt != null)
+            .OrderByDescending(x => x.CompletedAt).FirstOrDefault();
+        if (run == null) return new();
+        using var report = JsonDocument.Parse(run.ReportJson);
+        var root = report.RootElement;
+        var page = new AccuracyPage { RunId = run.Id, TestFrom = run.TestFrom, TestThrough = run.TestThrough, Eligible = root.GetProperty("AllEligible").GetInt32(), ReportJson = run.ReportJson };
+        foreach (var row in root.GetProperty("Candidates").EnumerateArray())
         {
-            var division = new Division(record.Division);
-            result.Add(new PowerLinesWeb.Models.Accuracy
-            {
-                AccuracyId = record.AccuracyId,
-                Country = division.Country,
-                CountryRank = division.CountryRank,
-                Division = division.Name,
-                Tier = division.Tier,
-                Matches = record.Matches,
-                Recommended = record.Recommended,
-                RecommendedAccuracy = record.RecommendedAccuracy,
-                LowerRecommended = record.LowerRecommended,
-                LowerRecommendedAccuracy = record.LowerRecommendedAccuracy,
-                BaselineAccuracy = record.BaselineAccuracy,
-                LogLoss = record.LogLoss,
-                BrierScore = record.BrierScore,
-                MarketLogLoss = record.MarketLogLoss,
-                ValueBets = record.ValueBets,
-                ValueWins = record.ValueWins,
-                ValueRoi = record.ValueRoi,
-                Calculated = record.Calculated
-            });
+            var scores = row.GetProperty("Holdout");
+            double? Number(string name) => scores.GetProperty(name).ValueKind == JsonValueKind.Null ? null : scores.GetProperty(name).GetDouble();
+            page.Candidates.Add(new() { Candidate = row.GetProperty("Candidate").GetString(), Forecasts = scores.GetProperty("Forecasts").GetInt32(), Coverage = Number("Per100"), LogLoss = Number("LogLoss"), Brier = Number("Brier") });
         }
-
-        return result.OrderBy(x => x.CountryRank).ThenBy(x => x.Tier).ToList();
+        return page;
     }
 }

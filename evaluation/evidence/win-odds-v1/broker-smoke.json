@@ -1,0 +1,12 @@
+{
+  "Network": "isolated disposable network/broker/PostgreSQL",
+  "FixtureRevisionAfterIdenticalAndChangedQuote": 2,
+  "ResultRevisionAfterCorrection": 2,
+  "CreatedPreserved": true,
+  "CompletedImportEvents": 1,
+  "HttpFixtureAndCompletedAccuracy": 200,
+  "ActualAvailableOffers": 0,
+  "SyntheticFixtureTimeZone": "UTC, explicitly configured; source timezone verification is required for live rollout",
+  "ProductionImageUser": 1000,
+  "WebRegressionCount": 111
+}

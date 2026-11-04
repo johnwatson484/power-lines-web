@@ -76,11 +76,11 @@ namespace PowerLinesWeb.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AccuracyId"));
 
-                    b.Property<decimal>("BaselineAccuracy")
+                    b.Property<decimal?>("BaselineAccuracy")
                         .HasColumnType("numeric")
                         .HasColumnName("baselineAccuracy");
 
-                    b.Property<decimal>("BrierScore")
+                    b.Property<decimal?>("BrierScore")
                         .HasColumnType("numeric")
                         .HasColumnName("brierScore");
 
@@ -92,7 +92,10 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("text")
                         .HasColumnName("division");
 
-                    b.Property<decimal>("LogLoss")
+                    b.Property<int>("InvalidRows")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal?>("LogLoss")
                         .HasColumnType("numeric")
                         .HasColumnName("logLoss");
 
@@ -100,17 +103,23 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("lowerRecommended");
 
-                    b.Property<decimal>("LowerRecommendedAccuracy")
+                    b.Property<decimal?>("LowerRecommendedAccuracy")
                         .HasColumnType("numeric")
                         .HasColumnName("lowerRecommendedAccuracy");
 
-                    b.Property<decimal>("MarketLogLoss")
+                    b.Property<decimal?>("MarketLogLoss")
                         .HasColumnType("numeric")
                         .HasColumnName("marketLogLoss");
 
                     b.Property<int>("Matches")
                         .HasColumnType("integer")
                         .HasColumnName("matches");
+
+                    b.Property<decimal?>("PairedModelBrier")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("PairedModelLogLoss")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("PricedMatches")
                         .HasColumnType("integer")
@@ -120,7 +129,7 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("recommended");
 
-                    b.Property<decimal>("RecommendedAccuracy")
+                    b.Property<decimal?>("RecommendedAccuracy")
                         .HasColumnType("numeric")
                         .HasColumnName("recommendedAccuracy");
 
@@ -132,7 +141,7 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("valueBets");
 
-                    b.Property<decimal>("ValueRoi")
+                    b.Property<decimal?>("ValueRoi")
                         .HasColumnType("numeric")
                         .HasColumnName("valueRoi");
 
@@ -157,6 +166,12 @@ namespace PowerLinesWeb.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FixtureId"));
 
+                    b.Property<string>("AnalysisKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("AnalysisStatus")
+                        .HasColumnType("text");
+
                     b.Property<decimal>("AwayOddsAverage")
                         .HasColumnType("numeric")
                         .HasColumnName("awayOddsAverage");
@@ -164,6 +179,9 @@ namespace PowerLinesWeb.Migrations
                     b.Property<string>("AwayTeam")
                         .HasColumnType("text")
                         .HasColumnName("awayTeam");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone")
@@ -185,7 +203,43 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("text")
                         .HasColumnName("homeTeam");
 
+                    b.Property<string>("LifecycleStatus")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PriceCollection")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PriceKind")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("QuoteObservedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("Revision")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SourceFileHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceMatchId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceRowId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceSeason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceUrl")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("FixtureId");
+
+                    b.HasIndex("SourceMatchId")
+                        .IsUnique();
 
                     b.HasIndex("Date", "HomeTeam", "AwayTeam")
                         .IsUnique();
@@ -331,11 +385,11 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("text")
                         .HasColumnName("fullTimeResult");
 
-                    b.Property<int>("HalfTimeAwayGoals")
+                    b.Property<int?>("HalfTimeAwayGoals")
                         .HasColumnType("integer")
                         .HasColumnName("halfTimeAwayGoals");
 
-                    b.Property<int>("HalfTimeHomeGoals")
+                    b.Property<int?>("HalfTimeHomeGoals")
                         .HasColumnType("integer")
                         .HasColumnName("halfTimeHomeGoals");
 
@@ -351,7 +405,43 @@ namespace PowerLinesWeb.Migrations
                         .HasColumnType("text")
                         .HasColumnName("homeTeam");
 
+                    b.Property<string>("PriceCollection")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PriceKind")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("QuoteObservedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("Revision")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ScoreRevision")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("SourceFileHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceMatchId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceRowId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceSeason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceUrl")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("ResultId");
+
+                    b.HasIndex("SourceMatchId")
+                        .IsUnique();
 
                     b.HasIndex("Date", "HomeTeam", "AwayTeam")
                         .IsUnique();
@@ -450,6 +540,296 @@ namespace PowerLinesWeb.Migrations
                         .IsUnique();
 
                     b.ToTable("result_match_odds");
+                });
+
+            modelBuilder.Entity("PowerLinesWeb.Forecasts.CalibrationArtifact", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("Activated")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("FitCutoff")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("FitFrom")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("ModelVersion")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Samples")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("TrainingFingerprint")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TrainingOrigin")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Version")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Version")
+                        .IsUnique();
+
+                    b.HasIndex("ModelVersion", "FitCutoff");
+
+                    b.ToTable("calibration_artifacts");
+                });
+
+            modelBuilder.Entity("PowerLinesWeb.Forecasts.EvaluationRun", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CodeVersion")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("DatasetHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ManifestHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReportJson")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("TestFrom")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("TestThrough")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("evaluation_runs");
+                });
+
+            modelBuilder.Entity("PowerLinesWeb.Forecasts.ForecastSettlement", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ForecastSnapshotId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Outcome")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ResultId")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("ResultRevision")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("SettledAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ForecastSnapshotId", "ResultRevision")
+                        .IsUnique();
+
+                    b.ToTable("forecast_settlements");
+                });
+
+            modelBuilder.Entity("PowerLinesWeb.Forecasts.ForecastSnapshot", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("AwayTeam")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("CalibrationCutoff")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CalibrationVersion")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DecisionJson")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Division")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("FinalAway")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("FinalDraw")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("FinalHome")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("FixtureId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ForecastAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("HomeTeam")
+                        .HasColumnType("text");
+
+                    b.Property<string>("InputRevision")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("MatchDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("MatchIdentity")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ModelVersion")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Origin")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PolicyVersion")
+                        .HasColumnType("text");
+
+                    b.Property<string>("QuoteRevision")
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("RawAway")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("RawDraw")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("RawHome")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("RunId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Support")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("TrainingCutoff")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RunId", "MatchIdentity")
+                        .IsUnique();
+
+                    b.ToTable("forecast_snapshots");
+                });
+
+            modelBuilder.Entity("PowerLinesWeb.Forecasts.ImportStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Division")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RowCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SourceFileHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceSeason")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceUrl")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceUrl", "Division", "CompletedAt")
+                        .IsUnique();
+
+                    b.ToTable("import_statuses");
+                });
+
+            modelBuilder.Entity("PowerLinesWeb.Forecasts.MarketQuote", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal>("Away")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Commission")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Draw")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Home")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("IngestedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Kind")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MatchIdentity")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ObservedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Revision")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceFileHash")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchIdentity", "Source", "Revision")
+                        .IsUnique();
+
+                    b.ToTable("market_quotes");
                 });
 
             modelBuilder.Entity("PowerLinesWeb.Data.MatchOdds", b =>

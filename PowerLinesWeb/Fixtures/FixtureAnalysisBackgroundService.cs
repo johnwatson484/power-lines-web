@@ -1,138 +1,21 @@
-using FlexLabs.EntityFrameworkCore.Upsert;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using PowerLinesWeb.Analysis;
-using PowerLinesWeb.Data;
+using PowerLinesWeb.Forecasts;
 
 namespace PowerLinesWeb.Fixtures;
 
-public class FixtureAnalysisBackgroundService : BackgroundService
+public class FixtureAnalysisBackgroundService(IServiceScopeFactory scopes) : BackgroundService
 {
-    private readonly IServiceScopeFactory serviceScopeFactory;
-    private readonly int frequencyInMinutes;
-
-    public FixtureAnalysisBackgroundService(IServiceScopeFactory serviceScopeFactory, int frequencyInMinutes = 1)
-    {
-        this.serviceScopeFactory = serviceScopeFactory;
-        this.frequencyInMinutes = frequencyInMinutes;
-    }
-
+    readonly IServiceScopeFactory scopes = scopes;
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // PeriodicTimer waits for each run to finish, so a slow cycle cannot overlap the next.
-        using var timer = new PeriodicTimer(TimeSpan.FromMinutes(frequencyInMinutes));
-
+        using var timer = new PeriodicTimer(TimeSpan.FromMinutes(1));
         try
         {
             do
             {
-                GetMatchOdds();
-            }
-            while (await timer.WaitForNextTickAsync(stoppingToken));
+                try { using var scope = scopes.CreateScope(); scope.ServiceProvider.GetRequiredService<FixtureProjectionJob>().Run(); }
+                catch (Exception ex) { Console.Error.WriteLine($"Fixture analysis: {ex.Message}"); }
+            } while (await timer.WaitForNextTickAsync(stoppingToken));
         }
-        catch (OperationCanceledException)
-        {
-        }
-    }
-
-    protected void GetMatchOdds()
-    {
-        try
-        {
-            var lastResultDate = GetLastResultDate();
-
-            if (lastResultDate.HasValue)
-            {
-                CheckPendingFixtures(lastResultDate.Value);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("FixtureAnalysisBackgroundService error: {0}", ex.Message);
-        }
-    }
-
-    private DateTime? GetLastResultDate()
-    {
-        using var scope = serviceScopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        return dbContext.Results.AsNoTracking()
-            .OrderByDescending(x => x.Created)
-            .Select(x => (DateTime?)x.Created)
-            .FirstOrDefault();
-    }
-
-    private void CheckPendingFixtures(DateTime lastResultDate)
-    {
-        List<Fixture> pendingFixtures;
-        using (var scope = serviceScopeFactory.CreateScope())
-        {
-            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            pendingFixtures = dbContext.Fixtures.AsNoTracking()
-                .Include(x => x.MatchOdds)
-                .Where(x => x.Date >= DateTime.Today
-                    && (x.MatchOdds == null || x.MatchOdds.Calculated < lastResultDate))
-                .ToList();
-        }
-
-        if (pendingFixtures.Count > 0)
-        {
-            AnalyseFixtures(pendingFixtures);
-        }
-    }
-
-    private void AnalyseFixtures(List<Fixture> fixtures)
-    {
-        // One scope for the whole batch so the ratings provider can reuse its fits across fixtures.
-        using var scope = serviceScopeFactory.CreateScope();
-        var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-        foreach (var fixture in fixtures)
-        {
-            var analysisFixture = new AnalysisFixture
-            {
-                Id = fixture.FixtureId,
-                Division = fixture.Division,
-                Date = fixture.Date,
-                HomeTeam = fixture.HomeTeam,
-                AwayTeam = fixture.AwayTeam,
-                MarketOdds = new MarketOdds(fixture.HomeOddsAverage, fixture.DrawOddsAverage, fixture.AwayOddsAverage)
-            };
-
-            var odds = analysisService.GetMatchOdds(analysisFixture);
-
-            if (odds == null)
-            {
-                continue;
-            }
-
-            var matchOdds = new MatchOdds
-            {
-                FixtureId = odds.Id,
-                Home = odds.Home,
-                Draw = odds.Draw,
-                Away = odds.Away,
-                HomeGoals = odds.HomeGoals,
-                AwayGoals = odds.AwayGoals,
-                ExpectedGoals = odds.ExpectedGoals,
-                HomeXg = odds.HomeXg,
-                AwayXg = odds.AwayXg,
-                HomeProbability = odds.HomeProbability,
-                DrawProbability = odds.DrawProbability,
-                AwayProbability = odds.AwayProbability,
-                Recommended = odds.Recommended,
-                LowerRecommended = odds.LowerRecommended,
-                ValueSelection = odds.ValueSelection,
-                ValueEdge = odds.ValueEdge,
-                ValueOdds = odds.ValueOdds,
-                ValueStake = odds.ValueStake,
-                Calculated = odds.Calculated
-            };
-
-            dbContext.MatchOdds.Upsert(matchOdds)
-                .On(x => new { x.FixtureId })
-                .Run();
-        }
+        catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { }
     }
 }

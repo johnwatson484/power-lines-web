@@ -24,13 +24,7 @@ public static class RatingsFitter
             return ratings;
         }
 
-        for (var iteration = 0; iteration < options.MaxIterations; iteration++)
-        {
-            if (Sweep(ratings, matches, weights, options) < options.Tolerance)
-            {
-                break;
-            }
-        }
+        FitGoalRates(ratings, matches, weights, options);
 
         // The attack, defence and home advantage updates above do not involve the low score correction,
         // so it only has to be fitted once the goal rates have settled.
@@ -128,135 +122,66 @@ public static class RatingsFitter
         }
     }
 
-    // Blocks are maximised one at a time, each using the values the previous block has just produced.
-    // Updating attack and defence together instead leaves their product only marginally stable, which
-    // resonates with the home advantage update and sends the fit to zero.
-    private static double Sweep(TeamRatings ratings, IReadOnlyList<Result> matches, double[] weights, ModelOptions options)
+    // Indexed arrays avoid per-match dictionary allocation/lookups in every optimization sweep.
+    // Block ordering and penalized stationary updates match the corrected incumbent exactly.
+    private static void FitGoalRates(TeamRatings ratings, IReadOnlyList<Result> matches, double[] weights, ModelOptions options)
     {
-        var change = UpdateAttack(ratings, matches, weights, options);
-        change = Math.Max(change, UpdateDefence(ratings, matches, weights, options));
-        change = Math.Max(change, UpdateHomeAdvantage(ratings, matches, weights));
-
-        Normalise(ratings);
-        return change;
-    }
-
-    private static double UpdateAttack(TeamRatings ratings, IReadOnlyList<Result> matches, double[] weights, ModelOptions options)
-    {
-        var scored = new Dictionary<string, double>();
-        var exposure = new Dictionary<string, double>();
-
-        for (var i = 0; i < matches.Count; i++)
+        var teams = ratings.Teams.ToArray();
+        var indices = teams.Select((t, i) => (t.Team, i)).ToDictionary(x => x.Team, x => x.i);
+        var home = matches.Select(x => indices[x.HomeTeam]).ToArray();
+        var away = matches.Select(x => indices[x.AwayTeam]).ToArray();
+        var attack = teams.Select(x => x.Attack).ToArray();
+        var defence = teams.Select(x => x.Defence).ToArray();
+        var scored = new double[teams.Length]; var conceded = new double[teams.Length];
+        var exposure = new double[teams.Length];
+        var weightedHomeGoals = 0d;
+        for (var m = 0; m < matches.Count; m++)
         {
-            var match = matches[i];
-            var weight = weights[i];
-            var home = ratings.Find(match.HomeTeam);
-            var away = ratings.Find(match.AwayTeam);
-
-            Add(scored, match.HomeTeam, weight * match.FullTimeHomeGoals);
-            Add(scored, match.AwayTeam, weight * match.FullTimeAwayGoals);
-
-            Add(exposure, match.HomeTeam, weight * ratings.AverageGoals * away.Defence * ratings.HomeAdvantage);
-            Add(exposure, match.AwayTeam, weight * ratings.AverageGoals * home.Defence);
+            var hg = weights[m] * matches[m].FullTimeHomeGoals;
+            var ag = weights[m] * matches[m].FullTimeAwayGoals;
+            scored[home[m]] += hg; scored[away[m]] += ag;
+            conceded[home[m]] += ag; conceded[away[m]] += hg;
+            weightedHomeGoals += hg;
         }
-
-        var prior = GetPrior(ratings, options);
-        var change = 0d;
-
-        foreach (var team in ratings.Teams)
+        var prior = options.PriorMatches * ratings.AverageGoals;
+        for (var iteration = 0; iteration < options.MaxIterations; iteration++)
         {
-            var attack = (scored[team.Team] + prior) / (exposure[team.Team] + prior);
-            change = Math.Max(change, Math.Abs(attack - team.Attack));
-            team.Attack = attack;
+            var change = 0d;
+            Array.Clear(exposure);
+            for (var m = 0; m < matches.Count; m++)
+            {
+                var w = weights[m] * ratings.AverageGoals;
+                exposure[home[m]] += w * defence[away[m]] * ratings.HomeAdvantage;
+                exposure[away[m]] += w * defence[home[m]];
+            }
+            for (var t = 0; t < teams.Length; t++)
+            {
+                var next = (scored[t] + prior) / (exposure[t] + prior);
+                change = Math.Max(change, Math.Abs(next - attack[t])); attack[t] = next;
+            }
+            Array.Clear(exposure);
+            for (var m = 0; m < matches.Count; m++)
+            {
+                var w = weights[m] * ratings.AverageGoals;
+                exposure[home[m]] += w * attack[away[m]];
+                exposure[away[m]] += w * attack[home[m]] * ratings.HomeAdvantage;
+            }
+            for (var t = 0; t < teams.Length; t++)
+            {
+                var next = (conceded[t] + prior) / (exposure[t] + prior);
+                change = Math.Max(change, Math.Abs(next - defence[t])); defence[t] = next;
+            }
+            var homeExposure = 0d;
+            for (var m = 0; m < matches.Count; m++) homeExposure += weights[m] * ratings.AverageGoals * attack[home[m]] * defence[away[m]];
+            if (homeExposure > 0)
+            {
+                var next = weightedHomeGoals / homeExposure;
+                change = Math.Max(change, Math.Abs(next - ratings.HomeAdvantage)); ratings.HomeAdvantage = next;
+            }
+            var mean = attack.Average();
+            if (mean > 0) for (var t = 0; t < teams.Length; t++) { attack[t] /= mean; defence[t] *= mean; }
+            if (change < options.Tolerance) break;
         }
-
-        return change;
-    }
-
-    private static double UpdateDefence(TeamRatings ratings, IReadOnlyList<Result> matches, double[] weights, ModelOptions options)
-    {
-        var conceded = new Dictionary<string, double>();
-        var exposure = new Dictionary<string, double>();
-
-        for (var i = 0; i < matches.Count; i++)
-        {
-            var match = matches[i];
-            var weight = weights[i];
-            var home = ratings.Find(match.HomeTeam);
-            var away = ratings.Find(match.AwayTeam);
-
-            Add(conceded, match.HomeTeam, weight * match.FullTimeAwayGoals);
-            Add(conceded, match.AwayTeam, weight * match.FullTimeHomeGoals);
-
-            Add(exposure, match.HomeTeam, weight * ratings.AverageGoals * away.Attack);
-            Add(exposure, match.AwayTeam, weight * ratings.AverageGoals * home.Attack * ratings.HomeAdvantage);
-        }
-
-        var prior = GetPrior(ratings, options);
-        var change = 0d;
-
-        foreach (var team in ratings.Teams)
-        {
-            var defence = (conceded[team.Team] + prior) / (exposure[team.Team] + prior);
-            change = Math.Max(change, Math.Abs(defence - team.Defence));
-            team.Defence = defence;
-        }
-
-        return change;
-    }
-
-    private static double UpdateHomeAdvantage(TeamRatings ratings, IReadOnlyList<Result> matches, double[] weights)
-    {
-        var homeGoals = 0d;
-        var exposure = 0d;
-
-        for (var i = 0; i < matches.Count; i++)
-        {
-            var match = matches[i];
-            var weight = weights[i];
-
-            homeGoals += weight * match.FullTimeHomeGoals;
-            exposure += weight * ratings.AverageGoals * ratings.Find(match.HomeTeam).Attack * ratings.Find(match.AwayTeam).Defence;
-        }
-
-        if (exposure <= 0)
-        {
-            return 0;
-        }
-
-        var homeAdvantage = homeGoals / exposure;
-        var change = Math.Abs(homeAdvantage - ratings.HomeAdvantage);
-        ratings.HomeAdvantage = homeAdvantage;
-
-        return change;
-    }
-
-    // A gamma prior centred on average, so a team with little history regresses to the league rather
-    // than to whatever its handful of matches happened to produce.
-    private static double GetPrior(TeamRatings ratings, ModelOptions options)
-    {
-        return options.PriorMatches * ratings.AverageGoals;
-    }
-
-    // Attack and defence are only identified up to a common scale factor, so pin the mean attack to 1.
-    private static void Normalise(TeamRatings ratings)
-    {
-        var mean = ratings.Teams.Average(x => x.Attack);
-
-        if (mean <= 0)
-        {
-            return;
-        }
-
-        foreach (var team in ratings.Teams)
-        {
-            team.Attack /= mean;
-            team.Defence *= mean;
-        }
-    }
-
-    private static void Add(Dictionary<string, double> totals, string team, double value)
-    {
-        totals[team] = totals.GetValueOrDefault(team) + value;
+        for (var t = 0; t < teams.Length; t++) { teams[t].Attack = attack[t]; teams[t].Defence = defence[t]; }
     }
 }

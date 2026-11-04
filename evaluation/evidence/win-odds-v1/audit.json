@@ -1,0 +1,5684 @@
+{
+  "Sha256": "0302ecb224ef6643f740b04705f27b39bf9d0e4c8fec8c9e24518324cb9afb7c",
+  "CodeSha": "468d913cb1e7640b0f1b7fe28f7eff962101cb6a",
+  "Metadata": {
+    "ExtractedAt": "2026-11-04T20:08:53.84107+00:00",
+    "SchemaVersion": "20260822113939_AddExpectedGoalsPerSide",
+    "Transaction": "515507:515507:"
+  },
+  "Results": 241380,
+  "Fixtures": 165,
+  "FirstResult": "1993-07-23T00:00:00",
+  "LastResult": "2026-08-20T00:00:00",
+  "Divisions": [
+    "B1",
+    "D1",
+    "D2",
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "EC",
+    "F1",
+    "F2",
+    "G1",
+    "I1",
+    "I2",
+    "N1",
+    "P1",
+    "SC0",
+    "SC1",
+    "SC2",
+    "SC3",
+    "SP1",
+    "SP2",
+    "T1"
+  ],
+  "SeasonDivision": [
+    {
+      "Division": "B1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 2002,
+      "Count": 272,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 2004,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "B1",
+      "Season": 2005,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9215686274509804,
+      "OverroundMax": 1.06832149413361
+    },
+    {
+      "Division": "B1",
+      "Season": 2006,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9956492637215529,
+      "OverroundMax": 1.076180767923887
+    },
+    {
+      "Division": "B1",
+      "Season": 2007,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.8899943927914771,
+      "OverroundMax": 1.062779497764018
+    },
+    {
+      "Division": "B1",
+      "Season": 2008,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9128090723182748,
+      "OverroundMax": 1.0571428571428572
+    },
+    {
+      "Division": "B1",
+      "Season": 2009,
+      "Count": 210,
+      "Priced": 210,
+      "OverroundMin": 0.9896666640852687,
+      "OverroundMax": 1.0403655625674395
+    },
+    {
+      "Division": "B1",
+      "Season": 2010,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9848473643234695,
+      "OverroundMax": 1.054093567251462
+    },
+    {
+      "Division": "B1",
+      "Season": 2011,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9817111727224087,
+      "OverroundMax": 1.0666666666666667
+    },
+    {
+      "Division": "B1",
+      "Season": 2012,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9702094059975983,
+      "OverroundMax": 1.0268251444722032
+    },
+    {
+      "Division": "B1",
+      "Season": 2013,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9832259312103775,
+      "OverroundMax": 1.0312918479325226
+    },
+    {
+      "Division": "B1",
+      "Season": 2014,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9604034403090842,
+      "OverroundMax": 1.0255783642880416
+    },
+    {
+      "Division": "B1",
+      "Season": 2015,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9720168222571401,
+      "OverroundMax": 1.0290683974894501
+    },
+    {
+      "Division": "B1",
+      "Season": 2016,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.6974105252793776,
+      "OverroundMax": 1.035985177465115
+    },
+    {
+      "Division": "B1",
+      "Season": 2017,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9456636625032675,
+      "OverroundMax": 1.0277653466474312
+    },
+    {
+      "Division": "B1",
+      "Season": 2018,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9719525350593311,
+      "OverroundMax": 1.032692779381521
+    },
+    {
+      "Division": "B1",
+      "Season": 2019,
+      "Count": 232,
+      "Priced": 232,
+      "OverroundMin": 1.0599235684751285,
+      "OverroundMax": 1.0702214616912615
+    },
+    {
+      "Division": "B1",
+      "Season": 2020,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0584301380390766,
+      "OverroundMax": 1.070334366964712
+    },
+    {
+      "Division": "B1",
+      "Season": 2021,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0546439652855328,
+      "OverroundMax": 1.0686768565953775
+    },
+    {
+      "Division": "B1",
+      "Season": 2022,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.056288071555247,
+      "OverroundMax": 1.0704868971901158
+    },
+    {
+      "Division": "B1",
+      "Season": 2023,
+      "Count": 312,
+      "Priced": 312,
+      "OverroundMin": 1.056456440123448,
+      "OverroundMax": 1.0706289749172724
+    },
+    {
+      "Division": "B1",
+      "Season": 2024,
+      "Count": 312,
+      "Priced": 312,
+      "OverroundMin": 1.0552562887028083,
+      "OverroundMax": 1.0716821092406552
+    },
+    {
+      "Division": "B1",
+      "Season": 2025,
+      "Count": 311,
+      "Priced": 311,
+      "OverroundMin": 1.068033150056487,
+      "OverroundMax": 1.0948387682915937
+    },
+    {
+      "Division": "B1",
+      "Season": 2026,
+      "Count": 18,
+      "Priced": 18,
+      "OverroundMin": 1.074528241671032,
+      "OverroundMax": 1.087014511310286
+    },
+    {
+      "Division": "D1",
+      "Season": 1993,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 2002,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 2004,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D1",
+      "Season": 2005,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9542908072319838,
+      "OverroundMax": 1.0444203683640303
+    },
+    {
+      "Division": "D1",
+      "Season": 2006,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9803256445047489,
+      "OverroundMax": 1.0552732291862728
+    },
+    {
+      "Division": "D1",
+      "Season": 2007,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9825885689263298,
+      "OverroundMax": 1.046318380796383
+    },
+    {
+      "Division": "D1",
+      "Season": 2008,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9528571221541092,
+      "OverroundMax": 1.0253598061015108
+    },
+    {
+      "Division": "D1",
+      "Season": 2009,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9800948771126844,
+      "OverroundMax": 1.0272727272727273
+    },
+    {
+      "Division": "D1",
+      "Season": 2010,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9530902728519411,
+      "OverroundMax": 1.021760283327894
+    },
+    {
+      "Division": "D1",
+      "Season": 2011,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9673686467955247,
+      "OverroundMax": 1.022273425499232
+    },
+    {
+      "Division": "D1",
+      "Season": 2012,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9436522177489706,
+      "OverroundMax": 1.02091601183539
+    },
+    {
+      "Division": "D1",
+      "Season": 2013,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9310924369747899,
+      "OverroundMax": 1.0204932557800155
+    },
+    {
+      "Division": "D1",
+      "Season": 2014,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9399131274131274,
+      "OverroundMax": 1.0144927536231885
+    },
+    {
+      "Division": "D1",
+      "Season": 2015,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9599383892137324,
+      "OverroundMax": 1.0178833253564892
+    },
+    {
+      "Division": "D1",
+      "Season": 2016,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9500539567713111,
+      "OverroundMax": 1.017555290514474
+    },
+    {
+      "Division": "D1",
+      "Season": 2017,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9166520958910414,
+      "OverroundMax": 1.0153297682709448
+    },
+    {
+      "Division": "D1",
+      "Season": 2018,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9596598121350596,
+      "OverroundMax": 1.0194886465224386
+    },
+    {
+      "Division": "D1",
+      "Season": 2019,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0426029940173889,
+      "OverroundMax": 1.0534265321303042
+    },
+    {
+      "Division": "D1",
+      "Season": 2020,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0396715460259276,
+      "OverroundMax": 1.0525841174322905
+    },
+    {
+      "Division": "D1",
+      "Season": 2021,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0361694673455843,
+      "OverroundMax": 1.050080930669759
+    },
+    {
+      "Division": "D1",
+      "Season": 2022,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0356891001359887,
+      "OverroundMax": 1.0480980448676533
+    },
+    {
+      "Division": "D1",
+      "Season": 2023,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0362324868391344,
+      "OverroundMax": 1.0472919714737468
+    },
+    {
+      "Division": "D1",
+      "Season": 2024,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.036592643066944,
+      "OverroundMax": 1.0547030272599844
+    },
+    {
+      "Division": "D1",
+      "Season": 2025,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0580204328072498,
+      "OverroundMax": 1.0766187496783841
+    },
+    {
+      "Division": "D2",
+      "Season": 1993,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 2002,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 2004,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "D2",
+      "Season": 2005,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9483704701096005,
+      "OverroundMax": 1.1232795443758898
+    },
+    {
+      "Division": "D2",
+      "Season": 2006,
+      "Count": 306,
+      "Priced": 303,
+      "OverroundMin": 0.8437118437118437,
+      "OverroundMax": 1.065850815850816
+    },
+    {
+      "Division": "D2",
+      "Season": 2007,
+      "Count": 306,
+      "Priced": 305,
+      "OverroundMin": 0.986633783948362,
+      "OverroundMax": 1.062779497764018
+    },
+    {
+      "Division": "D2",
+      "Season": 2008,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9743163812931255,
+      "OverroundMax": 1.0621814211046514
+    },
+    {
+      "Division": "D2",
+      "Season": 2009,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9624190306008488,
+      "OverroundMax": 1.0422302071137308
+    },
+    {
+      "Division": "D2",
+      "Season": 2010,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9632701145403224,
+      "OverroundMax": 1.0476082834143339
+    },
+    {
+      "Division": "D2",
+      "Season": 2011,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9474397375552703,
+      "OverroundMax": 1.0366770584999083
+    },
+    {
+      "Division": "D2",
+      "Season": 2012,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.950243873423745,
+      "OverroundMax": 1.0296197474703292
+    },
+    {
+      "Division": "D2",
+      "Season": 2013,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9393939393939394,
+      "OverroundMax": 1.0291379646218355
+    },
+    {
+      "Division": "D2",
+      "Season": 2014,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9555555555555556,
+      "OverroundMax": 1.0226811103588354
+    },
+    {
+      "Division": "D2",
+      "Season": 2015,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9608923500579312,
+      "OverroundMax": 1.0301401640511014
+    },
+    {
+      "Division": "D2",
+      "Season": 2016,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9492606261454646,
+      "OverroundMax": 1.0256714118535855
+    },
+    {
+      "Division": "D2",
+      "Season": 2017,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9594504084379206,
+      "OverroundMax": 1.0295682269077435
+    },
+    {
+      "Division": "D2",
+      "Season": 2018,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9687386404943656,
+      "OverroundMax": 1.0285641083164652
+    },
+    {
+      "Division": "D2",
+      "Season": 2019,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.059299895506792,
+      "OverroundMax": 1.0698156536114363
+    },
+    {
+      "Division": "D2",
+      "Season": 2020,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0580712827864924,
+      "OverroundMax": 1.0698032483104427
+    },
+    {
+      "Division": "D2",
+      "Season": 2021,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.054817005407768,
+      "OverroundMax": 1.0688450533332499
+    },
+    {
+      "Division": "D2",
+      "Season": 2022,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0556676334420085,
+      "OverroundMax": 1.0688689990783287
+    },
+    {
+      "Division": "D2",
+      "Season": 2023,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0562220437002543,
+      "OverroundMax": 1.068537985499955
+    },
+    {
+      "Division": "D2",
+      "Season": 2024,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0552428946910732,
+      "OverroundMax": 1.0722615176036705
+    },
+    {
+      "Division": "D2",
+      "Season": 2025,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0731566682623412,
+      "OverroundMax": 1.095566007014389
+    },
+    {
+      "Division": "D2",
+      "Season": 2026,
+      "Count": 18,
+      "Priced": 18,
+      "OverroundMin": 1.0799288802683153,
+      "OverroundMax": 1.0937176031515654
+    },
+    {
+      "Division": "E0",
+      "Season": 1993,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 1994,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 1995,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 1996,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 1997,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 1998,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 1999,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 2000,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 2001,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 2002,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 2003,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 2004,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E0",
+      "Season": 2005,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.5409090909090909,
+      "OverroundMax": 1.0515683147262094
+    },
+    {
+      "Division": "E0",
+      "Season": 2006,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.8051961823966066,
+      "OverroundMax": 1.0482853139414767
+    },
+    {
+      "Division": "E0",
+      "Season": 2007,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9814477404823465,
+      "OverroundMax": 1.0404533230887438
+    },
+    {
+      "Division": "E0",
+      "Season": 2008,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9797099428252685,
+      "OverroundMax": 1.0308275672455665
+    },
+    {
+      "Division": "E0",
+      "Season": 2009,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9600591087267104,
+      "OverroundMax": 1.0281269532606432
+    },
+    {
+      "Division": "E0",
+      "Season": 2010,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9743265993265993,
+      "OverroundMax": 1.0199851463754486
+    },
+    {
+      "Division": "E0",
+      "Season": 2011,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9805810627728435,
+      "OverroundMax": 1.0211737583078404
+    },
+    {
+      "Division": "E0",
+      "Season": 2012,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9760869601140872,
+      "OverroundMax": 1.0183986662937123
+    },
+    {
+      "Division": "E0",
+      "Season": 2013,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9620628729929946,
+      "OverroundMax": 1.0158157602663707
+    },
+    {
+      "Division": "E0",
+      "Season": 2014,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9618433179723502,
+      "OverroundMax": 1.0133288347884104
+    },
+    {
+      "Division": "E0",
+      "Season": 2015,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.970151828847481,
+      "OverroundMax": 1.0155007167822947
+    },
+    {
+      "Division": "E0",
+      "Season": 2016,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9291845493562232,
+      "OverroundMax": 1.0118168187512162
+    },
+    {
+      "Division": "E0",
+      "Season": 2017,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9566015595427361,
+      "OverroundMax": 1.0112022480443532
+    },
+    {
+      "Division": "E0",
+      "Season": 2018,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9621727478870337,
+      "OverroundMax": 1.0139074321317312
+    },
+    {
+      "Division": "E0",
+      "Season": 2019,
+      "Count": 314,
+      "Priced": 314,
+      "OverroundMin": 1.0350242110817105,
+      "OverroundMax": 1.0471676817679412
+    },
+    {
+      "Division": "E0",
+      "Season": 2020,
+      "Count": 446,
+      "Priced": 446,
+      "OverroundMin": 1.0367015965547497,
+      "OverroundMax": 1.0518785287656809
+    },
+    {
+      "Division": "E0",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0344204193754016,
+      "OverroundMax": 1.0466954849960768
+    },
+    {
+      "Division": "E0",
+      "Season": 2022,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0344983025977095,
+      "OverroundMax": 1.0474837404511503
+    },
+    {
+      "Division": "E0",
+      "Season": 2023,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0350697340550983,
+      "OverroundMax": 1.0468405863142705
+    },
+    {
+      "Division": "E0",
+      "Season": 2024,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0362607055576771,
+      "OverroundMax": 1.0552997850272248
+    },
+    {
+      "Division": "E0",
+      "Season": 2025,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0493988532683667,
+      "OverroundMax": 1.0725274725274725
+    },
+    {
+      "Division": "E1",
+      "Season": 1993,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 1994,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 1995,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 1996,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 1997,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 1998,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 1999,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 2000,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 2001,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 2002,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 2003,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 2004,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E1",
+      "Season": 2005,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.7544351073762838,
+      "OverroundMax": 1.0703848298940324
+    },
+    {
+      "Division": "E1",
+      "Season": 2006,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.863597298956415,
+      "OverroundMax": 1.0656777212398365
+    },
+    {
+      "Division": "E1",
+      "Season": 2007,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.45795568816686144,
+      "OverroundMax": 1.0531187122736418
+    },
+    {
+      "Division": "E1",
+      "Season": 2008,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9777777777777779,
+      "OverroundMax": 1.0413085896956864
+    },
+    {
+      "Division": "E1",
+      "Season": 2009,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9758555383384478,
+      "OverroundMax": 1.0385228806281437
+    },
+    {
+      "Division": "E1",
+      "Season": 2010,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9543010752688171,
+      "OverroundMax": 1.031568803951438
+    },
+    {
+      "Division": "E1",
+      "Season": 2011,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9819874474536245,
+      "OverroundMax": 1.03094688221709
+    },
+    {
+      "Division": "E1",
+      "Season": 2012,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9693206095997722,
+      "OverroundMax": 1.0238243207250746
+    },
+    {
+      "Division": "E1",
+      "Season": 2013,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9620628238154337,
+      "OverroundMax": 1.0250896057347672
+    },
+    {
+      "Division": "E1",
+      "Season": 2014,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9744036290397088,
+      "OverroundMax": 1.0211511789181693
+    },
+    {
+      "Division": "E1",
+      "Season": 2015,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9712957644890272,
+      "OverroundMax": 1.0214958080653032
+    },
+    {
+      "Division": "E1",
+      "Season": 2016,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9605509911003075,
+      "OverroundMax": 1.01822825960757
+    },
+    {
+      "Division": "E1",
+      "Season": 2017,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9781213777115416,
+      "OverroundMax": 1.0216683900894425
+    },
+    {
+      "Division": "E1",
+      "Season": 2018,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9620211721052057,
+      "OverroundMax": 1.0193955459778152
+    },
+    {
+      "Division": "E1",
+      "Season": 2019,
+      "Count": 475,
+      "Priced": 475,
+      "OverroundMin": 1.04812788641535,
+      "OverroundMax": 1.0588835716712954
+    },
+    {
+      "Division": "E1",
+      "Season": 2020,
+      "Count": 629,
+      "Priced": 629,
+      "OverroundMin": 1.0495647750061954,
+      "OverroundMax": 1.0628659603959805
+    },
+    {
+      "Division": "E1",
+      "Season": 2021,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0466950119734486,
+      "OverroundMax": 1.060266349897493
+    },
+    {
+      "Division": "E1",
+      "Season": 2022,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0496311244913488,
+      "OverroundMax": 1.0592962545076436
+    },
+    {
+      "Division": "E1",
+      "Season": 2023,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.048932210031348,
+      "OverroundMax": 1.0635185971246754
+    },
+    {
+      "Division": "E1",
+      "Season": 2024,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.049745767584751,
+      "OverroundMax": 1.0664129630398895
+    },
+    {
+      "Division": "E1",
+      "Season": 2025,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0583657236275164,
+      "OverroundMax": 1.0755550299485812
+    },
+    {
+      "Division": "E1",
+      "Season": 2026,
+      "Count": 12,
+      "Priced": 12,
+      "OverroundMin": 1.0604338157910602,
+      "OverroundMax": 1.0694409974285262
+    },
+    {
+      "Division": "E2",
+      "Season": 1993,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 1994,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 1995,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 1996,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 1997,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 1998,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 1999,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 2000,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 2001,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 2002,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 2003,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 2004,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E2",
+      "Season": 2005,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9607843137254901,
+      "OverroundMax": 1.076839826839827
+    },
+    {
+      "Division": "E2",
+      "Season": 2006,
+      "Count": 552,
+      "Priced": 551,
+      "OverroundMin": 0.9955669224211424,
+      "OverroundMax": 1.1190237750825265
+    },
+    {
+      "Division": "E2",
+      "Season": 2007,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9560990120345343,
+      "OverroundMax": 1.1034265071393232
+    },
+    {
+      "Division": "E2",
+      "Season": 2008,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9392508076718602,
+      "OverroundMax": 1.0633406802010958
+    },
+    {
+      "Division": "E2",
+      "Season": 2009,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.970911903943966,
+      "OverroundMax": 1.0524475524475523
+    },
+    {
+      "Division": "E2",
+      "Season": 2010,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9679410557326379,
+      "OverroundMax": 1.0549206288023334
+    },
+    {
+      "Division": "E2",
+      "Season": 2011,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9846544861650601,
+      "OverroundMax": 1.032183908045977
+    },
+    {
+      "Division": "E2",
+      "Season": 2012,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9741910557326379,
+      "OverroundMax": 1.0267268669641065
+    },
+    {
+      "Division": "E2",
+      "Season": 2013,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9651186509825254,
+      "OverroundMax": 1.02338279634198
+    },
+    {
+      "Division": "E2",
+      "Season": 2014,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9687603855101363,
+      "OverroundMax": 1.0224920007528704
+    },
+    {
+      "Division": "E2",
+      "Season": 2015,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9716540562244717,
+      "OverroundMax": 1.0238513345127482
+    },
+    {
+      "Division": "E2",
+      "Season": 2016,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9654234654234655,
+      "OverroundMax": 1.0271121913447474
+    },
+    {
+      "Division": "E2",
+      "Season": 2017,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9412397216951297,
+      "OverroundMax": 1.0251472680656846
+    },
+    {
+      "Division": "E2",
+      "Season": 2018,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9763723873312914,
+      "OverroundMax": 1.0272366522366523
+    },
+    {
+      "Division": "E2",
+      "Season": 2019,
+      "Count": 400,
+      "Priced": 399,
+      "OverroundMin": 1.0587691986177798,
+      "OverroundMax": 1.0707062449126126
+    },
+    {
+      "Division": "E2",
+      "Season": 2020,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0591527996433792,
+      "OverroundMax": 1.0702343423136793
+    },
+    {
+      "Division": "E2",
+      "Season": 2021,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0102303787582976,
+      "OverroundMax": 1.069169020412064
+    },
+    {
+      "Division": "E2",
+      "Season": 2022,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0560814733242354,
+      "OverroundMax": 1.0728069614876228
+    },
+    {
+      "Division": "E2",
+      "Season": 2023,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0603792228402038,
+      "OverroundMax": 1.0749035086926768
+    },
+    {
+      "Division": "E2",
+      "Season": 2024,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0632200656680462,
+      "OverroundMax": 1.0790850421965097
+    },
+    {
+      "Division": "E2",
+      "Season": 2025,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0647781857868086,
+      "OverroundMax": 1.0840373591573036
+    },
+    {
+      "Division": "E2",
+      "Season": 2026,
+      "Count": 13,
+      "Priced": 13,
+      "OverroundMin": 1.069517938827198,
+      "OverroundMax": 1.080589441551027
+    },
+    {
+      "Division": "E3",
+      "Season": 1993,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 1994,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 1995,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 1996,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 1997,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 1998,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 1999,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 2000,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 2001,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 2002,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 2003,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 2004,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "E3",
+      "Season": 2005,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9191176470588236,
+      "OverroundMax": 1.0794919366347937
+    },
+    {
+      "Division": "E3",
+      "Season": 2006,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9611056123758202,
+      "OverroundMax": 1.0752361673414306
+    },
+    {
+      "Division": "E3",
+      "Season": 2007,
+      "Count": 552,
+      "Priced": 551,
+      "OverroundMin": 0.9378881987577641,
+      "OverroundMax": 1.0777282419073464
+    },
+    {
+      "Division": "E3",
+      "Season": 2008,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9642857142857142,
+      "OverroundMax": 1.0601731601731603
+    },
+    {
+      "Division": "E3",
+      "Season": 2009,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9675290689831926,
+      "OverroundMax": 1.0482329977398808
+    },
+    {
+      "Division": "E3",
+      "Season": 2010,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9509110369942508,
+      "OverroundMax": 1.0357142857142856
+    },
+    {
+      "Division": "E3",
+      "Season": 2011,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9589870630333058,
+      "OverroundMax": 1.0295702332657202
+    },
+    {
+      "Division": "E3",
+      "Season": 2012,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9797647872708406,
+      "OverroundMax": 1.0319753526603268
+    },
+    {
+      "Division": "E3",
+      "Season": 2013,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9759358288770054,
+      "OverroundMax": 1.0246235744399759
+    },
+    {
+      "Division": "E3",
+      "Season": 2014,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9434343434343434,
+      "OverroundMax": 1.0215208456120648
+    },
+    {
+      "Division": "E3",
+      "Season": 2015,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9725511826352162,
+      "OverroundMax": 1.0233567823700649
+    },
+    {
+      "Division": "E3",
+      "Season": 2016,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9662950479647394,
+      "OverroundMax": 1.0252163295641556
+    },
+    {
+      "Division": "E3",
+      "Season": 2017,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9621834365823175,
+      "OverroundMax": 1.0279014133848663
+    },
+    {
+      "Division": "E3",
+      "Season": 2018,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9436749769159742,
+      "OverroundMax": 1.0280740333516585
+    },
+    {
+      "Division": "E3",
+      "Season": 2019,
+      "Count": 440,
+      "Priced": 436,
+      "OverroundMin": 1.0584730090703613,
+      "OverroundMax": 1.0728474255471712
+    },
+    {
+      "Division": "E3",
+      "Season": 2020,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0610145073647268,
+      "OverroundMax": 1.071230713332398
+    },
+    {
+      "Division": "E3",
+      "Season": 2021,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0586302442240145,
+      "OverroundMax": 1.0729350970314826
+    },
+    {
+      "Division": "E3",
+      "Season": 2022,
+      "Count": 552,
+      "Priced": 551,
+      "OverroundMin": 1.059481076831163,
+      "OverroundMax": 1.074635947794704
+    },
+    {
+      "Division": "E3",
+      "Season": 2023,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0621063136307038,
+      "OverroundMax": 1.0744483541442285
+    },
+    {
+      "Division": "E3",
+      "Season": 2024,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.063845832932191,
+      "OverroundMax": 1.0793108395084499
+    },
+    {
+      "Division": "E3",
+      "Season": 2025,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.0685943085584668,
+      "OverroundMax": 1.0870714605556375
+    },
+    {
+      "Division": "E3",
+      "Season": 2026,
+      "Count": 12,
+      "Priced": 12,
+      "OverroundMin": 1.0725063058125892,
+      "OverroundMax": 1.0796981516104758
+    },
+    {
+      "Division": "EC",
+      "Season": 2005,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9666131621187801,
+      "OverroundMax": 1.0771394061762
+    },
+    {
+      "Division": "EC",
+      "Season": 2006,
+      "Count": 552,
+      "Priced": 551,
+      "OverroundMin": 0.8576097105508871,
+      "OverroundMax": 1.0819964349376114
+    },
+    {
+      "Division": "EC",
+      "Season": 2007,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.991901776384535,
+      "OverroundMax": 1.1151422644906266
+    },
+    {
+      "Division": "EC",
+      "Season": 2008,
+      "Count": 552,
+      "Priced": 537,
+      "OverroundMin": 0.9702984149827107,
+      "OverroundMax": 1.1813240147544166
+    },
+    {
+      "Division": "EC",
+      "Season": 2009,
+      "Count": 506,
+      "Priced": 506,
+      "OverroundMin": 0.8608693782316084,
+      "OverroundMax": 1.0714761376248614
+    },
+    {
+      "Division": "EC",
+      "Season": 2010,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9740074542213579,
+      "OverroundMax": 1.0506172839506172
+    },
+    {
+      "Division": "EC",
+      "Season": 2011,
+      "Count": 552,
+      "Priced": 531,
+      "OverroundMin": 0.9378048780487805,
+      "OverroundMax": 1.1143833938209835
+    },
+    {
+      "Division": "EC",
+      "Season": 2012,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9508667502088555,
+      "OverroundMax": 1.048356807511737
+    },
+    {
+      "Division": "EC",
+      "Season": 2013,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9782662692498758,
+      "OverroundMax": 1.0457900713822195
+    },
+    {
+      "Division": "EC",
+      "Season": 2014,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.944968273735397,
+      "OverroundMax": 1.030284928785796
+    },
+    {
+      "Division": "EC",
+      "Season": 2015,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9649096968161672,
+      "OverroundMax": 1.0297671362952634
+    },
+    {
+      "Division": "EC",
+      "Season": 2016,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9797999271683482,
+      "OverroundMax": 1.0512099921935987
+    },
+    {
+      "Division": "EC",
+      "Season": 2017,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9723480762315713,
+      "OverroundMax": 1.044825947558694
+    },
+    {
+      "Division": "EC",
+      "Season": 2018,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 0.9705287204374018,
+      "OverroundMax": 1.044579533941236
+    },
+    {
+      "Division": "EC",
+      "Season": 2019,
+      "Count": 451,
+      "Priced": 451,
+      "OverroundMin": 1.069433356336459,
+      "OverroundMax": 1.088368811321006
+    },
+    {
+      "Division": "EC",
+      "Season": 2020,
+      "Count": 477,
+      "Priced": 476,
+      "OverroundMin": 1.0698339802817414,
+      "OverroundMax": 1.0980028202250425
+    },
+    {
+      "Division": "EC",
+      "Season": 2021,
+      "Count": 506,
+      "Priced": 506,
+      "OverroundMin": 1.0683284686726733,
+      "OverroundMax": 1.0900405986489201
+    },
+    {
+      "Division": "EC",
+      "Season": 2022,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.07647941120522,
+      "OverroundMax": 1.091332153425677
+    },
+    {
+      "Division": "EC",
+      "Season": 2023,
+      "Count": 552,
+      "Priced": 551,
+      "OverroundMin": 1.077235642080764,
+      "OverroundMax": 1.0943254575330048
+    },
+    {
+      "Division": "EC",
+      "Season": 2024,
+      "Count": 552,
+      "Priced": 552,
+      "OverroundMin": 1.078209843695789,
+      "OverroundMax": 1.095231519837982
+    },
+    {
+      "Division": "EC",
+      "Season": 2025,
+      "Count": 552,
+      "Priced": 540,
+      "OverroundMin": 1.091180004903801,
+      "OverroundMax": 1.117724446977813
+    },
+    {
+      "Division": "EC",
+      "Season": 2026,
+      "Count": 24,
+      "Priced": 24,
+      "OverroundMin": 1.0976479657473333,
+      "OverroundMax": 1.1067539390959542
+    },
+    {
+      "Division": "F1",
+      "Season": 1993,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 1994,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 1995,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 1996,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 2002,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 2003,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 2004,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F1",
+      "Season": 2005,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9437229437229437,
+      "OverroundMax": 1.053030303030303
+    },
+    {
+      "Division": "F1",
+      "Season": 2006,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9690120987178252,
+      "OverroundMax": 1.0580275826177465
+    },
+    {
+      "Division": "F1",
+      "Season": 2007,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.995092874702203,
+      "OverroundMax": 1.0496794871794872
+    },
+    {
+      "Division": "F1",
+      "Season": 2008,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9837326234841762,
+      "OverroundMax": 1.0474371839713175
+    },
+    {
+      "Division": "F1",
+      "Season": 2009,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9707650839726312,
+      "OverroundMax": 1.028904428904429
+    },
+    {
+      "Division": "F1",
+      "Season": 2010,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.7389937551482799,
+      "OverroundMax": 1.034113702073925
+    },
+    {
+      "Division": "F1",
+      "Season": 2011,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9668109668109668,
+      "OverroundMax": 1.0267857142857142
+    },
+    {
+      "Division": "F1",
+      "Season": 2012,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9761904761904762,
+      "OverroundMax": 1.0244894427137416
+    },
+    {
+      "Division": "F1",
+      "Season": 2013,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.949874686716792,
+      "OverroundMax": 1.0350806451612904
+    },
+    {
+      "Division": "F1",
+      "Season": 2014,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.950525664811379,
+      "OverroundMax": 1.0170739348370927
+    },
+    {
+      "Division": "F1",
+      "Season": 2015,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9601538209785633,
+      "OverroundMax": 1.0224363450169902
+    },
+    {
+      "Division": "F1",
+      "Season": 2016,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9244082152211696,
+      "OverroundMax": 1.019615556686876
+    },
+    {
+      "Division": "F1",
+      "Season": 2017,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9569507969507969,
+      "OverroundMax": 1.022241563626387
+    },
+    {
+      "Division": "F1",
+      "Season": 2018,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9637330754352031,
+      "OverroundMax": 1.019907546774549
+    },
+    {
+      "Division": "F1",
+      "Season": 2019,
+      "Count": 279,
+      "Priced": 279,
+      "OverroundMin": 1.045500053092244,
+      "OverroundMax": 1.057575394598294
+    },
+    {
+      "Division": "F1",
+      "Season": 2020,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0437084054247985,
+      "OverroundMax": 1.058466283584767
+    },
+    {
+      "Division": "F1",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.041133448344794,
+      "OverroundMax": 1.0547618355873851
+    },
+    {
+      "Division": "F1",
+      "Season": 2022,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.040474696266573,
+      "OverroundMax": 1.0547037924687026
+    },
+    {
+      "Division": "F1",
+      "Season": 2023,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0394153157882884,
+      "OverroundMax": 1.0551426718420274
+    },
+    {
+      "Division": "F1",
+      "Season": 2024,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0422415594966987,
+      "OverroundMax": 1.058917571824893
+    },
+    {
+      "Division": "F1",
+      "Season": 2025,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0560106298647862,
+      "OverroundMax": 1.078540918408356
+    },
+    {
+      "Division": "F2",
+      "Season": 1996,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 1997,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 1998,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 1999,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 2000,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 2001,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 2002,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 2003,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 2004,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "F2",
+      "Season": 2005,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9128349128349127,
+      "OverroundMax": 1.0788623141564317
+    },
+    {
+      "Division": "F2",
+      "Season": 2006,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9855131605794736,
+      "OverroundMax": 1.1165479977781145
+    },
+    {
+      "Division": "F2",
+      "Season": 2007,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9711132749107432,
+      "OverroundMax": 1.0686182454202338
+    },
+    {
+      "Division": "F2",
+      "Season": 2008,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9589528118939884,
+      "OverroundMax": 1.059029599041234
+    },
+    {
+      "Division": "F2",
+      "Season": 2009,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9673065587825528,
+      "OverroundMax": 1.0527393753200205
+    },
+    {
+      "Division": "F2",
+      "Season": 2010,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9655419956927495,
+      "OverroundMax": 1.0514809009157662
+    },
+    {
+      "Division": "F2",
+      "Season": 2011,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.737935271042232,
+      "OverroundMax": 1.0389610389610389
+    },
+    {
+      "Division": "F2",
+      "Season": 2012,
+      "Count": 380,
+      "Priced": 370,
+      "OverroundMin": 0.9719651667211736,
+      "OverroundMax": 1.0273008725021109
+    },
+    {
+      "Division": "F2",
+      "Season": 2013,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9541631023666952,
+      "OverroundMax": 1.030769389327335
+    },
+    {
+      "Division": "F2",
+      "Season": 2014,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9571038098956881,
+      "OverroundMax": 1.0257377972572395
+    },
+    {
+      "Division": "F2",
+      "Season": 2015,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9602341686299707,
+      "OverroundMax": 1.0266305398151239
+    },
+    {
+      "Division": "F2",
+      "Season": 2016,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9567637574902754,
+      "OverroundMax": 1.0379188712522045
+    },
+    {
+      "Division": "F2",
+      "Season": 2017,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9670007587876488,
+      "OverroundMax": 1.0301990747959873
+    },
+    {
+      "Division": "F2",
+      "Season": 2018,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9654683173229583,
+      "OverroundMax": 1.0270920323297439
+    },
+    {
+      "Division": "F2",
+      "Season": 2019,
+      "Count": 280,
+      "Priced": 280,
+      "OverroundMin": 1.06531986271022,
+      "OverroundMax": 1.0759788457442558
+    },
+    {
+      "Division": "F2",
+      "Season": 2020,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0646664793322522,
+      "OverroundMax": 1.0832713845934043
+    },
+    {
+      "Division": "F2",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0610517545330305,
+      "OverroundMax": 1.0733419277535472
+    },
+    {
+      "Division": "F2",
+      "Season": 2022,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0614683370114113,
+      "OverroundMax": 1.0757920902037938
+    },
+    {
+      "Division": "F2",
+      "Season": 2023,
+      "Count": 379,
+      "Priced": 379,
+      "OverroundMin": 1.0642612726312728,
+      "OverroundMax": 1.0788544175566726
+    },
+    {
+      "Division": "F2",
+      "Season": 2024,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0636188755418894,
+      "OverroundMax": 1.081005988548265
+    },
+    {
+      "Division": "F2",
+      "Season": 2025,
+      "Count": 305,
+      "Priced": 305,
+      "OverroundMin": 1.079233127051919,
+      "OverroundMax": 1.162991365417702
+    },
+    {
+      "Division": "F2",
+      "Season": 2026,
+      "Count": 18,
+      "Priced": 18,
+      "OverroundMin": 1.0804913243937633,
+      "OverroundMax": 1.0932168543203227
+    },
+    {
+      "Division": "G1",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 2000,
+      "Count": 240,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 2001,
+      "Count": 182,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 2002,
+      "Count": 240,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 2003,
+      "Count": 240,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 2004,
+      "Count": 240,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "G1",
+      "Season": 2005,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9334684228301249,
+      "OverroundMax": 1.0847069597069596
+    },
+    {
+      "Division": "G1",
+      "Season": 2006,
+      "Count": 240,
+      "Priced": 236,
+      "OverroundMin": 0.9977591036414566,
+      "OverroundMax": 1.1124409144211125
+    },
+    {
+      "Division": "G1",
+      "Season": 2007,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9285040154777647,
+      "OverroundMax": 1.0729885057471265
+    },
+    {
+      "Division": "G1",
+      "Season": 2008,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9408271908271908,
+      "OverroundMax": 1.0833333333333335
+    },
+    {
+      "Division": "G1",
+      "Season": 2009,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9927614522727832,
+      "OverroundMax": 1.0671161642869733
+    },
+    {
+      "Division": "G1",
+      "Season": 2010,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9619047619047618,
+      "OverroundMax": 1.1199584728996494
+    },
+    {
+      "Division": "G1",
+      "Season": 2011,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9799082313681868,
+      "OverroundMax": 1.0585858585858587
+    },
+    {
+      "Division": "G1",
+      "Season": 2012,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9835897829451415,
+      "OverroundMax": 1.0511763279165656
+    },
+    {
+      "Division": "G1",
+      "Season": 2013,
+      "Count": 306,
+      "Priced": 305,
+      "OverroundMin": 0.8074712643678161,
+      "OverroundMax": 1.0426016260162603
+    },
+    {
+      "Division": "G1",
+      "Season": 2014,
+      "Count": 305,
+      "Priced": 281,
+      "OverroundMin": 0.9227962682425642,
+      "OverroundMax": 1.0488438510438751
+    },
+    {
+      "Division": "G1",
+      "Season": 2015,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9346739537424126,
+      "OverroundMax": 1.0525753457442262
+    },
+    {
+      "Division": "G1",
+      "Season": 2016,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.8236590962601946,
+      "OverroundMax": 1.0559139784946237
+    },
+    {
+      "Division": "G1",
+      "Season": 2017,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9612054612054612,
+      "OverroundMax": 1.0451770451770452
+    },
+    {
+      "Division": "G1",
+      "Season": 2018,
+      "Count": 239,
+      "Priced": 239,
+      "OverroundMin": 0.9750000000000001,
+      "OverroundMax": 1.0476363682503163
+    },
+    {
+      "Division": "G1",
+      "Season": 2019,
+      "Count": 210,
+      "Priced": 210,
+      "OverroundMin": 1.0687850252931603,
+      "OverroundMax": 1.0850223516655748
+    },
+    {
+      "Division": "G1",
+      "Season": 2020,
+      "Count": 270,
+      "Priced": 269,
+      "OverroundMin": 1.0664633335440787,
+      "OverroundMax": 1.0855176660795003
+    },
+    {
+      "Division": "G1",
+      "Season": 2021,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 1.0645377504966047,
+      "OverroundMax": 1.0772642390289449
+    },
+    {
+      "Division": "G1",
+      "Season": 2022,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 1.051888595276887,
+      "OverroundMax": 1.0780419037844144
+    },
+    {
+      "Division": "G1",
+      "Season": 2023,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 1.0623427192802906,
+      "OverroundMax": 1.0815194329887874
+    },
+    {
+      "Division": "G1",
+      "Season": 2024,
+      "Count": 233,
+      "Priced": 233,
+      "OverroundMin": 1.0635471424066336,
+      "OverroundMax": 1.0837782862954488
+    },
+    {
+      "Division": "G1",
+      "Season": 2025,
+      "Count": 236,
+      "Priced": 236,
+      "OverroundMin": 1.0818272949280532,
+      "OverroundMax": 1.105509738140482
+    },
+    {
+      "Division": "I1",
+      "Season": 1993,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 2002,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 2004,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I1",
+      "Season": 2005,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9007959817818074,
+      "OverroundMax": 1.067165996833516
+    },
+    {
+      "Division": "I1",
+      "Season": 2006,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9794372294372294,
+      "OverroundMax": 1.0533590485374478
+    },
+    {
+      "Division": "I1",
+      "Season": 2007,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9835148215366002,
+      "OverroundMax": 1.0447409733124018
+    },
+    {
+      "Division": "I1",
+      "Season": 2008,
+      "Count": 380,
+      "Priced": 379,
+      "OverroundMin": 0.8653249784899837,
+      "OverroundMax": 1.0346860767729344
+    },
+    {
+      "Division": "I1",
+      "Season": 2009,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.8599791013584117,
+      "OverroundMax": 1.114517061885483
+    },
+    {
+      "Division": "I1",
+      "Season": 2010,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9737386269644335,
+      "OverroundMax": 1.0559685731181887
+    },
+    {
+      "Division": "I1",
+      "Season": 2011,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9755772895415312,
+      "OverroundMax": 1.0277777777777777
+    },
+    {
+      "Division": "I1",
+      "Season": 2012,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9712045591306503,
+      "OverroundMax": 1.0208231201998272
+    },
+    {
+      "Division": "I1",
+      "Season": 2013,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9326996927803379,
+      "OverroundMax": 1.0202493584288133
+    },
+    {
+      "Division": "I1",
+      "Season": 2014,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9445689287238583,
+      "OverroundMax": 1.0130614845492194
+    },
+    {
+      "Division": "I1",
+      "Season": 2015,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9640438687959708,
+      "OverroundMax": 1.015806443792577
+    },
+    {
+      "Division": "I1",
+      "Season": 2016,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9453670603496388,
+      "OverroundMax": 1.0145235122763214
+    },
+    {
+      "Division": "I1",
+      "Season": 2017,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9472386587771203,
+      "OverroundMax": 1.0158966716343767
+    },
+    {
+      "Division": "I1",
+      "Season": 2018,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.962282486561997,
+      "OverroundMax": 1.0173780487804878
+    },
+    {
+      "Division": "I1",
+      "Season": 2019,
+      "Count": 282,
+      "Priced": 282,
+      "OverroundMin": 1.0427525095942873,
+      "OverroundMax": 1.055928930560388
+    },
+    {
+      "Division": "I1",
+      "Season": 2020,
+      "Count": 478,
+      "Priced": 478,
+      "OverroundMin": 1.0430614126424123,
+      "OverroundMax": 1.0562555560503661
+    },
+    {
+      "Division": "I1",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 379,
+      "OverroundMin": 1.038575318085745,
+      "OverroundMax": 1.0514984221710355
+    },
+    {
+      "Division": "I1",
+      "Season": 2022,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.039010056157764,
+      "OverroundMax": 1.0535112743844728
+    },
+    {
+      "Division": "I1",
+      "Season": 2023,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0392797782704115,
+      "OverroundMax": 1.0529729400042513
+    },
+    {
+      "Division": "I1",
+      "Season": 2024,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.039974177894274,
+      "OverroundMax": 1.057076655879051
+    },
+    {
+      "Division": "I1",
+      "Season": 2025,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9938835045764045,
+      "OverroundMax": 1.0796921313574868
+    },
+    {
+      "Division": "I2",
+      "Season": 1997,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 1998,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 1999,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 2000,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 2001,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 2002,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 2003,
+      "Count": 552,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 2004,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "I2",
+      "Season": 2005,
+      "Count": 462,
+      "Priced": 460,
+      "OverroundMin": 0.8783914728682171,
+      "OverroundMax": 1.0871814843663068
+    },
+    {
+      "Division": "I2",
+      "Season": 2006,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9492432631967516,
+      "OverroundMax": 1.0834165834165834
+    },
+    {
+      "Division": "I2",
+      "Season": 2007,
+      "Count": 462,
+      "Priced": 461,
+      "OverroundMin": 0.9722315888858916,
+      "OverroundMax": 1.06605132233569
+    },
+    {
+      "Division": "I2",
+      "Season": 2008,
+      "Count": 462,
+      "Priced": 461,
+      "OverroundMin": 0.9516651930445034,
+      "OverroundMax": 1.119047619047619
+    },
+    {
+      "Division": "I2",
+      "Season": 2009,
+      "Count": 462,
+      "Priced": 456,
+      "OverroundMin": 0.8623737373737373,
+      "OverroundMax": 1.232512315270936
+    },
+    {
+      "Division": "I2",
+      "Season": 2010,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9738095238095239,
+      "OverroundMax": 1.1033902087284115
+    },
+    {
+      "Division": "I2",
+      "Season": 2011,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.6090909090909091,
+      "OverroundMax": 1.0427350427350428
+    },
+    {
+      "Division": "I2",
+      "Season": 2012,
+      "Count": 462,
+      "Priced": 460,
+      "OverroundMin": 0.9707482993197278,
+      "OverroundMax": 1.0476190476190477
+    },
+    {
+      "Division": "I2",
+      "Season": 2013,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.7166666666666667,
+      "OverroundMax": 1.04103398149081
+    },
+    {
+      "Division": "I2",
+      "Season": 2014,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.904143475572047,
+      "OverroundMax": 1.0226342327327362
+    },
+    {
+      "Division": "I2",
+      "Season": 2015,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9172932330827068,
+      "OverroundMax": 1.039027690297898
+    },
+    {
+      "Division": "I2",
+      "Season": 2016,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9658666745031562,
+      "OverroundMax": 1.0378558336138854
+    },
+    {
+      "Division": "I2",
+      "Season": 2017,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9695570721263215,
+      "OverroundMax": 1.0274349928083162
+    },
+    {
+      "Division": "I2",
+      "Season": 2018,
+      "Count": 342,
+      "Priced": 342,
+      "OverroundMin": 0.9882260596546311,
+      "OverroundMax": 1.0314285714285716
+    },
+    {
+      "Division": "I2",
+      "Season": 2019,
+      "Count": 310,
+      "Priced": 310,
+      "OverroundMin": 1.0664021520590463,
+      "OverroundMax": 1.0748685355426928
+    },
+    {
+      "Division": "I2",
+      "Season": 2020,
+      "Count": 450,
+      "Priced": 442,
+      "OverroundMin": 1.0595105580698232,
+      "OverroundMax": 1.0778194991704448
+    },
+    {
+      "Division": "I2",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0623246846408851,
+      "OverroundMax": 1.0748833104436954
+    },
+    {
+      "Division": "I2",
+      "Season": 2022,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0587693232707083,
+      "OverroundMax": 1.0735307855556324
+    },
+    {
+      "Division": "I2",
+      "Season": 2023,
+      "Count": 380,
+      "Priced": 379,
+      "OverroundMin": 1.0589312398522925,
+      "OverroundMax": 1.0763743425033747
+    },
+    {
+      "Division": "I2",
+      "Season": 2024,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.058593714597641,
+      "OverroundMax": 1.0762617903451042
+    },
+    {
+      "Division": "I2",
+      "Season": 2025,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0779292709505948,
+      "OverroundMax": 1.097678199795636
+    },
+    {
+      "Division": "N1",
+      "Season": 1993,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 2002,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 2004,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "N1",
+      "Season": 2005,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.911325233905879,
+      "OverroundMax": 1.0632603406326033
+    },
+    {
+      "Division": "N1",
+      "Season": 2006,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9761904761904762,
+      "OverroundMax": 1.0702614379084967
+    },
+    {
+      "Division": "N1",
+      "Season": 2007,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9903381642512078,
+      "OverroundMax": 1.0703070916290531
+    },
+    {
+      "Division": "N1",
+      "Season": 2008,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.8232804232804233,
+      "OverroundMax": 1.054093567251462
+    },
+    {
+      "Division": "N1",
+      "Season": 2009,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9621902758298271,
+      "OverroundMax": 1.0453978593256412
+    },
+    {
+      "Division": "N1",
+      "Season": 2010,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.988657667791526,
+      "OverroundMax": 1.05
+    },
+    {
+      "Division": "N1",
+      "Season": 2011,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9747554541584993,
+      "OverroundMax": 1.0449468564222664
+    },
+    {
+      "Division": "N1",
+      "Season": 2012,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9837772397094431,
+      "OverroundMax": 1.0490930813511459
+    },
+    {
+      "Division": "N1",
+      "Season": 2013,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9615203491110018,
+      "OverroundMax": 1.0295744984650532
+    },
+    {
+      "Division": "N1",
+      "Season": 2014,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9522536287242169,
+      "OverroundMax": 1.020671834625323
+    },
+    {
+      "Division": "N1",
+      "Season": 2015,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9679802955665024,
+      "OverroundMax": 1.030580647441063
+    },
+    {
+      "Division": "N1",
+      "Season": 2016,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.961213603560947,
+      "OverroundMax": 1.0253643937854464
+    },
+    {
+      "Division": "N1",
+      "Season": 2017,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9591776693024959,
+      "OverroundMax": 1.0290110406389477
+    },
+    {
+      "Division": "N1",
+      "Season": 2018,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9686609686609686,
+      "OverroundMax": 1.0335710041592394
+    },
+    {
+      "Division": "N1",
+      "Season": 2019,
+      "Count": 232,
+      "Priced": 232,
+      "OverroundMin": 1.0559021655437268,
+      "OverroundMax": 1.0656370008887994
+    },
+    {
+      "Division": "N1",
+      "Season": 2020,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0519712611403709,
+      "OverroundMax": 1.0661677041986506
+    },
+    {
+      "Division": "N1",
+      "Season": 2021,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0466628021385933,
+      "OverroundMax": 1.0639156452233722
+    },
+    {
+      "Division": "N1",
+      "Season": 2022,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.049128209160269,
+      "OverroundMax": 1.0625755036390263
+    },
+    {
+      "Division": "N1",
+      "Season": 2023,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0492844901980949,
+      "OverroundMax": 1.0640853809878381
+    },
+    {
+      "Division": "N1",
+      "Season": 2024,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0510737674591786,
+      "OverroundMax": 1.0694429822451008
+    },
+    {
+      "Division": "N1",
+      "Season": 2025,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0605305850704623,
+      "OverroundMax": 1.0836940836940836
+    },
+    {
+      "Division": "N1",
+      "Season": 2026,
+      "Count": 18,
+      "Priced": 18,
+      "OverroundMin": 1.070373630699605,
+      "OverroundMax": 1.0827919483073096
+    },
+    {
+      "Division": "P1",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 2002,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 2004,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "P1",
+      "Season": 2005,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9650436953807741,
+      "OverroundMax": 1.0713286713286714
+    },
+    {
+      "Division": "P1",
+      "Season": 2006,
+      "Count": 240,
+      "Priced": 237,
+      "OverroundMin": 0.988562091503268,
+      "OverroundMax": 1.0953528612038066
+    },
+    {
+      "Division": "P1",
+      "Season": 2007,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9874178247623927,
+      "OverroundMax": 1.0611831173147226
+    },
+    {
+      "Division": "P1",
+      "Season": 2008,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9952601944756079,
+      "OverroundMax": 1.0615690168818273
+    },
+    {
+      "Division": "P1",
+      "Season": 2009,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9740760088807627,
+      "OverroundMax": 1.0555985597211333
+    },
+    {
+      "Division": "P1",
+      "Season": 2010,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9798215663035913,
+      "OverroundMax": 1.048812734676609
+    },
+    {
+      "Division": "P1",
+      "Season": 2011,
+      "Count": 240,
+      "Priced": 239,
+      "OverroundMin": 0.9793789005368925,
+      "OverroundMax": 1.0433333333333334
+    },
+    {
+      "Division": "P1",
+      "Season": 2012,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9645803471890428,
+      "OverroundMax": 1.0303187410910475
+    },
+    {
+      "Division": "P1",
+      "Season": 2013,
+      "Count": 240,
+      "Priced": 240,
+      "OverroundMin": 0.9794372294372294,
+      "OverroundMax": 1.0308130735441712
+    },
+    {
+      "Division": "P1",
+      "Season": 2014,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9528360597439545,
+      "OverroundMax": 1.0239213630924715
+    },
+    {
+      "Division": "P1",
+      "Season": 2015,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9637263321473848,
+      "OverroundMax": 1.030834117650838
+    },
+    {
+      "Division": "P1",
+      "Season": 2016,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9646038786830518,
+      "OverroundMax": 1.026931256685854
+    },
+    {
+      "Division": "P1",
+      "Season": 2017,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9713551230260742,
+      "OverroundMax": 1.024895458523777
+    },
+    {
+      "Division": "P1",
+      "Season": 2018,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9724553185275053,
+      "OverroundMax": 1.026718379659556
+    },
+    {
+      "Division": "P1",
+      "Season": 2019,
+      "Count": 259,
+      "Priced": 259,
+      "OverroundMin": 1.0597184379281832,
+      "OverroundMax": 1.0715939375705474
+    },
+    {
+      "Division": "P1",
+      "Season": 2020,
+      "Count": 353,
+      "Priced": 353,
+      "OverroundMin": 1.053175508275494,
+      "OverroundMax": 1.072602065556448
+    },
+    {
+      "Division": "P1",
+      "Season": 2021,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0516270297084649,
+      "OverroundMax": 1.0687299433111384
+    },
+    {
+      "Division": "P1",
+      "Season": 2022,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0491578078776513,
+      "OverroundMax": 1.070019929835271
+    },
+    {
+      "Division": "P1",
+      "Season": 2023,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.048483988817882,
+      "OverroundMax": 1.062182714969276
+    },
+    {
+      "Division": "P1",
+      "Season": 2024,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.051501888487353,
+      "OverroundMax": 1.0720172800742482
+    },
+    {
+      "Division": "P1",
+      "Season": 2025,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0708186373244908,
+      "OverroundMax": 1.090842490842491
+    },
+    {
+      "Division": "P1",
+      "Season": 2026,
+      "Count": 17,
+      "Priced": 17,
+      "OverroundMin": 1.0715165593214375,
+      "OverroundMax": 1.085969609389527
+    },
+    {
+      "Division": "SC0",
+      "Season": 1994,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 1995,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 1996,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 1997,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 1998,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 1999,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 2000,
+      "Count": 228,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 2001,
+      "Count": 228,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 2002,
+      "Count": 228,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 2003,
+      "Count": 228,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 2004,
+      "Count": 228,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC0",
+      "Season": 2005,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9792425622343655,
+      "OverroundMax": 1.06061693047847
+    },
+    {
+      "Division": "SC0",
+      "Season": 2006,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.0005316321105795,
+      "OverroundMax": 1.0647544545849632
+    },
+    {
+      "Division": "SC0",
+      "Season": 2007,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9804230790146282,
+      "OverroundMax": 1.0656814449917897
+    },
+    {
+      "Division": "SC0",
+      "Season": 2008,
+      "Count": 228,
+      "Priced": 223,
+      "OverroundMin": 0.9589528118939884,
+      "OverroundMax": 1.0430102273467527
+    },
+    {
+      "Division": "SC0",
+      "Season": 2009,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9875,
+      "OverroundMax": 1.0441176470588236
+    },
+    {
+      "Division": "SC0",
+      "Season": 2010,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9793256766651933,
+      "OverroundMax": 1.0382133995037222
+    },
+    {
+      "Division": "SC0",
+      "Season": 2011,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9811242516160549,
+      "OverroundMax": 1.0343773873185638
+    },
+    {
+      "Division": "SC0",
+      "Season": 2012,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9781153915717128,
+      "OverroundMax": 1.026761997586651
+    },
+    {
+      "Division": "SC0",
+      "Season": 2013,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9779123350648958,
+      "OverroundMax": 1.0307641104121992
+    },
+    {
+      "Division": "SC0",
+      "Season": 2014,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9321411632441549,
+      "OverroundMax": 1.025222976923409
+    },
+    {
+      "Division": "SC0",
+      "Season": 2015,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9679571967432153,
+      "OverroundMax": 1.0247208931419458
+    },
+    {
+      "Division": "SC0",
+      "Season": 2016,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9771600594311036,
+      "OverroundMax": 1.0337710098666275
+    },
+    {
+      "Division": "SC0",
+      "Season": 2017,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9542054369640577,
+      "OverroundMax": 1.0233696842289668
+    },
+    {
+      "Division": "SC0",
+      "Season": 2018,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 0.9674801511733514,
+      "OverroundMax": 1.0272283272283271
+    },
+    {
+      "Division": "SC0",
+      "Season": 2019,
+      "Count": 179,
+      "Priced": 179,
+      "OverroundMin": 1.0599748882159852,
+      "OverroundMax": 1.0718169542540252
+    },
+    {
+      "Division": "SC0",
+      "Season": 2020,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.0493067179736753,
+      "OverroundMax": 1.0693399201177214
+    },
+    {
+      "Division": "SC0",
+      "Season": 2021,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.0542685542685541,
+      "OverroundMax": 1.0670408883008182
+    },
+    {
+      "Division": "SC0",
+      "Season": 2022,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.0516392617776082,
+      "OverroundMax": 1.0656511649071714
+    },
+    {
+      "Division": "SC0",
+      "Season": 2023,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.0561556823239067,
+      "OverroundMax": 1.0680240684762912
+    },
+    {
+      "Division": "SC0",
+      "Season": 2024,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.05520400395424,
+      "OverroundMax": 1.0711039293707798
+    },
+    {
+      "Division": "SC0",
+      "Season": 2025,
+      "Count": 228,
+      "Priced": 228,
+      "OverroundMin": 1.065708239309387,
+      "OverroundMax": 1.0829189803169461
+    },
+    {
+      "Division": "SC0",
+      "Season": 2026,
+      "Count": 12,
+      "Priced": 12,
+      "OverroundMin": 1.0703088248924082,
+      "OverroundMax": 1.0812172440779153
+    },
+    {
+      "Division": "SC1",
+      "Season": 1994,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 1995,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 1996,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 1997,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 1998,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 1999,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 2000,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 2001,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 2002,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 2003,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 2004,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC1",
+      "Season": 2005,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.7789923526765632,
+      "OverroundMax": 1.0821341793506314
+    },
+    {
+      "Division": "SC1",
+      "Season": 2006,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9984600459951021,
+      "OverroundMax": 1.0884390980461927
+    },
+    {
+      "Division": "SC1",
+      "Season": 2007,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9888888888888889,
+      "OverroundMax": 1.0870522729161474
+    },
+    {
+      "Division": "SC1",
+      "Season": 2008,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9610652771746997,
+      "OverroundMax": 1.096969696969697
+    },
+    {
+      "Division": "SC1",
+      "Season": 2009,
+      "Count": 180,
+      "Priced": 179,
+      "OverroundMin": 0.8867894944640593,
+      "OverroundMax": 1.066017316017316
+    },
+    {
+      "Division": "SC1",
+      "Season": 2010,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9654558404558404,
+      "OverroundMax": 1.0695267580716497
+    },
+    {
+      "Division": "SC1",
+      "Season": 2011,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9648988350705089,
+      "OverroundMax": 1.0444444444444445
+    },
+    {
+      "Division": "SC1",
+      "Season": 2012,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9843081982616866,
+      "OverroundMax": 1.0678895573763256
+    },
+    {
+      "Division": "SC1",
+      "Season": 2013,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9730076253458397,
+      "OverroundMax": 1.0452107279693488
+    },
+    {
+      "Division": "SC1",
+      "Season": 2014,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9589371980676329,
+      "OverroundMax": 1.0403798100949526
+    },
+    {
+      "Division": "SC1",
+      "Season": 2015,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9592210560236996,
+      "OverroundMax": 1.0516700556422502
+    },
+    {
+      "Division": "SC1",
+      "Season": 2016,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9608798900137483,
+      "OverroundMax": 1.0464285714285715
+    },
+    {
+      "Division": "SC1",
+      "Season": 2017,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9496863962976495,
+      "OverroundMax": 1.031181565292876
+    },
+    {
+      "Division": "SC1",
+      "Season": 2018,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9492539154026391,
+      "OverroundMax": 1.043921685401623
+    },
+    {
+      "Division": "SC1",
+      "Season": 2019,
+      "Count": 137,
+      "Priced": 137,
+      "OverroundMin": 1.0732848412703904,
+      "OverroundMax": 1.084034114629928
+    },
+    {
+      "Division": "SC1",
+      "Season": 2020,
+      "Count": 135,
+      "Priced": 135,
+      "OverroundMin": 1.0726719476324391,
+      "OverroundMax": 1.087023532727401
+    },
+    {
+      "Division": "SC1",
+      "Season": 2021,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.07303662205623,
+      "OverroundMax": 1.0871939669408024
+    },
+    {
+      "Division": "SC1",
+      "Season": 2022,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0762713981810654,
+      "OverroundMax": 1.0872397821469828
+    },
+    {
+      "Division": "SC1",
+      "Season": 2023,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0761684229366624,
+      "OverroundMax": 1.0958894610010228
+    },
+    {
+      "Division": "SC1",
+      "Season": 2024,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0764349325739295,
+      "OverroundMax": 1.0925345562828257
+    },
+    {
+      "Division": "SC1",
+      "Season": 2025,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0931097887619627,
+      "OverroundMax": 1.1071989319687863
+    },
+    {
+      "Division": "SC1",
+      "Season": 2026,
+      "Count": 10,
+      "Priced": 10,
+      "OverroundMin": 1.1021424625510834,
+      "OverroundMax": 1.1107294671798773
+    },
+    {
+      "Division": "SC2",
+      "Season": 1997,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 1998,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 1999,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 2000,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 2001,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 2002,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 2003,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 2004,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC2",
+      "Season": 2005,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9761904761904762,
+      "OverroundMax": 1.0785700811167704
+    },
+    {
+      "Division": "SC2",
+      "Season": 2006,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9736619367687329,
+      "OverroundMax": 1.0864458538877144
+    },
+    {
+      "Division": "SC2",
+      "Season": 2007,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9863636363636363,
+      "OverroundMax": 1.0761967501097938
+    },
+    {
+      "Division": "SC2",
+      "Season": 2008,
+      "Count": 180,
+      "Priced": 179,
+      "OverroundMin": 0.9142857142857143,
+      "OverroundMax": 1.069934640522876
+    },
+    {
+      "Division": "SC2",
+      "Season": 2009,
+      "Count": 180,
+      "Priced": 179,
+      "OverroundMin": 0.9878472379361338,
+      "OverroundMax": 1.0680046538685282
+    },
+    {
+      "Division": "SC2",
+      "Season": 2010,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9772727272727273,
+      "OverroundMax": 1.0594571670907549
+    },
+    {
+      "Division": "SC2",
+      "Season": 2011,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9649037421587714,
+      "OverroundMax": 1.0538608678143562
+    },
+    {
+      "Division": "SC2",
+      "Season": 2012,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9854983016423294,
+      "OverroundMax": 1.0478568430784578
+    },
+    {
+      "Division": "SC2",
+      "Season": 2013,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9736842105263157,
+      "OverroundMax": 1.0572649572649573
+    },
+    {
+      "Division": "SC2",
+      "Season": 2014,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9788928929471374,
+      "OverroundMax": 1.0481481481481483
+    },
+    {
+      "Division": "SC2",
+      "Season": 2015,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9485616895356742,
+      "OverroundMax": 1.0480859010270775
+    },
+    {
+      "Division": "SC2",
+      "Season": 2016,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9715320910973085,
+      "OverroundMax": 1.0407888290053895
+    },
+    {
+      "Division": "SC2",
+      "Season": 2017,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9906922318448032,
+      "OverroundMax": 1.0453151143335193
+    },
+    {
+      "Division": "SC2",
+      "Season": 2018,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9781921618204804,
+      "OverroundMax": 1.0454932571535867
+    },
+    {
+      "Division": "SC2",
+      "Season": 2019,
+      "Count": 139,
+      "Priced": 139,
+      "OverroundMin": 1.0855473783545995,
+      "OverroundMax": 1.0951912287248817
+    },
+    {
+      "Division": "SC2",
+      "Season": 2020,
+      "Count": 110,
+      "Priced": 110,
+      "OverroundMin": 1.0781465310606206,
+      "OverroundMax": 1.0928533769493922
+    },
+    {
+      "Division": "SC2",
+      "Season": 2021,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0814831728453642,
+      "OverroundMax": 1.0952684667679287
+    },
+    {
+      "Division": "SC2",
+      "Season": 2022,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.083437110834371,
+      "OverroundMax": 1.0963483220236052
+    },
+    {
+      "Division": "SC2",
+      "Season": 2023,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0721405458057487,
+      "OverroundMax": 1.098786145237678
+    },
+    {
+      "Division": "SC2",
+      "Season": 2024,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0816044260027662,
+      "OverroundMax": 1.1012723190214293
+    },
+    {
+      "Division": "SC2",
+      "Season": 2025,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0799836164620567,
+      "OverroundMax": 1.1200204650506334
+    },
+    {
+      "Division": "SC2",
+      "Season": 2026,
+      "Count": 14,
+      "Priced": 14,
+      "OverroundMin": 1.1024982437653672,
+      "OverroundMax": 1.1139249818642694
+    },
+    {
+      "Division": "SC3",
+      "Season": 1997,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 1998,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 1999,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 2000,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 2001,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 2002,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 2003,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 2004,
+      "Count": 180,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SC3",
+      "Season": 2005,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.8696188261819207,
+      "OverroundMax": 1.084273325652636
+    },
+    {
+      "Division": "SC3",
+      "Season": 2006,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.4557312252964427,
+      "OverroundMax": 1.088095238095238
+    },
+    {
+      "Division": "SC3",
+      "Season": 2007,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9632756583976096,
+      "OverroundMax": 1.0925925925925926
+    },
+    {
+      "Division": "SC3",
+      "Season": 2008,
+      "Count": 180,
+      "Priced": 179,
+      "OverroundMin": 0.9007737915787357,
+      "OverroundMax": 1.0703651019440492
+    },
+    {
+      "Division": "SC3",
+      "Season": 2009,
+      "Count": 180,
+      "Priced": 178,
+      "OverroundMin": 0.9588652482269504,
+      "OverroundMax": 1.0718954248366013
+    },
+    {
+      "Division": "SC3",
+      "Season": 2010,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9803230225535973,
+      "OverroundMax": 1.0687608569774174
+    },
+    {
+      "Division": "SC3",
+      "Season": 2011,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9748931623931624,
+      "OverroundMax": 1.0493380274706203
+    },
+    {
+      "Division": "SC3",
+      "Season": 2012,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9706892536965886,
+      "OverroundMax": 1.052422723475355
+    },
+    {
+      "Division": "SC3",
+      "Season": 2013,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9712121212121212,
+      "OverroundMax": 1.0448028673835126
+    },
+    {
+      "Division": "SC3",
+      "Season": 2014,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9754740179900343,
+      "OverroundMax": 1.05006105006105
+    },
+    {
+      "Division": "SC3",
+      "Season": 2015,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9376219537509859,
+      "OverroundMax": 1.0487616099071206
+    },
+    {
+      "Division": "SC3",
+      "Season": 2016,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.976746718332282,
+      "OverroundMax": 1.0518120502146062
+    },
+    {
+      "Division": "SC3",
+      "Season": 2017,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9886510759502296,
+      "OverroundMax": 1.0390126259043835
+    },
+    {
+      "Division": "SC3",
+      "Season": 2018,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 0.9695997407227355,
+      "OverroundMax": 1.045521528280149
+    },
+    {
+      "Division": "SC3",
+      "Season": 2019,
+      "Count": 137,
+      "Priced": 137,
+      "OverroundMin": 1.0852751085880472,
+      "OverroundMax": 1.096734084479381
+    },
+    {
+      "Division": "SC3",
+      "Season": 2020,
+      "Count": 110,
+      "Priced": 110,
+      "OverroundMin": 1.0762958213337612,
+      "OverroundMax": 1.0911505833614268
+    },
+    {
+      "Division": "SC3",
+      "Season": 2021,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.082369747468908,
+      "OverroundMax": 1.0969859561408857
+    },
+    {
+      "Division": "SC3",
+      "Season": 2022,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0866261398176291,
+      "OverroundMax": 1.0960351670286368
+    },
+    {
+      "Division": "SC3",
+      "Season": 2023,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0837243777352672,
+      "OverroundMax": 1.100764346286092
+    },
+    {
+      "Division": "SC3",
+      "Season": 2024,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.0843318809005082,
+      "OverroundMax": 1.1074160321205688
+    },
+    {
+      "Division": "SC3",
+      "Season": 2025,
+      "Count": 180,
+      "Priced": 180,
+      "OverroundMin": 1.1014459644662906,
+      "OverroundMax": 1.1214387722992762
+    },
+    {
+      "Division": "SC3",
+      "Season": 2026,
+      "Count": 15,
+      "Priced": 15,
+      "OverroundMin": 1.1056447555006632,
+      "OverroundMax": 1.1152910092157922
+    },
+    {
+      "Division": "SP1",
+      "Season": 1993,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 1994,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 1995,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 1996,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 1997,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 1998,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 1999,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 2000,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 2001,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 2002,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 2003,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 2004,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP1",
+      "Season": 2005,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.8964912280701754,
+      "OverroundMax": 1.0484519843158586
+    },
+    {
+      "Division": "SP1",
+      "Season": 2006,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9803529803529805,
+      "OverroundMax": 1.0525451559934318
+    },
+    {
+      "Division": "SP1",
+      "Season": 2007,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9689475790316127,
+      "OverroundMax": 1.0430429818122502
+    },
+    {
+      "Division": "SP1",
+      "Season": 2008,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.968936991138868,
+      "OverroundMax": 1.0320512820512822
+    },
+    {
+      "Division": "SP1",
+      "Season": 2009,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.7747891145385941,
+      "OverroundMax": 1.0281573694831676
+    },
+    {
+      "Division": "SP1",
+      "Season": 2010,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9651283380865958,
+      "OverroundMax": 1.023973378646276
+    },
+    {
+      "Division": "SP1",
+      "Season": 2011,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.978494623655914,
+      "OverroundMax": 1.028086026119329
+    },
+    {
+      "Division": "SP1",
+      "Season": 2012,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9537003207079934,
+      "OverroundMax": 1.0176781851549856
+    },
+    {
+      "Division": "SP1",
+      "Season": 2013,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.908955778520996,
+      "OverroundMax": 1.0158730158730158
+    },
+    {
+      "Division": "SP1",
+      "Season": 2014,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9516129032258065,
+      "OverroundMax": 1.014074590357693
+    },
+    {
+      "Division": "SP1",
+      "Season": 2015,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9509619623787597,
+      "OverroundMax": 1.018627450980392
+    },
+    {
+      "Division": "SP1",
+      "Season": 2016,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9531889678948503,
+      "OverroundMax": 1.0147492774238844
+    },
+    {
+      "Division": "SP1",
+      "Season": 2017,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.9329190223411449,
+      "OverroundMax": 1.0164201215888398
+    },
+    {
+      "Division": "SP1",
+      "Season": 2018,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 0.947364030697364,
+      "OverroundMax": 1.022241563626387
+    },
+    {
+      "Division": "SP1",
+      "Season": 2019,
+      "Count": 323,
+      "Priced": 323,
+      "OverroundMin": 1.0414974522218206,
+      "OverroundMax": 1.053348692698552
+    },
+    {
+      "Division": "SP1",
+      "Season": 2020,
+      "Count": 437,
+      "Priced": 437,
+      "OverroundMin": 1.0410639547330196,
+      "OverroundMax": 1.0571526089837697
+    },
+    {
+      "Division": "SP1",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0363182523416699,
+      "OverroundMax": 1.0534320318881703
+    },
+    {
+      "Division": "SP1",
+      "Season": 2022,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.037682118271821,
+      "OverroundMax": 1.0497798675018197
+    },
+    {
+      "Division": "SP1",
+      "Season": 2023,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.037441663479477,
+      "OverroundMax": 1.0494670517972122
+    },
+    {
+      "Division": "SP1",
+      "Season": 2024,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0385213447658574,
+      "OverroundMax": 1.0598656802445627
+    },
+    {
+      "Division": "SP1",
+      "Season": 2025,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.05430861545505,
+      "OverroundMax": 1.0796185566791794
+    },
+    {
+      "Division": "SP1",
+      "Season": 2026,
+      "Count": 7,
+      "Priced": 7,
+      "OverroundMin": 1.057119516802988,
+      "OverroundMax": 1.0700043953021832
+    },
+    {
+      "Division": "SP2",
+      "Season": 1996,
+      "Count": 380,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 1997,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 1998,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 1999,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 2000,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 2001,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 2002,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 2003,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 2004,
+      "Count": 462,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "SP2",
+      "Season": 2005,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9672619047619048,
+      "OverroundMax": 1.1024033437826541
+    },
+    {
+      "Division": "SP2",
+      "Season": 2006,
+      "Count": 462,
+      "Priced": 461,
+      "OverroundMin": 0.7935671055094528,
+      "OverroundMax": 1.0810631815974214
+    },
+    {
+      "Division": "SP2",
+      "Season": 2007,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9646971386101821,
+      "OverroundMax": 1.1736111111111112
+    },
+    {
+      "Division": "SP2",
+      "Season": 2008,
+      "Count": 462,
+      "Priced": 453,
+      "OverroundMin": 0.9811202506854679,
+      "OverroundMax": 1.0677742616033754
+    },
+    {
+      "Division": "SP2",
+      "Season": 2009,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9639830508474576,
+      "OverroundMax": 1.0760725342768687
+    },
+    {
+      "Division": "SP2",
+      "Season": 2010,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9481614153421901,
+      "OverroundMax": 1.0638775734889354
+    },
+    {
+      "Division": "SP2",
+      "Season": 2011,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9722222222222222,
+      "OverroundMax": 1.058152562945442
+    },
+    {
+      "Division": "SP2",
+      "Season": 2012,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9766035227650383,
+      "OverroundMax": 1.0518914862038724
+    },
+    {
+      "Division": "SP2",
+      "Season": 2013,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9690282124056959,
+      "OverroundMax": 1.0321106815880803
+    },
+    {
+      "Division": "SP2",
+      "Season": 2014,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9576023391812865,
+      "OverroundMax": 1.0312230446731259
+    },
+    {
+      "Division": "SP2",
+      "Season": 2015,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9289179366220648,
+      "OverroundMax": 1.0308477515629644
+    },
+    {
+      "Division": "SP2",
+      "Season": 2016,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9736779937085804,
+      "OverroundMax": 1.0502079812816847
+    },
+    {
+      "Division": "SP2",
+      "Season": 2017,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 0.9784042415621362,
+      "OverroundMax": 1.0451612903225806
+    },
+    {
+      "Division": "SP2",
+      "Season": 2018,
+      "Count": 462,
+      "Priced": 441,
+      "OverroundMin": 0.9795854760791647,
+      "OverroundMax": 1.036030061892131
+    },
+    {
+      "Division": "SP2",
+      "Season": 2019,
+      "Count": 398,
+      "Priced": 398,
+      "OverroundMin": 1.0636585636585636,
+      "OverroundMax": 1.0815722738799662
+    },
+    {
+      "Division": "SP2",
+      "Season": 2020,
+      "Count": 526,
+      "Priced": 526,
+      "OverroundMin": 1.0598402884194882,
+      "OverroundMax": 1.0768081082179992
+    },
+    {
+      "Division": "SP2",
+      "Season": 2021,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 1.062218710477174,
+      "OverroundMax": 1.0765248993081622
+    },
+    {
+      "Division": "SP2",
+      "Season": 2022,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 1.062494402955868,
+      "OverroundMax": 1.0979570794832623
+    },
+    {
+      "Division": "SP2",
+      "Season": 2023,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 1.060429921159984,
+      "OverroundMax": 1.0803987877069707
+    },
+    {
+      "Division": "SP2",
+      "Season": 2024,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 1.0650187794449546,
+      "OverroundMax": 1.0805508378287363
+    },
+    {
+      "Division": "SP2",
+      "Season": 2025,
+      "Count": 462,
+      "Priced": 462,
+      "OverroundMin": 1.0825817334178658,
+      "OverroundMax": 1.102696851342204
+    },
+    {
+      "Division": "SP2",
+      "Season": 2026,
+      "Count": 11,
+      "Priced": 11,
+      "OverroundMin": 1.087996698568237,
+      "OverroundMax": 1.0977588434249483
+    },
+    {
+      "Division": "T1",
+      "Season": 1994,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 1995,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 1996,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 1997,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 1998,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 1999,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 2000,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 2001,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 2002,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 2003,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 2004,
+      "Count": 306,
+      "Priced": 0,
+      "OverroundMin": null,
+      "OverroundMax": null
+    },
+    {
+      "Division": "T1",
+      "Season": 2005,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.8736842105263158,
+      "OverroundMax": 1.0733333333333335
+    },
+    {
+      "Division": "T1",
+      "Season": 2006,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.7812831389183458,
+      "OverroundMax": 1.0726817042606516
+    },
+    {
+      "Division": "T1",
+      "Season": 2007,
+      "Count": 306,
+      "Priced": 305,
+      "OverroundMin": 0.969047619047619,
+      "OverroundMax": 1.112475759534583
+    },
+    {
+      "Division": "T1",
+      "Season": 2008,
+      "Count": 306,
+      "Priced": 305,
+      "OverroundMin": 0.6655602971392445,
+      "OverroundMax": 1.0624092888243832
+    },
+    {
+      "Division": "T1",
+      "Season": 2009,
+      "Count": 272,
+      "Priced": 272,
+      "OverroundMin": 0.9786039780336296,
+      "OverroundMax": 1.0550800627136505
+    },
+    {
+      "Division": "T1",
+      "Season": 2010,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9676470588235294,
+      "OverroundMax": 1.0518796992481203
+    },
+    {
+      "Division": "T1",
+      "Season": 2011,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.8611111111111112,
+      "OverroundMax": 1.053671798631476
+    },
+    {
+      "Division": "T1",
+      "Season": 2012,
+      "Count": 306,
+      "Priced": 305,
+      "OverroundMin": 0.9759012916907653,
+      "OverroundMax": 1.0311020960108181
+    },
+    {
+      "Division": "T1",
+      "Season": 2013,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9579113924050633,
+      "OverroundMax": 1.0311088225441771
+    },
+    {
+      "Division": "T1",
+      "Season": 2014,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9391468746307455,
+      "OverroundMax": 1.0271291625496213
+    },
+    {
+      "Division": "T1",
+      "Season": 2015,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9568174074595165,
+      "OverroundMax": 1.0310124049619849
+    },
+    {
+      "Division": "T1",
+      "Season": 2016,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.8984820022736529,
+      "OverroundMax": 1.0217071363448555
+    },
+    {
+      "Division": "T1",
+      "Season": 2017,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.9403537445080472,
+      "OverroundMax": 1.0417045799211404
+    },
+    {
+      "Division": "T1",
+      "Season": 2018,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 0.943655303030303,
+      "OverroundMax": 1.0390208980125464
+    },
+    {
+      "Division": "T1",
+      "Season": 2019,
+      "Count": 261,
+      "Priced": 261,
+      "OverroundMin": 1.0609279818455606,
+      "OverroundMax": 1.074967466729357
+    },
+    {
+      "Division": "T1",
+      "Season": 2020,
+      "Count": 465,
+      "Priced": 465,
+      "OverroundMin": 1.0551393410700844,
+      "OverroundMax": 1.0768233987412068
+    },
+    {
+      "Division": "T1",
+      "Season": 2021,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.054864832513402,
+      "OverroundMax": 1.07269569835207
+    },
+    {
+      "Division": "T1",
+      "Season": 2022,
+      "Count": 342,
+      "Priced": 313,
+      "OverroundMin": 1.0545308876523762,
+      "OverroundMax": 1.0717119183478776
+    },
+    {
+      "Division": "T1",
+      "Season": 2023,
+      "Count": 380,
+      "Priced": 380,
+      "OverroundMin": 1.0541865612937453,
+      "OverroundMax": 1.0719299585624191
+    },
+    {
+      "Division": "T1",
+      "Season": 2024,
+      "Count": 342,
+      "Priced": 342,
+      "OverroundMin": 1.0531138110177973,
+      "OverroundMax": 1.0742797213816229
+    },
+    {
+      "Division": "T1",
+      "Season": 2025,
+      "Count": 306,
+      "Priced": 306,
+      "OverroundMin": 1.0712517951506533,
+      "OverroundMax": 1.0955821165343012
+    },
+    {
+      "Division": "T1",
+      "Season": 2026,
+      "Count": 9,
+      "Priced": 9,
+      "OverroundMin": 1.0823526443914684,
+      "OverroundMax": 1.0899806114723125
+    }
+  ],
+  "DuplicateIdentities": [],
+  "InvalidScores": 0,
+  "QuotesUnqualified": 241380,
+  "QuoteQualification": "No stored source mapping/hash/timing; qualify separately against frozen source files. Scores retained.",
+  "Aliases": "No stable source team IDs. Exact names retained; do not merge suspected aliases automatically."
+}
