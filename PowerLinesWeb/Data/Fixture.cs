@@ -29,6 +29,9 @@ public class Fixture
     [Column("awayOddsAverage")]
     public decimal AwayOddsAverage { get; set; }
 
+    [NotMapped]
+    public List<IncomingPrice> SourcePrices { get; set; } = [];
+
     public long Revision { get; set; }
     public DateTime? Updated { get; set; }
     public string SourceUrl { get; set; }

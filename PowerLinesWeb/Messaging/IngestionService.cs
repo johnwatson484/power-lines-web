@@ -45,6 +45,8 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         }
         db.SaveChanges(); // Assign the stable database identity before archiving quotes.
         ArchiveQuote($"fixture:{existing.FixtureId}:{existing.SourceMatchId}", existing.SourceUrl, existing.SourceFileHash, existing.Revision, existing.PriceKind, existing.QuoteObservedAt, existing.HomeOddsAverage, existing.DrawOddsAverage, existing.AwayOddsAverage, now);
+        foreach (var price in incoming.SourcePrices)
+            ArchiveQuote($"fixture:{existing.FixtureId}:{existing.SourceMatchId}", (existing.SourceUrl ?? "LegacyUnknown") + ":" + price.Columns, incoming.SourceFileHash, existing.Revision, price.Kind, null, price.Home, price.Draw, price.Away, now);
         db.SaveChanges(); transaction.Commit();
     }
 
@@ -92,6 +94,8 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         }
         db.SaveChanges();
         ArchiveQuote($"result:{existing.ResultId}:{existing.SourceMatchId}", existing.SourceUrl, existing.SourceFileHash, existing.Revision, existing.PriceKind, existing.QuoteObservedAt, existing.HomeOddsAverage, existing.DrawOddsAverage, existing.AwayOddsAverage, now);
+        foreach (var price in incoming.SourcePrices)
+            ArchiveQuote($"result:{existing.ResultId}:{existing.SourceMatchId}", (existing.SourceUrl ?? "LegacyUnknown") + ":" + price.Columns, incoming.SourceFileHash, existing.Revision, price.Kind, null, price.Home, price.Draw, price.Away, now);
         db.SaveChanges(); transaction.Commit();
     }
 

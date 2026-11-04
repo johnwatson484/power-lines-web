@@ -140,6 +140,16 @@ public class PersistenceTests
         Assert.That(last.Status,Is.EqualTo("Stale result feed"));Assert.That(last.FinalHome,Is.Null);
     }
 
+    [Test]
+    public void Source_average_closing_and_maximum_families_are_stored_separately()
+    {
+        using var scope=provider.CreateScope();scope.ServiceProvider.GetRequiredService<IngestionService>().SaveFixture(new() {
+            Division="E0",Date=clock.Now.UtcDateTime.AddDays(1),HomeTeam="Strong",AwayTeam="Weak",HomeOddsAverage=2,DrawOddsAverage=4,AwayOddsAverage=4,SourceUrl="source",SourceFileHash="hash",PriceKind="AveragePreClosing",
+            SourcePrices=[new("AvgC","AverageClosing",2.5m,4.5m,4.5m),new("Max","MaximumPreClosing",3,5,5)] });
+        using var db=Db();Assert.That(db.MarketQuotes.Select(x=>x.Kind),Is.EquivalentTo(new[]{"AveragePreClosing","AverageClosing","MaximumPreClosing"}));
+        Assert.That(db.Fixtures.Single().HomeOddsAverage,Is.EqualTo(2));
+    }
+
     [OneTimeTearDown]
     public void Dispose()=>provider?.Dispose();
     public class FixedClock(DateTimeOffset now):TimeProvider {public DateTimeOffset Now {get;set;}=now;public override DateTimeOffset GetUtcNow()=>Now;}
