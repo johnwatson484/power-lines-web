@@ -34,7 +34,7 @@ public class PersistenceTests
         services.AddSingleton<IOptions<ModelOptions>>(Options.Create(new ModelOptions()));
         services.AddSingleton<IOptions<ThresholdOptions>>(Options.Create(new ThresholdOptions()));
         services.AddSingleton<IOptions<BettingOptions>>(Options.Create(new BettingOptions()));
-        services.AddSingleton<IOptions<FeedOptions>>(Options.Create(new FeedOptions()));
+        services.AddSingleton<IOptions<FeedOptions>>(Options.Create(new FeedOptions {FixtureTimeZoneId="UTC"}));
         services.AddScoped<IRatingsProvider,RatingsProvider>();services.AddScoped<ICalibrationProvider,CalibrationProvider>();
         services.AddScoped<IAnalysisService,AnalysisService>();services.AddScoped<IngestionService>();services.AddScoped<FixtureProjectionJob>();
         provider=services.BuildServiceProvider();
@@ -49,6 +49,7 @@ public class PersistenceTests
         for(var i=0;i<rows.Count;i++) {rows[i].Date=new DateTime(2024,8,1).AddDays(i);rows[i].Created=rows[i].Date.AddDays(1);}
         db.Results.AddRange(rows);db.SaveChanges();
         clock.Now=new DateTimeOffset(2025,8,1,12,0,0,TimeSpan.Zero);
+        provider.GetRequiredService<IOptions<FeedOptions>>().Value.FixtureTimeZoneId="UTC";
     }
 
     void IngestFixture(decimal h=2) {using var scope=provider.CreateScope();scope.ServiceProvider.GetRequiredService<IngestionService>().SaveFixture(new() {Division="E0",Date=clock.Now.UtcDateTime.AddDays(1),HomeTeam="Strong",AwayTeam="Weak",HomeOddsAverage=h,DrawOddsAverage=4,AwayOddsAverage=4,SourceMatchId="stable-fixture",SourceUrl="source",SourceFileHash="hash",PriceKind="AveragePreClosing"});}
@@ -108,7 +109,7 @@ public class PersistenceTests
     public void Fixture_list_includes_unsupported_and_pending_rows_and_empty_reports_do_not_publish()
     {
         IngestFixture();using var db=Db();db.Fixtures.Add(new() {Division="E0",Date=clock.Now.UtcDateTime.AddDays(2),HomeTeam="New",AwayTeam="Unknown"});db.SaveChanges();
-        var service=new FixtureService(db,clock,Options.Create(new ThresholdOptions {Lower=.60m}),Options.Create(new FeedOptions()),Options.Create(new BettingOptions()));
+        var service=new FixtureService(db,clock,Options.Create(new ThresholdOptions {Lower=.60m}),Options.Create(new FeedOptions {FixtureTimeZoneId="UTC"}),Options.Create(new BettingOptions()));
         var page=service.GetPage();Assert.That(page.Fixtures.Count,Is.EqualTo(2));Assert.That(page.Fixtures.All(x=>x.HomeProbability==null),Is.True);Assert.That(page.Lower,Is.EqualTo(.60m));
         Run();Assert.That(service.GetPage().Fixtures.Any(x=>x.Status=="Insufficient history"),Is.True);
         db.EvaluationRuns.Add(new() {Id="unfinished",Status="Running"});db.SaveChanges();
@@ -158,7 +159,7 @@ public class PersistenceTests
         Run();using var db=Db();var quote=db.MarketQuotes.Single();var snapshot=db.ForecastSnapshots.OrderByDescending(x=>x.Id).First();
         Assert.That(quote.Source,Is.EqualTo("source"));Assert.That(quote.SourceFileHash,Is.EqualTo("hash"));
         using var decision=JsonDocument.Parse(snapshot.DecisionJson);Assert.That(decision.RootElement.GetProperty("QuoteId").GetInt64(),Is.EqualTo(quote.Id));
-        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions()),Options.Create(new BettingOptions())).GetPage();
+        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions {FixtureTimeZoneId="UTC"}),Options.Create(new BettingOptions())).GetPage();
         Assert.That(page.Fixtures.Single().Source,Is.EqualTo("source"));Assert.That(page.Fixtures.Single().MarketHome,Is.EqualTo(2));
     }
 
@@ -169,7 +170,7 @@ public class PersistenceTests
         db.MarketQuotes.Add(new() {MatchIdentity=$"fixture:{fixture.FixtureId}",Source="Bookmaker",Revision="offer-1",Kind="AvailableOffer",ObservedAt=clock.Now.UtcDateTime.AddMinutes(-1),IngestedAt=clock.Now.UtcDateTime,Available=true,Home=3,Draw=4,Away=4});db.SaveChanges();
         Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("H"));Assert.That(db.Fixtures.AsNoTracking().Single().Revision,Is.EqualTo(revision));
         clock.Now=clock.Now.AddMinutes(31);
-        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions()),Options.Create(new BettingOptions())).GetPage();
+        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions {FixtureTimeZoneId="UTC"}),Options.Create(new BettingOptions())).GetPage();
         Assert.That(page.Fixtures.Single().IsValue,Is.False);
         Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("X"));Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(3));
     }
@@ -184,6 +185,19 @@ public class PersistenceTests
         using var scope=provider.CreateScope();
         Assert.Throws<InvalidOperationException>(()=>scope.ServiceProvider.GetRequiredService<IngestionService>().SaveFixture(new() {Division="E0",Date=clock.Now.UtcDateTime.AddDays(1),HomeTeam="Strong",AwayTeam="Weak",SourceMatchId="stable-fixture"}));
         using var check=Db();Assert.That(check.Fixtures.Single().Date,Is.EqualTo(originalDate));
+    }
+
+    [Test]
+    public void Unknown_timezone_abstains_and_summer_source_clock_cannot_create_an_inplay_forecast()
+    {
+        IngestFixture();var feed=provider.GetRequiredService<IOptions<FeedOptions>>().Value;
+        feed.FixtureTimeZoneId=null;Run();
+        using var db=Db();Assert.That(db.ForecastSnapshots.Single().Origin,Is.EqualTo("LiveUnavailable"));Assert.That(db.ForecastSnapshots.Single().FinalHome,Is.Null);
+        feed.FixtureTimeZoneId="Europe/London";clock.Now=new DateTimeOffset(2025,8,2,11,30,0,TimeSpan.Zero);
+        // Source kickoff is noon London = 11:00 UTC; the source clock alone still reads future.
+        Run();Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(1));
+        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(feed),Options.Create(new BettingOptions())).GetPage();
+        Assert.That(page.Fixtures.Single().Status,Is.EqualTo("Kickoff passed"));Assert.That(page.Fixtures.Single().IsValid,Is.False);
     }
 
     [OneTimeTearDown]

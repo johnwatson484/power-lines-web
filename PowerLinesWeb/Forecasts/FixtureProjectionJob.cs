@@ -29,16 +29,18 @@ public class FixtureProjectionJob(ApplicationDbContext db, IAnalysisService anal
         using var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
         var now = clock.GetUtcNow().UtcDateTime;
         var modelVersion = ForecastVersions.Hash(model);
-        var policyVersion = ForecastVersions.Hash(new { policy, betting });
+        var policyVersion = ForecastVersions.Hash(new { policy, betting, feed });
         // Only score revisions affect rating inputs. Price-only corrections leave rating fits reusable.
         var inputVersion = ForecastVersions.Hash(db.Results.AsNoTracking().Where(x => x.Date < now.Date && x.Created <= now && (!x.Updated.HasValue || x.Updated <= now))
             .GroupBy(x => x.Division).Select(g => new { Division = g.Key, Count = g.Count(), Revision = g.Sum(x => x.ScoreRevision) }).OrderBy(x => x.Division).ToList());
         var resultDates = db.Results.AsNoTracking().Where(x => x.Date < now.Date && x.Created <= now).GroupBy(x => x.Division).Select(g => new { Division = g.Key, Last = g.Max(x => x.Date) }).ToDictionary(x => x.Division, x => x.Last);
         var artifact = model.EnableCalibration ? calibration.GetArtifact(modelVersion, now) : null;
         var calibrationVersion = artifact?.Version ?? "identity";
-        foreach (var fixtureId in db.Fixtures.AsNoTracking().Where(x => x.Date > now && x.LifecycleStatus == "Scheduled" && (!x.Updated.HasValue || x.Updated <= now) && (!x.Created.HasValue || x.Created <= now)).OrderBy(x => x.FixtureId).Select(x => x.FixtureId).ToList())
+        foreach (var fixtureId in db.Fixtures.AsNoTracking().Where(x => x.Date >= now.Date.AddDays(-1) && x.LifecycleStatus == "Scheduled" && (!x.Updated.HasValue || x.Updated <= now) && (!x.Created.HasValue || x.Created <= now)).OrderBy(x => x.FixtureId).Select(x => x.FixtureId).ToList())
         {
             var fixture = db.Fixtures.Include(x => x.MatchOdds).Single(x => x.FixtureId == fixtureId);
+            var kickoffUtc = FixtureTimePolicy.KickoffUtc(fixture.Date, feed.FixtureTimeZoneId);
+            if (kickoffUtc.HasValue && kickoffUtc <= now) continue;
             var storedQuote = db.MarketQuotes.AsNoTracking().Where(x => x.MatchIdentity == $"fixture:{fixtureId}" && x.IngestedAt <= now).OrderByDescending(x => x.Id).FirstOrDefault();
             var quoteFresh = storedQuote != null && storedQuote.Available && storedQuote.ObservedAt.HasValue && storedQuote.ObservedAt <= now && storedQuote.ObservedAt >= now.AddMinutes(-betting.MaxQuoteAgeMinutes);
             var quoteId = storedQuote?.Id;
@@ -50,18 +52,18 @@ public class FixtureProjectionJob(ApplicationDbContext db, IAnalysisService anal
                     : new MarketOdds(storedQuote.Home, storedQuote.Draw, storedQuote.Away)
                     { Source = storedQuote.Source, Kind = storedQuote.Kind, ObservedAt = storedQuote.ObservedAt, Revision = storedQuote.Revision, IsAvailable = storedQuote.Available, Commission = storedQuote.Commission };
                 var stale = !feed.SeasonBreakMonths.Contains(now.Month) && (!resultDates.TryGetValue(fixture.Division, out var latestResult) || latestResult < now.Date.AddDays(-feed.MaxResultAgeDaysInSeason));
-                var missingKickoff = fixture.Date.TimeOfDay == TimeSpan.Zero;
-                var odds = stale || missingKickoff ? null : analysis.GetMatchOdds(new AnalysisFixture { Id = fixture.FixtureId, Division = fixture.Division, Date = fixture.Date, InformationCutoff = now, HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, MarketOdds = quote });
-                var status = missingKickoff ? "Kickoff time unavailable" : stale ? "Stale result feed" : odds == null ? "Insufficient history" : "Available";
+                var missingKickoff = !kickoffUtc.HasValue;
+                var odds = stale || missingKickoff ? null : analysis.GetMatchOdds(new AnalysisFixture { Id = fixture.FixtureId, Division = fixture.Division, Date = kickoffUtc.Value, InformationCutoff = now, HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, MarketOdds = quote });
+                var status = missingKickoff ? "Kickoff time or timezone unverified" : stale ? "Stale result feed" : odds == null ? "Insufficient history" : "Available";
                 db.ForecastSnapshots.Add(new ForecastSnapshot
                 {
                     RunId = $"live:{key}", MatchIdentity = $"fixture:{fixture.FixtureId}", FixtureId = fixture.FixtureId, Division = fixture.Division, MatchDate = fixture.Date,
-                    HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, Origin = "LivePrematch", ForecastAt = now, TrainingCutoff = now.Date, ModelVersion = modelVersion, InputRevision = inputVersion,
+                    HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, Origin = kickoffUtc.HasValue ? "LivePrematch" : "LiveUnavailable", ForecastAt = now, TrainingCutoff = now.Date, ModelVersion = modelVersion, InputRevision = inputVersion,
                     CalibrationVersion = odds?.CalibrationVersion ?? calibrationVersion, CalibrationCutoff = odds?.CalibrationCutoff,
                     PolicyVersion = policyVersion, Support = odds?.Support ?? "Unavailable", Status = status,
                     RawHome = odds?.RawHomeProbability, RawDraw = odds?.RawDrawProbability, RawAway = odds?.RawAwayProbability,
                     FinalHome = odds?.HomeProbability, FinalDraw = odds?.DrawProbability, FinalAway = odds?.AwayProbability,
-                    QuoteRevision = quote.Revision, DecisionJson = JsonSerializer.Serialize(new { Win = odds?.Recommended, Broader = odds?.LowerRecommended, Price = odds?.ValueSelection, QuoteId = storedQuote?.Id, QuoteSource = storedQuote?.Source, QuoteKind = storedQuote?.Kind, QuoteTime = storedQuote?.ObservedAt, odds?.PriceReason, odds?.ValueExpectedReturn })
+                    QuoteRevision = quote.Revision, DecisionJson = JsonSerializer.Serialize(new { Win = odds?.Recommended, Broader = odds?.LowerRecommended, Price = odds?.ValueSelection, KickoffUtc = kickoffUtc, QuoteId = storedQuote?.Id, QuoteSource = storedQuote?.Source, QuoteKind = storedQuote?.Kind, QuoteTime = storedQuote?.ObservedAt, odds?.PriceReason, odds?.ValueExpectedReturn })
                 });
                 fixture.AnalysisStatus = status; fixture.AnalysisKey = key;
                 if (odds != null)

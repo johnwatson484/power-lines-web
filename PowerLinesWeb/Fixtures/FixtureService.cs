@@ -35,7 +35,7 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
         }).ToList();
         var fixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.Date >= now.Date.AddDays(-1)).ToList();
         var fixtureIds = fixtures.Select(x => x.FixtureId).ToList();
-        var latest = dbContext.ForecastSnapshots.AsNoTracking().Where(x => x.Origin == "LivePrematch" && x.FixtureId.HasValue && fixtureIds.Contains(x.FixtureId.Value))
+        var latest = dbContext.ForecastSnapshots.AsNoTracking().Where(x => (x.Origin == "LivePrematch" || x.Origin == "LiveUnavailable") && x.FixtureId.HasValue && fixtureIds.Contains(x.FixtureId.Value))
             .GroupBy(x => x.FixtureId).Select(g => g.OrderByDescending(x => x.Id).First()).ToList().ToDictionary(x => x.FixtureId.Value);
         var quoteKeys = fixtureIds.Select(x => $"fixture:{x}").ToList();
         var quotes = dbContext.MarketQuotes.AsNoTracking().Where(x => quoteKeys.Contains(x.MatchIdentity) && x.IngestedAt <= now)
@@ -46,7 +46,8 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
             var quote = quotes.GetValueOrDefault($"fixture:{f.FixtureId}");
             var offer = quote != null && quote.Available && quote.Kind == "AvailableOffer" && quote.Home > 1 && quote.Draw > 1 && quote.Away > 1 && quote.Commission >= 0 && quote.Commission < 1 && !string.IsNullOrWhiteSpace(quote.Revision) && !string.IsNullOrWhiteSpace(quote.Source) && quote.ObservedAt.HasValue && quote.ObservedAt <= now && quote.ObservedAt >= now.AddMinutes(-betting.MaxQuoteAgeMinutes);
             var currentPriceDecision = offer && odds != null && odds.Calculated >= quote.IngestedAt && SnapshotQuoteId(latest.GetValueOrDefault(f.FixtureId)?.DecisionJson) == quote.Id;
-            var valid = odds != null && f.AnalysisStatus == "Available" && f.Date > now && f.Date.TimeOfDay != TimeSpan.Zero && f.LifecycleStatus == "Scheduled";
+            var kickoffUtc = FixtureTimePolicy.KickoffUtc(f.Date, feeds.FixtureTimeZoneId);
+            var valid = kickoffUtc.HasValue && kickoffUtc > now && odds != null && f.AnalysisStatus == "Available" && f.LifecycleStatus == "Scheduled";
             var feed = status.Find(x => x.Division == f.Division);
             return new Models.Fixture
             {
@@ -60,7 +61,7 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
                 Calculated = odds?.Calculated ?? default,
                 ForecastOrigin = latest.GetValueOrDefault(f.FixtureId)?.Origin ?? "Legacy provenance unknown",
                 Support = latest.GetValueOrDefault(f.FixtureId)?.Support ?? "Support unavailable",
-                Status = f.LifecycleStatus != "Scheduled" ? f.LifecycleStatus : f.Date <= now ? "Kickoff passed" : f.Date.TimeOfDay == TimeSpan.Zero ? "Kickoff time unavailable" : f.AnalysisStatus ?? "Awaiting analysis",
+                Status = f.LifecycleStatus != "Scheduled" ? f.LifecycleStatus : !kickoffUtc.HasValue ? "Kickoff time or timezone unverified" : kickoffUtc <= now ? "Kickoff passed" : f.AnalysisStatus ?? "Awaiting analysis",
                 FeedStatus = feed?.Status ?? "Import status unknown", Source = quote?.Source ?? "Legacy price source unknown", QuoteObservedAt = quote?.ObservedAt, AvailableOffer = offer,
                 MarketHome = quote?.Home ?? (f.HomeOddsAverage > 1 ? f.HomeOddsAverage : null), MarketDraw = quote?.Draw ?? (f.DrawOddsAverage > 1 ? f.DrawOddsAverage : null), MarketAway = quote?.Away ?? (f.AwayOddsAverage > 1 ? f.AwayOddsAverage : null),
                 PriceKind = quote?.Kind ?? "Legacy average: mapping/timing unqualified"

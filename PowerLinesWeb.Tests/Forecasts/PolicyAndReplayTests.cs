@@ -3,6 +3,7 @@ using PowerLinesWeb.Accuracy;
 using PowerLinesWeb.Analysis;
 using PowerLinesWeb.Data;
 using PowerLinesWeb.Evaluation;
+using PowerLinesWeb.Fixtures;
 using PowerLinesWeb.Tests.Analysis;
 
 namespace PowerLinesWeb.Tests.Forecasts;
@@ -119,5 +120,13 @@ public class PolicyAndReplayTests
         var a=Replay.Generate(history,m,start,history[^1].Date,r);var b=Replay.Generate(history,m,start,history[^1].Date,r);
         Assert.That(JsonSerializer.Serialize(a),Is.EqualTo(JsonSerializer.Serialize(b)));
         Assert.Throws<InvalidOperationException>(()=>new Tournament(m,new Dictionary<int,QualifiedQuote>(),"hash").Freeze(a,Path.GetTempPath()));
+    }
+    [Test]
+    public void Live_kickoff_requires_verified_timezone_and_rejects_ambiguous_dst_times()
+    {
+        Assert.That(FixtureTimePolicy.KickoffUtc(new(2025,8,1,15,0,0), null), Is.Null);
+        Assert.That(FixtureTimePolicy.KickoffUtc(new(2025,8,1,15,0,0), "Europe/London"), Is.EqualTo(new DateTime(2025,8,1,14,0,0,DateTimeKind.Utc)));
+        Assert.That(FixtureTimePolicy.KickoffUtc(new(2025,10,26,1,30,0), "Europe/London"), Is.Null);
+        Assert.That(FixtureTimePolicy.KickoffUtc(new(2025,3,30,1,30,0), "Europe/London"), Is.Null);
     }
 }
