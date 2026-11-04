@@ -48,8 +48,9 @@ string ReadCodeSha()
 }
 var codeSha = arguments.GetValueOrDefault("--code-sha") ?? ReadCodeSha();
 var sourceFiles = Directory.GetFiles("PowerLinesWeb/Analysis", "*.cs", SearchOption.AllDirectories).Concat(Directory.GetFiles("PowerLinesWeb.Evaluation", "*.cs")).Order(StringComparer.Ordinal).ToList();
+var numericalEnvironment = new { Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, Platform = System.Runtime.InteropServices.RuntimeInformation.RuntimeIdentifier, Architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString() };
 var implementationHash = ForecastVersions.Hash(sourceFiles.Select(x => new { Path = x, Sha = Sha(x) }));
-Tournament.WriteJson(Path.Combine(output, "run.json"), new { Status = "Running", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, CodeSha = codeSha, ImplementationHash = implementationHash });
+Tournament.WriteJson(Path.Combine(output, "run.json"), new { NumericalEnvironment = numericalEnvironment, Status = "Running", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, CodeSha = codeSha, ImplementationHash = implementationHash });
 System.IO.File.WriteAllText(Path.Combine(output, "manifest.json"), manifestText);
 var data = Replay.ReadSnapshot(snapshotPath);
 var quotes = JsonSerializer.Deserialize<List<QualifiedQuote>>(ReadText(quotesPath), Replay.Json).ToDictionary(x => x.Id);
@@ -58,7 +59,7 @@ var tournament = new Tournament(manifest, quotes, manifestHash);
 List<RawPrediction> Raw(string stage, DateTime from, DateTime through, IReadOnlyList<Recipe> recipes)
 {
     var path = Path.Combine(output, stage + "-raw.jsonl.gz");
-    var fingerprint = ForecastVersions.Hash(new { implementationHash, manifest.SnapshotSha256, from, through, recipes });
+    var fingerprint = ForecastVersions.Hash(new { numericalEnvironment, implementationHash, manifest.SnapshotSha256, from, through, recipes });
     var keyPath = path + ".sha256";
     if (System.IO.File.Exists(path) && System.IO.File.Exists(keyPath) && System.IO.File.ReadAllText(keyPath) == fingerprint) return Replay.ReadLines<RawPrediction>(path);
     var rows = Replay.Generate(data, manifest, from, through, recipes);
@@ -86,6 +87,6 @@ var final = Raw("final", manifest.HoldoutFrom, manifest.DiagnosticThrough, final
 var report = tournament.Report(final, frozen, output, data);
 var checksums = Directory.GetFiles(output).Where(x => Path.GetFileName(x) is not ("run.json" or "COMPLETE" or "checksums.json")).Order(StringComparer.Ordinal).ToDictionary(x => Path.GetFileName(x), Sha);
 Tournament.WriteJson(Path.Combine(output, "checksums.json"), checksums);
-Tournament.WriteJson(Path.Combine(output, "run.json"), new { ArtifactChecksumsHash = Sha(Path.Combine(output, "checksums.json")), Id = ForecastVersions.Hash(new { manifestHash, implementationHash }), Status = "Completed", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, CodeSha = codeSha, ImplementationHash = implementationHash, TestFrom = manifest.HoldoutFrom, TestThrough = manifest.HoldoutThrough, CompletedAt = DateTime.UtcNow });
+Tournament.WriteJson(Path.Combine(output, "run.json"), new { ArtifactChecksumsHash = Sha(Path.Combine(output, "checksums.json")), Id = ForecastVersions.Hash(new { manifestHash, implementationHash, numericalEnvironment }), NumericalEnvironment = numericalEnvironment, Status = "Completed", DatasetHash = manifest.SnapshotSha256, ManifestHash = manifestHash, Runtime = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription, CodeSha = codeSha, ImplementationHash = implementationHash, TestFrom = manifest.HoldoutFrom, TestThrough = manifest.HoldoutThrough, CompletedAt = DateTime.UtcNow });
 System.IO.File.WriteAllText(Path.Combine(output, "COMPLETE"), Sha(Path.Combine(output, "report.json")) + "\n");
 Console.WriteLine(System.IO.File.ReadAllText(Path.Combine(output, "report.md")));
