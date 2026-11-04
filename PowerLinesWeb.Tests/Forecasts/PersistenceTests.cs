@@ -20,7 +20,7 @@ public class PersistenceTests
     ServiceProvider provider;
     readonly FixedClock clock = new(new DateTimeOffset(2025,8,1,12,0,0,TimeSpan.Zero));
     string connection;
-    ApplicationDbContext Db() => new(new DbContextOptionsBuilder<ApplicationDbContext>().UseNpgsql(connection).Options);
+    ApplicationDbContext Db() => new(new DbContextOptionsBuilder<ApplicationDbContext>().UseNpgsql(connection, options => options.EnableRetryOnFailure()).Options);
 
     [OneTimeSetUp]
     public void Initialize()
@@ -29,7 +29,7 @@ public class PersistenceTests
         if(string.IsNullOrEmpty(connection)) Assert.Ignore("Set POWERLINES_TEST_DB to an isolated disposable database to run persistence/job integration tests.");
         if(!connection.Contains("power_lines_test")) throw new InvalidOperationException("Integration DB must be named power_lines_test");
         using var db=Db(); db.Database.Migrate();
-        var services=new ServiceCollection();services.AddDbContext<ApplicationDbContext>(x=>x.UseNpgsql(connection));
+        var services=new ServiceCollection();services.AddDbContext<ApplicationDbContext>(x=>x.UseNpgsql(connection, options=>options.EnableRetryOnFailure()));
         services.AddSingleton<TimeProvider>(clock);services.AddMemoryCache(x=>x.SizeLimit=256);
         services.AddSingleton<IOptions<ModelOptions>>(Options.Create(new ModelOptions()));
         services.AddSingleton<IOptions<ThresholdOptions>>(Options.Create(new ThresholdOptions()));

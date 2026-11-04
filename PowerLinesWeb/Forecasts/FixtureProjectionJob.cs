@@ -18,7 +18,13 @@ public class FixtureProjectionJob(ApplicationDbContext db, IAnalysisService anal
     readonly TimeProvider clock = clock;
     readonly FeedOptions feed = feed.Value;
 
-    public void Run()
+    public void Run() => db.Database.CreateExecutionStrategy().Execute(() =>
+    {
+        db.ChangeTracker.Clear();
+        RunOnce();
+    });
+
+    void RunOnce()
     {
         using var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.RepeatableRead);
         var now = clock.GetUtcNow().UtcDateTime;
@@ -68,7 +74,7 @@ public class FixtureProjectionJob(ApplicationDbContext db, IAnalysisService anal
                 }
                 db.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not DbUpdateException && ex is not Npgsql.NpgsqlException && ex is not TimeoutException)
             {
                 // Roll back all tracked projection changes so a failed partial forecast is never published.
                 db.ChangeTracker.Clear();

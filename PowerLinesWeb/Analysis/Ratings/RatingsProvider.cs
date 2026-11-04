@@ -15,8 +15,14 @@ public class RatingsProvider(ApplicationDbContext dbContext, IOptions<ModelOptio
     readonly Dictionary<string, List<Result>> divisionResults = [];
     readonly Dictionary<(string Division, DateTime AsOf), TeamRatings> ratings = [];
 
+    DateTime? requestCutoff;
     public TeamRatings Get(string division, DateTime asOf)
     {
+        if (requestCutoff != asOf)
+        {
+            // A retried transaction gets a fresh snapshot. Never reuse a previous attempt's row cache.
+            divisionResults.Clear(); ratings.Clear(); requestCutoff = asOf;
+        }
         var key = (division, asOf);
 
         if (!ratings.TryGetValue(key, out var teamRatings))

@@ -33,6 +33,7 @@ public static class PublishCommand
         using Stream stream = System.IO.File.Exists(path) ? file : new GZipStream(file,CompressionMode.Decompress);
         using var csv = new TextFieldParser(stream) { HasFieldsEnclosedInQuotes=true };
         csv.SetDelimiters(",");var names=csv.ReadFields();var index=names.Select((x,i)=>(x,i)).ToDictionary(x=>x.x,x=>x.i);
+        var batchCount = 0;
         while(!csv.EndOfData)
         {
             var row=csv.ReadFields();string Get(string name)=>row[index[name]];
@@ -42,7 +43,7 @@ public static class PublishCommand
                 Origin="HistoricalReplay",ForecastAt=created,TrainingCutoff=DateTime.ParseExact(Get("trainingCutoff"),"yyyy-MM-dd",CultureInfo.InvariantCulture),
                 ModelVersion=Get("candidate"),InputRevision=run.RootElement.GetProperty("DatasetHash").GetString(),CalibrationVersion=Get("calibrationVersion"),CalibrationCutoff=DateTime.ParseExact(Get("calibrationCutoff"),"yyyy-MM-dd",CultureInfo.InvariantCulture),PolicyVersion=run.RootElement.GetProperty("ManifestHash").GetString(),Support=Get("support"),Status=Get("exclusion").Length==0?"Available":Get("exclusion"),
                 RawHome=Number("rawH"),RawDraw=Number("rawD"),RawAway=Number("rawA"),FinalHome=Number("finalH"),FinalDraw=Number("finalD"),FinalAway=Number("finalA"),DecisionJson=JsonSerializer.Serialize(new { Selection=Get("winSelection"),Tier=Get("tier"),FairOdds=Number("fairOdds"),PriceExclusion=Get("priceExclusion") }) });
-            if(db.ChangeTracker.Entries().Count()>1000){db.SaveChanges();db.ChangeTracker.Clear();}
+            if(++batchCount % 1000 == 0){db.SaveChanges();db.ChangeTracker.Clear();}
         }
         db.SaveChanges();transaction.Commit();Console.WriteLine($"Published completed run {runId}; replay origin preserved.");
     }

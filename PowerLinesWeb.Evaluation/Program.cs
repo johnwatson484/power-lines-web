@@ -1,9 +1,13 @@
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.Json;
 using PowerLinesWeb.Evaluation;
 using PowerLinesWeb.Forecasts;
+
+CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
 
 if (args.Length == 2 && args[0] == "--publish") { PublishCommand.Run(args[1]); return; }
 

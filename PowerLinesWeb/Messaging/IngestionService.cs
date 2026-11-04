@@ -10,7 +10,13 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
     readonly ApplicationDbContext db = db;
     readonly TimeProvider clock = clock;
 
-    public void SaveFixture(Fixture incoming)
+    public void SaveFixture(Fixture incoming) => db.Database.CreateExecutionStrategy().Execute(() =>
+    {
+        db.ChangeTracker.Clear();
+        SaveFixtureOnce(incoming);
+    });
+
+    void SaveFixtureOnce(Fixture incoming)
     {
         Validate(incoming.Division, incoming.HomeTeam, incoming.AwayTeam, incoming.Date);
         using var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
@@ -22,6 +28,8 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
             // A rename without a source identity/explicit alias must be resolved, never silently duplicated.
             if (db.Fixtures.Any(x => x.Division == incoming.Division && x.Date == incoming.Date && (x.HomeTeam == incoming.HomeTeam || x.AwayTeam == incoming.AwayTeam)))
                 throw new InvalidOperationException("Ambiguous renamed fixture; reconcile source identity/alias first.");
+            incoming.FixtureId = 0;
+            incoming.MatchOdds = null;
             incoming.Created = now; incoming.Updated = now; incoming.Revision = 1;
             incoming.AnalysisStatus = "Awaiting analysis"; db.Fixtures.Add(incoming); existing = incoming;
         }
@@ -50,7 +58,13 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         db.SaveChanges(); transaction.Commit();
     }
 
-    public void SaveResult(Result incoming)
+    public void SaveResult(Result incoming) => db.Database.CreateExecutionStrategy().Execute(() =>
+    {
+        db.ChangeTracker.Clear();
+        SaveResultOnce(incoming);
+    });
+
+    void SaveResultOnce(Result incoming)
     {
         Validate(incoming.Division, incoming.HomeTeam, incoming.AwayTeam, incoming.Date);
         if (incoming.FullTimeHomeGoals < 0 || incoming.FullTimeAwayGoals < 0 || incoming.FullTimeResult != (incoming.FullTimeHomeGoals > incoming.FullTimeAwayGoals ? "H" : incoming.FullTimeHomeGoals < incoming.FullTimeAwayGoals ? "A" : "D"))
@@ -63,6 +77,8 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         {
             if (db.Results.Any(x => x.Division == incoming.Division && x.Date == incoming.Date && (x.HomeTeam == incoming.HomeTeam || x.AwayTeam == incoming.AwayTeam)))
                 throw new InvalidOperationException("Ambiguous renamed result; reconcile source identity/alias first.");
+            incoming.ResultId = 0;
+            incoming.ResultMatchOdds = null;
             incoming.Created = now; incoming.Updated = now; incoming.Revision = 1; incoming.ScoreRevision = 1;
             db.Results.Add(incoming); existing = incoming;
         }
