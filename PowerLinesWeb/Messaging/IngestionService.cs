@@ -35,6 +35,8 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         }
         else
         {
+            if (existing.Date != incoming.Date && db.Results.Any(x => x.Division == existing.Division && x.Date.Date == existing.Date.Date && x.HomeTeam == existing.HomeTeam && x.AwayTeam == existing.AwayTeam))
+                throw new InvalidOperationException("A completed fixture identity cannot be reused; stage the repeated pairing explicitly.");
             var before = ForecastVersions.Hash(new { existing.Division, Date = existing.Date.Ticks, existing.HomeTeam, existing.AwayTeam, existing.HomeOddsAverage, existing.DrawOddsAverage, existing.AwayOddsAverage, existing.SourceFileHash, existing.PriceKind, QuoteObservedAt = existing.QuoteObservedAt.HasValue ? existing.QuoteObservedAt.Value.Ticks : (long?)null, existing.LifecycleStatus });
             existing.Division = incoming.Division; existing.Date = incoming.Date;
             existing.HomeTeam = incoming.HomeTeam; existing.AwayTeam = incoming.AwayTeam;
@@ -52,9 +54,9 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
             if (before != after) { existing.Revision++; existing.Updated = now; existing.AnalysisKey = null; existing.AnalysisStatus = "Awaiting analysis"; }
         }
         db.SaveChanges(); // Assign the stable database identity before archiving quotes.
-        ArchiveQuote($"fixture:{existing.FixtureId}:{existing.SourceMatchId}", existing.SourceUrl, existing.SourceFileHash, existing.Revision, existing.PriceKind, existing.QuoteObservedAt, existing.HomeOddsAverage, existing.DrawOddsAverage, existing.AwayOddsAverage, now);
+        ArchivePrimary($"fixture:{existing.FixtureId}", incoming.SourceUrl, incoming.SourceFileHash, existing.Revision, incoming.PriceKind, incoming.QuoteObservedAt, incoming.HomeOddsAverage, incoming.DrawOddsAverage, incoming.AwayOddsAverage, now);
         foreach (var price in incoming.SourcePrices)
-            ArchiveQuote($"fixture:{existing.FixtureId}:{existing.SourceMatchId}", (existing.SourceUrl ?? "LegacyUnknown") + ":" + price.Columns, incoming.SourceFileHash, existing.Revision, price.Kind, null, price.Home, price.Draw, price.Away, now);
+            ArchiveQuote($"fixture:{existing.FixtureId}:columns:{price.Columns}", (incoming.SourceUrl ?? "LegacyUnknown") + ":" + price.Columns, incoming.SourceFileHash, existing.Revision, price.Kind, null, price.Home, price.Draw, price.Away, now);
         db.SaveChanges(); transaction.Commit();
     }
 
@@ -109,10 +111,19 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
             if (changed) { existing.Revision++; existing.Updated = now; }
         }
         db.SaveChanges();
-        ArchiveQuote($"result:{existing.ResultId}:{existing.SourceMatchId}", existing.SourceUrl, existing.SourceFileHash, existing.Revision, existing.PriceKind, existing.QuoteObservedAt, existing.HomeOddsAverage, existing.DrawOddsAverage, existing.AwayOddsAverage, now);
+        ArchivePrimary($"result:{existing.ResultId}", incoming.SourceUrl, incoming.SourceFileHash, existing.Revision, incoming.PriceKind, incoming.QuoteObservedAt, incoming.HomeOddsAverage, incoming.DrawOddsAverage, incoming.AwayOddsAverage, now);
         foreach (var price in incoming.SourcePrices)
-            ArchiveQuote($"result:{existing.ResultId}:{existing.SourceMatchId}", (existing.SourceUrl ?? "LegacyUnknown") + ":" + price.Columns, incoming.SourceFileHash, existing.Revision, price.Kind, null, price.Home, price.Draw, price.Away, now);
+            ArchiveQuote($"result:{existing.ResultId}:columns:{price.Columns}", (incoming.SourceUrl ?? "LegacyUnknown") + ":" + price.Columns, incoming.SourceFileHash, existing.Revision, price.Kind, null, price.Home, price.Draw, price.Away, now);
         db.SaveChanges(); transaction.Commit();
+    }
+
+    void ArchivePrimary(string match, string source, string hash, long revision, string kind, DateTime? observedAt, decimal home, decimal draw, decimal away, DateTime now)
+    {
+        if (!ValidPrices(home, draw, away)) return;
+        var previous = db.MarketQuotes.AsNoTracking().Where(x => x.MatchIdentity == match).OrderByDescending(x => x.Id).FirstOrDefault();
+        // A metadata-free repeat does not make an old verified quote a new unknown offer.
+        if (hash == null && previous != null && previous.Home == home && previous.Draw == draw && previous.Away == away) return;
+        ArchiveQuote(match, source, hash, revision, kind, observedAt, home, draw, away, now);
     }
 
     void ArchiveQuote(string match, string source, string hash, long revision, string kind, DateTime? observedAt, decimal home, decimal draw, decimal away, DateTime now)

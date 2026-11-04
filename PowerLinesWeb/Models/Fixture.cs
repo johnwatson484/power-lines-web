@@ -56,6 +56,7 @@ public class Fixture
     public string Status { get; set; }
     public string FeedStatus { get; set; }
     public string Source { get; set; }
+    public bool AvailableOffer { get; set; }
     public string PriceKind { get; set; }
     public DateTime? QuoteObservedAt { get; set; }
     public decimal? MarketHome { get; set; }

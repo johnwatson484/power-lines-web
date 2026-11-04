@@ -36,15 +36,19 @@ public class FixtureProjectionJob(ApplicationDbContext db, IAnalysisService anal
         var resultDates = db.Results.AsNoTracking().Where(x => x.Date < now.Date && x.Created <= now).GroupBy(x => x.Division).Select(g => new { Division = g.Key, Last = g.Max(x => x.Date) }).ToDictionary(x => x.Division, x => x.Last);
         var artifact = model.EnableCalibration ? calibration.GetArtifact(modelVersion, now) : null;
         var calibrationVersion = artifact?.Version ?? "identity";
-        foreach (var fixtureId in db.Fixtures.AsNoTracking().Where(x => x.Date > now && x.LifecycleStatus == "Scheduled").OrderBy(x => x.FixtureId).Select(x => x.FixtureId).ToList())
+        foreach (var fixtureId in db.Fixtures.AsNoTracking().Where(x => x.Date > now && x.LifecycleStatus == "Scheduled" && (!x.Updated.HasValue || x.Updated <= now) && (!x.Created.HasValue || x.Created <= now)).OrderBy(x => x.FixtureId).Select(x => x.FixtureId).ToList())
         {
             var fixture = db.Fixtures.Include(x => x.MatchOdds).Single(x => x.FixtureId == fixtureId);
-            var key = ForecastVersions.Hash(new { inputVersion, fixture.Revision, modelVersion, policyVersion, calibrationVersion, Day = now.Date });
+            var storedQuote = db.MarketQuotes.AsNoTracking().Where(x => x.MatchIdentity == $"fixture:{fixtureId}" && x.IngestedAt <= now).OrderByDescending(x => x.Id).FirstOrDefault();
+            var quoteFresh = storedQuote != null && storedQuote.Available && storedQuote.ObservedAt.HasValue && storedQuote.ObservedAt <= now && storedQuote.ObservedAt >= now.AddMinutes(-betting.MaxQuoteAgeMinutes);
+            var quoteId = storedQuote?.Id;
+            var key = ForecastVersions.Hash(new { inputVersion, fixture.Revision, quoteId, quoteFresh, modelVersion, policyVersion, calibrationVersion, Day = now.Date });
             if (fixture.AnalysisKey == key) continue;
             try
             {
-                var quote = new MarketOdds(fixture.HomeOddsAverage, fixture.DrawOddsAverage, fixture.AwayOddsAverage)
-                { Source = fixture.SourceUrl, Kind = fixture.PriceKind ?? "LegacyAverageUnknown", ObservedAt = fixture.QuoteObservedAt, Revision = fixture.Revision.ToString(), IsAvailable = false };
+                var quote = storedQuote == null ? new MarketOdds(fixture.HomeOddsAverage, fixture.DrawOddsAverage, fixture.AwayOddsAverage)
+                    : new MarketOdds(storedQuote.Home, storedQuote.Draw, storedQuote.Away)
+                    { Source = storedQuote.Source, Kind = storedQuote.Kind, ObservedAt = storedQuote.ObservedAt, Revision = storedQuote.Revision, IsAvailable = storedQuote.Available, Commission = storedQuote.Commission };
                 var stale = !feed.SeasonBreakMonths.Contains(now.Month) && (!resultDates.TryGetValue(fixture.Division, out var latestResult) || latestResult < now.Date.AddDays(-feed.MaxResultAgeDaysInSeason));
                 var missingKickoff = fixture.Date.TimeOfDay == TimeSpan.Zero;
                 var odds = stale || missingKickoff ? null : analysis.GetMatchOdds(new AnalysisFixture { Id = fixture.FixtureId, Division = fixture.Division, Date = fixture.Date, InformationCutoff = now, HomeTeam = fixture.HomeTeam, AwayTeam = fixture.AwayTeam, MarketOdds = quote });
@@ -57,7 +61,7 @@ public class FixtureProjectionJob(ApplicationDbContext db, IAnalysisService anal
                     PolicyVersion = policyVersion, Support = odds?.Support ?? "Unavailable", Status = status,
                     RawHome = odds?.RawHomeProbability, RawDraw = odds?.RawDrawProbability, RawAway = odds?.RawAwayProbability,
                     FinalHome = odds?.HomeProbability, FinalDraw = odds?.DrawProbability, FinalAway = odds?.AwayProbability,
-                    QuoteRevision = quote.Revision, DecisionJson = JsonSerializer.Serialize(new { Win = odds?.Recommended, Broader = odds?.LowerRecommended, Price = odds?.ValueSelection, odds?.PriceReason, odds?.ValueExpectedReturn })
+                    QuoteRevision = quote.Revision, DecisionJson = JsonSerializer.Serialize(new { Win = odds?.Recommended, Broader = odds?.LowerRecommended, Price = odds?.ValueSelection, QuoteId = storedQuote?.Id, QuoteSource = storedQuote?.Source, QuoteKind = storedQuote?.Kind, QuoteTime = storedQuote?.ObservedAt, odds?.PriceReason, odds?.ValueExpectedReturn })
                 });
                 fixture.AnalysisStatus = status; fixture.AnalysisKey = key;
                 if (odds != null)

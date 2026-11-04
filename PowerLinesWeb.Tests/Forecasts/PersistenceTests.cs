@@ -108,7 +108,7 @@ public class PersistenceTests
     public void Fixture_list_includes_unsupported_and_pending_rows_and_empty_reports_do_not_publish()
     {
         IngestFixture();using var db=Db();db.Fixtures.Add(new() {Division="E0",Date=clock.Now.UtcDateTime.AddDays(2),HomeTeam="New",AwayTeam="Unknown"});db.SaveChanges();
-        var service=new FixtureService(db,clock,Options.Create(new ThresholdOptions {Lower=.60m}),Options.Create(new FeedOptions()));
+        var service=new FixtureService(db,clock,Options.Create(new ThresholdOptions {Lower=.60m}),Options.Create(new FeedOptions()),Options.Create(new BettingOptions()));
         var page=service.GetPage();Assert.That(page.Fixtures.Count,Is.EqualTo(2));Assert.That(page.Fixtures.All(x=>x.HomeProbability==null),Is.True);Assert.That(page.Lower,Is.EqualTo(.60m));
         Run();Assert.That(service.GetPage().Fixtures.Any(x=>x.Status=="Insufficient history"),Is.True);
         db.EvaluationRuns.Add(new() {Id="unfinished",Status="Running"});db.SaveChanges();
@@ -148,6 +148,42 @@ public class PersistenceTests
             SourcePrices=[new("AvgC","AverageClosing",2.5m,4.5m,4.5m),new("Max","MaximumPreClosing",3,5,5)] });
         using var db=Db();Assert.That(db.MarketQuotes.Select(x=>x.Kind),Is.EquivalentTo(new[]{"AveragePreClosing","AverageClosing","MaximumPreClosing"}));
         Assert.That(db.Fixtures.Single().HomeOddsAverage,Is.EqualTo(2));
+    }
+
+    [Test]
+    public void Missing_prices_retain_the_original_quote_source_and_snapshot_reference()
+    {
+        IngestFixture();Run();
+        using(var scope=provider.CreateScope()) scope.ServiceProvider.GetRequiredService<IngestionService>().SaveFixture(new() {Division="E0",Date=clock.Now.UtcDateTime.AddDays(1),HomeTeam="Strong",AwayTeam="Weak",SourceMatchId="stable-fixture",SourceUrl="new-source-without-prices",SourceFileHash="new-hash"});
+        Run();using var db=Db();var quote=db.MarketQuotes.Single();var snapshot=db.ForecastSnapshots.OrderByDescending(x=>x.Id).First();
+        Assert.That(quote.Source,Is.EqualTo("source"));Assert.That(quote.SourceFileHash,Is.EqualTo("hash"));
+        using var decision=JsonDocument.Parse(snapshot.DecisionJson);Assert.That(decision.RootElement.GetProperty("QuoteId").GetInt64(),Is.EqualTo(quote.Id));
+        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions()),Options.Create(new BettingOptions())).GetPage();
+        Assert.That(page.Fixtures.Single().Source,Is.EqualTo("source"));Assert.That(page.Fixtures.Single().MarketHome,Is.EqualTo(2));
+    }
+
+    [Test]
+    public void Independent_offer_updates_and_expiry_refresh_price_decisions_without_fixture_revisions()
+    {
+        IngestFixture();Run();using var db=Db();var fixture=db.Fixtures.Single();var revision=fixture.Revision;
+        db.MarketQuotes.Add(new() {MatchIdentity=$"fixture:{fixture.FixtureId}",Source="Bookmaker",Revision="offer-1",Kind="AvailableOffer",ObservedAt=clock.Now.UtcDateTime.AddMinutes(-1),IngestedAt=clock.Now.UtcDateTime,Available=true,Home=3,Draw=4,Away=4});db.SaveChanges();
+        Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("H"));Assert.That(db.Fixtures.AsNoTracking().Single().Revision,Is.EqualTo(revision));
+        clock.Now=clock.Now.AddMinutes(31);
+        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions()),Options.Create(new BettingOptions())).GetPage();
+        Assert.That(page.Fixtures.Single().IsValue,Is.False);
+        Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("X"));Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(3));
+    }
+
+    [Test]
+    public void A_completed_fixture_cannot_be_recycled_as_a_later_repeated_pairing()
+    {
+        IngestFixture();DateTime originalDate;
+        using(var db=Db()) originalDate=db.Fixtures.Single().Date;
+        clock.Now=clock.Now.AddDays(2);
+        using(var db=Db()) {db.Results.Add(new() {Division="E0",Date=originalDate.Date,HomeTeam="Strong",AwayTeam="Weak",FullTimeHomeGoals=1,FullTimeAwayGoals=0,FullTimeResult="H",Created=clock.Now.UtcDateTime});db.SaveChanges();}
+        using var scope=provider.CreateScope();
+        Assert.Throws<InvalidOperationException>(()=>scope.ServiceProvider.GetRequiredService<IngestionService>().SaveFixture(new() {Division="E0",Date=clock.Now.UtcDateTime.AddDays(1),HomeTeam="Strong",AwayTeam="Weak",SourceMatchId="stable-fixture"}));
+        using var check=Db();Assert.That(check.Fixtures.Single().Date,Is.EqualTo(originalDate));
     }
 
     [OneTimeTearDown]
