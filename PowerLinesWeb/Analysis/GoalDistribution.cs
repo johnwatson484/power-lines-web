@@ -17,6 +17,7 @@ public class GoalDistribution
 
     public void CalculateDistribution(DixonColes lowScoreCorrection)
     {
+        ScoreProbabilities.Clear();
         foreach (var homeGoalProbability in HomeGoalProbabilities)
         {
             foreach (var awayGoalProbability in AwayGoalProbabilities)
@@ -24,6 +25,7 @@ public class GoalDistribution
                 var scoreProbability = new ScoreProbability(homeGoalProbability, awayGoalProbability);
                 scoreProbability.CalculateProbability();
                 scoreProbability.Scale((decimal)lowScoreCorrection.GetAdjustment(homeGoalProbability.Goals, awayGoalProbability.Goals));
+                if (scoreProbability.Probability < 0) throw new InvalidOperationException("Negative score probability");
                 ScoreProbabilities.Add(scoreProbability);
             }
         }
@@ -38,7 +40,7 @@ public class GoalDistribution
 
         if (total <= 0)
         {
-            return;
+            throw new InvalidOperationException("Empty score distribution");
         }
 
         foreach (var scoreProbability in ScoreProbabilities)

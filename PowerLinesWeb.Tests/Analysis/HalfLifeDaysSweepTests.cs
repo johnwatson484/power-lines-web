@@ -29,7 +29,7 @@ public class HalfLifeDaysSweepTests
         using var dbContext = new ApplicationDbContext(options);
 
         var modelOptions = new ModelOptions { HalfLifeDays = halfLifeDays };
-        var ratingsProvider = new RatingsProvider(dbContext, Options.Create(modelOptions));
+        var ratingsProvider = new RatingsProvider(dbContext, Options.Create(modelOptions), new Microsoft.Extensions.Caching.Memory.MemoryCache(new Microsoft.Extensions.Caching.Memory.MemoryCacheOptions()));
         var analysisService = new AnalysisService(
             ratingsProvider,
             new NoCalibrationProvider(),

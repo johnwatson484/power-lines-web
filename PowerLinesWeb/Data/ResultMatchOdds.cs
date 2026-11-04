@@ -65,9 +65,9 @@ public class ResultMatchOdds
     [Column("calculated")]
     public DateTime Calculated { get; set; }
 
-    public bool IsRecommended => Recommended != "X";
+    public bool IsRecommended => Recommended is "H" or "A";
 
-    public bool IsLowerRecommended => LowerRecommended != "X";
+    public bool IsLowerRecommended => LowerRecommended is "H" or "A";
 
-    public bool IsValue => ValueSelection != "X";
+    public bool IsValue => ValueSelection is "H" or "A";
 }

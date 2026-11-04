@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../PowerLinesWeb/PowerLinesWeb.csproj" />
+    <ProjectReference Include="../PowerLinesWeb.Evaluation/PowerLinesWeb.Evaluation.csproj" />
   </ItemGroup>
 
 </Project>

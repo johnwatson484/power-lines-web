@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerLinesWeb", "PowerLines
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerLinesWeb.Tests", "PowerLinesWeb.Tests\PowerLinesWeb.Tests.csproj", "{AF1E11B9-FF57-493A-9B55-5691DF86B141}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerLinesWeb.Evaluation", "PowerLinesWeb.Evaluation\PowerLinesWeb.Evaluation.csproj", "{81266959-4C15-47D0-95D8-ED85710BDC11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{AF1E11B9-FF57-493A-9B55-5691DF86B141}.Release|x64.Build.0 = Release|Any CPU
 		{AF1E11B9-FF57-493A-9B55-5691DF86B141}.Release|x86.ActiveCfg = Release|Any CPU
 		{AF1E11B9-FF57-493A-9B55-5691DF86B141}.Release|x86.Build.0 = Release|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Debug|x64.Build.0 = Debug|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Debug|x86.Build.0 = Debug|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Release|x64.ActiveCfg = Release|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Release|x64.Build.0 = Release|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Release|x86.ActiveCfg = Release|Any CPU
+		{81266959-4C15-47D0-95D8-ED85710BDC11}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

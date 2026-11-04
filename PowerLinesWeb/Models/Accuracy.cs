@@ -41,7 +41,9 @@ public class Accuracy
     public decimal ValueRoi { get; set; }
 
     // Only meaningful where the market log loss was measured on the same matches.
-    public bool BeatsMarket => MarketLogLoss > 0 && LogLoss > 0 && LogLoss < MarketLogLoss;
+    public decimal? PairedModelLogLoss { get; set; }
+    public int PairedMatches { get; set; }
+    public bool BeatsMarket => PairedMatches > 0 && PairedModelLogLoss.HasValue && PairedModelLogLoss < MarketLogLoss;
 
     public DateTime Calculated { get; set; }
 }

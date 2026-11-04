@@ -29,5 +29,21 @@ public class Fixture
     [Column("awayOddsAverage")]
     public decimal AwayOddsAverage { get; set; }
 
+    public long Revision { get; set; }
+    public DateTime? Updated { get; set; }
+    public string SourceUrl { get; set; }
+    public string SourceSeason { get; set; }
+    public string SourceFileHash { get; set; }
+    public string SourceRowId { get; set; }
+    public string SourceMatchId { get; set; }
+    public string PriceKind { get; set; }
+    public string PriceCollection { get; set; }
+    public DateTime? QuoteObservedAt { get; set; }
+
+    public DateTime? Created { get; set; }
+    public string AnalysisKey { get; set; }
+    public string AnalysisStatus { get; set; } = "Awaiting analysis";
+    public string LifecycleStatus { get; set; } = "Scheduled";
+
     public virtual MatchOdds MatchOdds { get; set; }
 }

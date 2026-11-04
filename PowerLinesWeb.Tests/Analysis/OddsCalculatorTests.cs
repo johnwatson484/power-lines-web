@@ -25,12 +25,12 @@ public class OddsCalculatorTests
     }
 
     [Test]
-    public void A_confident_prediction_is_recommended_at_both_thresholds()
+    public void A_confident_prediction_occupies_only_the_strong_tier()
     {
         var odds = Calculate(homeGoalProbabilities: [0.1m, 0.9m], awayGoalProbabilities: [1m, 0m]);
 
         Assert.That(odds.Recommended, Is.EqualTo("H"));
-        Assert.That(odds.LowerRecommended, Is.EqualTo("H"));
+        Assert.That(odds.LowerRecommended, Is.EqualTo("X"));
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class OddsCalculatorTests
     public void A_price_longer_than_the_model_believes_is_flagged_as_value()
     {
         // The model makes home an 80% shot, the market prices it around 45%.
-        var odds = Calculate([0.2m, 0.8m], [1m, 0m], new MarketOdds(2.20m, 3.40m, 3.40m), new BettingOptions());
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], Offer(2.20m, 3.40m, 3.40m), new BettingOptions());
 
         Assert.That(odds.ValueSelection, Is.EqualTo("H"));
         Assert.That(odds.ValueOdds, Is.EqualTo(2.20m));
@@ -94,24 +94,24 @@ public class OddsCalculatorTests
     [Test]
     public void A_price_that_matches_the_model_is_not_value()
     {
-        var odds = Calculate([0.2m, 0.8m], [1m, 0m], new MarketOdds(1.25m, 5m, 100m), new BettingOptions { MinOdds = 1m, MaxOdds = 1000m });
+        var odds = Calculate([0.2m, 0.8m], [1m, 0m], Offer(1.25m, 5m, 100m), new BettingOptions { MinOdds = 1.01m, MaxOdds = 1000m });
 
         Assert.That(odds.ValueSelection, Is.EqualTo("X"));
     }
 
     [Test]
-    public void An_edge_below_the_minimum_is_ignored()
+    public void Probability_disagreement_floor_does_not_replace_the_ev_floor()
     {
-        var marketOdds = new MarketOdds(2.20m, 3.40m, 3.40m);
+        var marketOdds = Offer(2.20m, 3.40m, 3.40m);
         var odds = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { MinEdge = 0.9m });
 
-        Assert.That(odds.ValueSelection, Is.EqualTo("X"));
+        Assert.That(odds.ValueSelection, Is.EqualTo("H"));
     }
 
     [Test]
     public void Prices_outside_the_backable_range_are_ignored()
     {
-        var marketOdds = new MarketOdds(2.20m, 3.40m, 3.40m);
+        var marketOdds = Offer(2.20m, 3.40m, 3.40m);
         var odds = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { MinOdds = 3m, MaxOdds = 10m });
 
         Assert.That(odds.ValueSelection, Is.EqualTo("X"));
@@ -120,20 +120,20 @@ public class OddsCalculatorTests
     [Test]
     public void The_stake_scales_with_the_kelly_fraction()
     {
-        var marketOdds = new MarketOdds(2.20m, 3.40m, 3.40m);
-        var full = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { KellyFraction = 1m });
-        var quarter = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { KellyFraction = 0.25m });
+        var marketOdds = Offer(2.20m, 3.40m, 3.40m);
+        var full = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { KellyFraction = 1m, MaxStakeFraction = 1m });
+        var quarter = Calculate([0.2m, 0.8m], [1m, 0m], marketOdds, new BettingOptions { KellyFraction = 0.25m, MaxStakeFraction = 1m });
 
         Assert.That(quarter.ValueStake, Is.EqualTo(full.ValueStake / 4).Within(0.0001m));
     }
 
     [Test]
-    public void A_draw_can_be_value_even_though_it_is_never_the_most_likely_result()
+    public void Win_value_mode_excludes_draws()
     {
         var odds = Calculate([0.5m, 0.5m], [0.5m, 0.5m], new MarketOdds(4m, 4m, 4m), new BettingOptions());
 
         Assert.That(odds.Recommended, Is.EqualTo("X"));
-        Assert.That(odds.ValueSelection, Is.EqualTo("D"));
+        Assert.That(odds.ValueSelection, Is.EqualTo("X"));
     }
 
     [Test]
@@ -150,6 +150,9 @@ public class OddsCalculatorTests
 
         Assert.That(odds.HomeProbability + odds.DrawProbability + odds.AwayProbability, Is.EqualTo(1m).Within(0.0001m));
     }
+
+    private static MarketOdds Offer(decimal h, decimal d, decimal a) => new(h, d, a)
+    { Source = "TestBookmaker", Kind = "AvailableOffer", Revision = "v1", ObservedAt = DateTime.UtcNow.AddMinutes(-1), IsAvailable = true };
 
     private static AnalysisMatchOdds Calculate(decimal[] homeGoalProbabilities, decimal[] awayGoalProbabilities, ExpectedGoals expectedGoals = null)
     {

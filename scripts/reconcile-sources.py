@@ -41,7 +41,7 @@ for row in rows:
  if not equal(old,avg):counts['PriceCorrection']+=1
  # An offline corrected-source comparison is explicit; never claim these were executable offers.
  qualified.append({'Id':row['resultId'],'Home':avg[0],'Draw':avg[1],'Away':avg[2],'SourceUrl':url,'SourceFileHash':sha,'PriceKind':'AveragePreClosing','ObservedAt':None,'StoredAverageMatched':equal(old,avg)})
- if not equal(old,avg):stage.append({'ResultId':row['resultId'],'Identity':key,'Before':old,'After':avg,'SourceUrl':url,'SourceFileHash':sha,'ExpectedBeforeSha256':hashlib.sha256(json.dumps(old,separators=(',',':')).encode()).hexdigest()})
+ if not equal(old,avg):stage.append({'ResultId':row['resultId'],'Identity':key,'ExpectedScore':[row['fullTimeHomeGoals'],row['fullTimeAwayGoals']],'Before':old,'After':avg,'SourceUrl':url,'SourceFileHash':sha,'ExpectedBeforeSha256':hashlib.sha256(json.dumps(old,separators=(',',':')).encode()).hexdigest()})
 (out/'qualified-quotes.json').write_text(json.dumps(sorted(qualified,key=lambda x:x['Id']),indent=2)+'\n')
 (out/'staged-price-corrections.json').write_text(json.dumps(stage,indent=2)+'\n')
 (out/'source-reconciliation.json').write_text(json.dumps({'Files':files,'Cohorts':report,'QualifiedQuotes':len(qualified),'StagedCorrections':len(stage),'Applied':False,'Convention':'Source averages reconciled by score/identity; timing unknown, retrospective comparisons only.'},indent=2)+'\n')

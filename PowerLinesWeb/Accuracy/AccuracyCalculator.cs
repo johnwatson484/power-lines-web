@@ -10,21 +10,24 @@ public static class AccuracyCalculator
 
     public static AccuracyRecord Calculate(string division, IReadOnlyList<Result> results)
     {
-        var scored = results.Where(HasProbabilities).ToList();
+        var scored = results.Where(x => HasProbabilities(x) && x.FullTimeResult is "H" or "D" or "A").ToList();
+        var strong = results.Where(x => x.ResultMatchOdds?.IsRecommended == true).ToList();
+        var broader = results.Where(x => x.ResultMatchOdds?.IsLowerRecommended == true && !x.ResultMatchOdds.IsRecommended).ToList();
+        var selected = strong.Concat(broader).ToList();
         var priced = scored.Where(x => GetMarketProbabilities(x).HasProbabilities).ToList();
-        var valueBets = results.Where(x => x.ResultMatchOdds.IsValue).ToList();
+        var valueBets = results.Where(x => x.ResultMatchOdds?.IsValue == true).ToList();
 
         return new AccuracyRecord
         {
             Division = division,
             Matches = results.Count,
-            Recommended = results.Count(x => x.ResultMatchOdds.IsRecommended),
-            RecommendedAccuracy = GetHitRate(results, x => x.ResultMatchOdds.Recommended),
-            LowerRecommended = results.Count(x => x.ResultMatchOdds.IsLowerRecommended),
-            LowerRecommendedAccuracy = GetHitRate(results, x => x.ResultMatchOdds.LowerRecommended),
+            Recommended = strong.Count,
+            RecommendedAccuracy = GetHitRate(strong, x => x.ResultMatchOdds.Recommended),
+            LowerRecommended = broader.Count,
+            LowerRecommendedAccuracy = GetHitRate(broader, x => x.ResultMatchOdds.LowerRecommended),
 
-            // Backing the home side every time is the bar any set of recommendations has to clear.
-            BaselineAccuracy = Round(DecimalExtensions.SafeDivide(results.Count(x => x.FullTimeResult == "H"), results.Count)),
+            // All-home baseline on exactly the selected fixtures.
+            BaselineAccuracy = selected.Count == 0 ? null : Round((decimal)selected.Count(x => x.FullTimeResult == "H") / selected.Count),
 
             ScoredMatches = scored.Count,
             LogLoss = Round(Average(scored, x => Scoring.GetLogLoss(GetModelProbabilities(x), GetResult(x)))),
@@ -33,6 +36,9 @@ public static class AccuracyCalculator
             // Only matches carrying a price, so this is a like for like comparison against the market
             // rather than against the whole division.
             PricedMatches = priced.Count,
+            PairedModelLogLoss = Round(Average(priced, x => Scoring.GetLogLoss(GetModelProbabilities(x), GetResult(x)))),
+            PairedModelBrier = Round(Average(priced, x => Scoring.GetBrierScore(GetModelProbabilities(x), GetResult(x)))),
+            InvalidRows = results.Count(x => x.ResultMatchOdds != null && (x.FullTimeResult is not ("H" or "D" or "A") || !HasProbabilities(x))),
             MarketLogLoss = Round(Average(priced, x => Scoring.GetLogLoss(GetMarketProbabilities(x), GetResult(x)))),
 
             ValueBets = valueBets.Count,
@@ -87,6 +93,7 @@ public static class AccuracyCalculator
 
     private static MatchProbabilities GetModelProbabilities(Result result)
     {
+        if (result.ResultMatchOdds == null) return MatchProbabilities.None;
         return new MatchProbabilities(
             result.ResultMatchOdds.HomeProbability,
             result.ResultMatchOdds.DrawProbability,
@@ -95,6 +102,7 @@ public static class AccuracyCalculator
 
     private static MatchProbabilities GetMarketProbabilities(Result result)
     {
+        if (result.PriceKind != "AveragePreClosing" || result.SourceFileHash == null) return MatchProbabilities.None;
         return OddsConverter.RemoveMargin(new MarketOdds(result.HomeOddsAverage, result.DrawOddsAverage, result.AwayOddsAverage));
     }
 
@@ -103,15 +111,16 @@ public static class AccuracyCalculator
         return string.IsNullOrEmpty(result.FullTimeResult) ? 'X' : result.FullTimeResult[0];
     }
 
-    private static decimal GetHitRate(IReadOnlyList<Result> results, Func<Result, string> selection)
+    private static decimal? GetHitRate(IReadOnlyList<Result> results, Func<Result, string> selection)
     {
-        var selected = results.Where(x => selection(x) != "X").ToList();
-        return Round(DecimalExtensions.SafeDivide(selected.Count(x => selection(x) == x.FullTimeResult), selected.Count));
+        var selected = results.Where(x => selection(x) is "H" or "A").ToList();
+        return selected.Count == 0 ? null : Round((decimal)selected.Count(x => selection(x) == x.FullTimeResult) / selected.Count);
     }
 
     // Level stakes, so the return is not flattered by having staked more on the bets that happened to win.
-    private static decimal GetReturnOnInvestment(IReadOnlyList<Result> valueBets)
+    private static decimal? GetReturnOnInvestment(IReadOnlyList<Result> valueBets)
     {
+        if (valueBets.Count == 0) return null;
         var profit = valueBets.Sum(x => x.ResultMatchOdds.ValueSelection == x.FullTimeResult
             ? x.ResultMatchOdds.ValueOdds - 1
             : -1);
@@ -119,15 +128,13 @@ public static class AccuracyCalculator
         return Round(DecimalExtensions.SafeDivide(profit, valueBets.Count));
     }
 
-    private static double Average(IReadOnlyList<Result> results, Func<Result, double> score)
+    private static double? Average(IReadOnlyList<Result> results, Func<Result, double> score)
     {
-        return results.Count == 0 ? 0 : results.Average(score);
+        return results.Count == 0 ? null : results.Average(score);
     }
 
-    private static decimal Round(double value)
-    {
-        return Round((decimal)value);
-    }
+    private static decimal? Round(double? value) => value.HasValue ? Round((decimal)value.Value) : null;
+    private static decimal Round(double value) => Round((decimal)value);
 
     private static decimal Round(decimal value)
     {

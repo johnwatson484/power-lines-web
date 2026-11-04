@@ -21,24 +21,24 @@ public class Fixture
 
     [Display(Name = @"1")]
     [DisplayFormat(DataFormatString = "{0:n2}")]
-    public decimal HomeOdds { get; set; }
+    public decimal? HomeOdds { get; set; }
 
     [Display(Name = "X")]
     [DisplayFormat(DataFormatString = "{0:n2}")]
-    public decimal DrawOdds { get; set; }
+    public decimal? DrawOdds { get; set; }
 
     [Display(Name = @"2")]
     [DisplayFormat(DataFormatString = "{0:n2}")]
-    public decimal AwayOdds { get; set; }
+    public decimal? AwayOdds { get; set; }
 
     public int HomeGoals { get; set; }
     public int AwayGoals { get; set; }
     public decimal HomeXg { get; set; }
     public decimal AwayXg { get; set; }
 
-    public decimal HomeProbability { get; set; }
-    public decimal DrawProbability { get; set; }
-    public decimal AwayProbability { get; set; }
+    public decimal? HomeProbability { get; set; }
+    public decimal? DrawProbability { get; set; }
+    public decimal? AwayProbability { get; set; }
 
     [Display(Name = "Prediction")]
     public string ExpectedScore
@@ -51,6 +51,16 @@ public class Fixture
 
     [DisplayFormat(DataFormatString = "{0:n2}")]
     public decimal ExpectedGoals { get; set; }
+    public string ForecastOrigin { get; set; }
+    public string Support { get; set; }
+    public string Status { get; set; }
+    public string FeedStatus { get; set; }
+    public string Source { get; set; }
+    public string PriceKind { get; set; }
+    public DateTime? QuoteObservedAt { get; set; }
+    public decimal? MarketHome { get; set; }
+    public decimal? MarketDraw { get; set; }
+    public decimal? MarketAway { get; set; }
     public bool IsValid { get; set; }
     public string Recommended { get; set; }
     public string LowerRecommended { get; set; }

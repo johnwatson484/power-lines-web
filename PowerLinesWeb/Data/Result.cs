@@ -30,10 +30,10 @@ public class Result
     public string FullTimeResult { get; set; }
 
     [Column("halfTimeHomeGoals")]
-    public int HalfTimeHomeGoals { get; set; }
+    public int? HalfTimeHomeGoals { get; set; }
 
     [Column("halfTimeAwayGoals")]
-    public int HalfTimeAwayGoals { get; set; }
+    public int? HalfTimeAwayGoals { get; set; }
 
     [Column("halfTimeResult")]
     public string HalfTimeResult { get; set; }
@@ -49,6 +49,18 @@ public class Result
 
     [Column("created")]
     public DateTime Created { get; set; }
+
+    public long ScoreRevision { get; set; }
+    public long Revision { get; set; }
+    public DateTime? Updated { get; set; }
+    public string SourceUrl { get; set; }
+    public string SourceSeason { get; set; }
+    public string SourceFileHash { get; set; }
+    public string SourceRowId { get; set; }
+    public string SourceMatchId { get; set; }
+    public string PriceKind { get; set; }
+    public string PriceCollection { get; set; }
+    public DateTime? QuoteObservedAt { get; set; }
 
     public virtual ResultMatchOdds ResultMatchOdds { get; set; }
 

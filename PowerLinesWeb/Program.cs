@@ -11,22 +11,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<MessageOptions>(builder.Configuration.GetSection(key: "Message"));
 builder.Services.Configure<ThresholdOptions>(builder.Configuration.GetSection(key: "Threshold"));
 builder.Services.Configure<ModelOptions>(builder.Configuration.GetSection(key: "Model"));
+builder.Services.Configure<FeedOptions>(builder.Configuration.GetSection("Feed"));
 builder.Services.Configure<BettingOptions>(builder.Configuration.GetSection(key: "Betting"));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PowerLinesWeb"), options =>
         options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null)));
 
+builder.Services.AddMemoryCache(options => options.SizeLimit = 256);
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<IngestionService>();
+builder.Services.AddScoped<PowerLinesWeb.Forecasts.FixtureProjectionJob>();
 builder.Services.AddScoped<IFixtureService, FixtureService>();
 builder.Services.AddScoped<IAccuracyService, AccuracyService>();
 builder.Services.AddScoped<IRatingsProvider, RatingsProvider>();
 builder.Services.AddScoped<ICalibrationProvider, CalibrationProvider>();
 builder.Services.AddScoped<IAnalysisService, AnalysisService>();
 
-builder.Services.AddHostedService<MessageService>();
-builder.Services.AddHostedService<FixtureAnalysisBackgroundService>();
-builder.Services.AddHostedService<ResultAnalysisBackgroundService>();
-builder.Services.AddHostedService<AccuracyBackgroundService>();
+if (builder.Configuration.GetValue("Workers:Enabled", true))
+{
+    builder.Services.AddHostedService<MessageService>();
+    builder.Services.AddHostedService<FixtureAnalysisBackgroundService>();
+}
+// Historical experiments run only through the fixed-manifest evaluator. Legacy workers overwrite
+// historical projections and cannot publish reproducible completed runs.
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
