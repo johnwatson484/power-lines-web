@@ -25,6 +25,14 @@ public class OddsCalculatorTests
     }
 
     [Test]
+    public void Positive_fair_prices_are_neither_capped_nor_rounded()
+    {
+        var odds = Calculate([.9995m,.0005m],[1m,0m]);
+        Assert.That(odds.Home, Is.EqualTo(2000m));
+        Assert.That(odds.Draw, Is.EqualTo(1 / .9995m));
+    }
+
+    [Test]
     public void A_confident_prediction_occupies_only_the_strong_tier()
     {
         var odds = Calculate(homeGoalProbabilities: [0.1m, 0.9m], awayGoalProbabilities: [1m, 0m]);

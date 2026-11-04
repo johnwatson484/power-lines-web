@@ -54,8 +54,8 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
 
     private decimal ConvertProbabilityToOdds(decimal probability)
     {
-        // A vanishing probability is an unbackable price, not a price of zero.
-        if (probability <= 1 / modelOptions.MaxOdds)
+        // A zero probability is unbackable. Positive fair odds always use the exact reciprocal.
+        if (probability <= 0)
         {
             return modelOptions.MaxOdds;
         }
