@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Npgsql;
@@ -21,6 +22,7 @@ public class RabbitMqSubscriptionTests
     IModel publisher;
     ServiceProvider provider;
     string database;
+    string scopedConnection;
     string schema;
     string exchange;
     string queue;
@@ -47,6 +49,7 @@ public class RabbitMqSubscriptionTests
             create.ExecuteNonQuery();
         }
         settings.SearchPath = schema;
+        scopedConnection = settings.ConnectionString;
         var services = new ServiceCollection();
         services.AddDbContext<ApplicationDbContext>(x => x.UseNpgsql(settings.ConnectionString,
             options => { options.EnableRetryOnFailure(); options.MigrationsHistoryTable("__EFMigrationsHistory", schema); }));
@@ -173,11 +176,25 @@ public class RabbitMqSubscriptionTests
             Host = factory.HostName, Port = factory.Port, Username = factory.UserName, Password = factory.Password,
             ResultQueue = exchange, ResultSubscription = queue, FixtureQueue = exchange + "-fixtures", FixtureSubscription = queue + "-fixtures"
         });
-        Publish(Result(1));
-        Publish(new Fixture { Division = "E0", Date = new DateTime(2026, 11, 8), HomeTeam = "Home", AwayTeam = "Away", SourceMatchId = "fixture-1" }, exchange + "-fixtures");
+        const int records = 30;
+        for (var row = 0; row < records; row++)
+        {
+            Publish(Result(row));
+            Publish(new Fixture
+            {
+                Division = "E0", Date = new DateTime(2026, 11, 8).AddDays(row), HomeTeam = "Home", AwayTeam = "Away", SourceMatchId = $"fixture-{row}",
+                SourceFileHash = "fixture-hash", SourceUrl = "fixture-source", HomeOddsAverage = 2, DrawOddsAverage = 3, AwayOddsAverage = 4,
+                SourcePrices = [new("Avg", "AveragePreClosing", 2, 3, 4)]
+            }, exchange + "-fixtures");
+        }
         var status = new ImportStatus { SourceUrl = "test", Division = "E0", RowCount = 1, CompletedAt = DateTime.UtcNow, Status = "Completed" };
         Publish(status, "imports");
-        using var service = new MessageService(options, provider.GetRequiredService<IServiceScopeFactory>(), NullLogger<MessageService>.Instance);
+        var logger = new RecordingLogger();
+        // Surface serialization errors rather than hiding them with database retries.
+        using var hostProvider = new ServiceCollection()
+            .AddDbContext<ApplicationDbContext>(x => x.UseNpgsql(scopedConnection))
+            .AddSingleton(TimeProvider.System).AddScoped<IngestionService>().BuildServiceProvider();
+        using var service = new MessageService(options, hostProvider.GetRequiredService<IServiceScopeFactory>(), logger);
         try
         {
             await service.StartAsync(CancellationToken.None);
@@ -185,7 +202,7 @@ public class RabbitMqSubscriptionTests
             {
                 using var scope = provider.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                return db.Results.Count() == 1 && db.Fixtures.Count() == 1 && db.ImportStatuses.Count() == 1;
+                return db.Results.Count() == records && db.Fixtures.Count() == records && db.ImportStatuses.Count() == 1;
             });
             // A repeat completion delivery must remain idempotent too.
             Publish(status, "imports");
@@ -199,11 +216,12 @@ public class RabbitMqSubscriptionTests
             publisher.QueueDelete(queue);
             publisher.QueueDeclare(queue, durable: true, exclusive: false, autoDelete: false);
             publisher.QueueBind(queue, exchange, "");
-            Publish(Result(2));
-            await Until(() => ResultCount() == 2);
+            Publish(Result(records));
+            await Until(() => ResultCount() == records + 1);
             await service.StopAsync(CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(10));
             using var check = provider.CreateScope();
             Assert.That(check.ServiceProvider.GetRequiredService<ApplicationDbContext>().ImportStatuses.Count(x => x.SourceUrl == "test"), Is.EqualTo(1));
+            Assert.That(logger.Errors, Is.Empty);
         }
         finally
         {
@@ -212,6 +230,17 @@ public class RabbitMqSubscriptionTests
             publisher.ExchangeDelete("imports");
             publisher.QueueDelete(queue + "-fixtures");
             publisher.ExchangeDelete(exchange + "-fixtures");
+        }
+    }
+
+    sealed class RecordingLogger : ILogger<MessageService>
+    {
+        public System.Collections.Concurrent.ConcurrentQueue<Exception> Errors { get; } = new();
+        public IDisposable BeginScope<TState>(TState state) => null;
+        public bool IsEnabled(LogLevel level) => true;
+        public void Log<TState>(LogLevel level, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            if (level >= LogLevel.Error) Errors.Enqueue(exception);
         }
     }
 

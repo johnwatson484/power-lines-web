@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using PowerLinesWeb.Data;
 using PowerLinesWeb.Forecasts;
 
@@ -9,6 +10,26 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
 {
     readonly ApplicationDbContext db = db;
     readonly TimeProvider clock = clock;
+    const long ingestionLock = 0x504c494e47455354; // "PLINGEST", shared by every web instance.
+
+    IDbContextTransaction BeginIngestionTransaction()
+    {
+        // Coordinate fixture/result handlers before reading identities or quote revisions,
+        // including handlers on separate RabbitMQ channels in the same app.
+        // READ COMMITTED sees the preceding writer's commit after waiting for the lock;
+        // SERIALIZABLE would retain an earlier snapshot and can still abort after waiting.
+        var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+        try
+        {
+            db.Database.ExecuteSql($"SELECT pg_advisory_xact_lock({ingestionLock})");
+            return transaction;
+        }
+        catch
+        {
+            transaction.Dispose();
+            throw;
+        }
+    }
 
     public void SaveFixture(Fixture incoming) => db.Database.CreateExecutionStrategy().Execute(() =>
     {
@@ -19,7 +40,7 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
     void SaveFixtureOnce(Fixture incoming)
     {
         Validate(incoming.Division, incoming.HomeTeam, incoming.AwayTeam, incoming.Date);
-        using var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+        using var transaction = BeginIngestionTransaction();
         var existing = db.Fixtures.SingleOrDefault(x => (incoming.SourceMatchId != null && x.SourceMatchId == incoming.SourceMatchId) ||
             (x.Division == incoming.Division && x.Date == incoming.Date && x.HomeTeam == incoming.HomeTeam && x.AwayTeam == incoming.AwayTeam));
         var now = clock.GetUtcNow().UtcDateTime;
@@ -71,7 +92,7 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         Validate(incoming.Division, incoming.HomeTeam, incoming.AwayTeam, incoming.Date);
         if (incoming.FullTimeHomeGoals < 0 || incoming.FullTimeAwayGoals < 0 || incoming.FullTimeResult != (incoming.FullTimeHomeGoals > incoming.FullTimeAwayGoals ? "H" : incoming.FullTimeHomeGoals < incoming.FullTimeAwayGoals ? "A" : "D"))
             throw new FormatException("Invalid score/outcome");
-        using var transaction = db.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);
+        using var transaction = BeginIngestionTransaction();
         var existing = db.Results.SingleOrDefault(x => (incoming.SourceMatchId != null && x.SourceMatchId == incoming.SourceMatchId) ||
             (x.Division == incoming.Division && x.Date == incoming.Date && x.HomeTeam == incoming.HomeTeam && x.AwayTeam == incoming.AwayTeam));
         var now = clock.GetUtcNow().UtcDateTime;
@@ -119,9 +140,12 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
     void ArchivePrimary(string match, string source, string hash, long revision, string kind, DateTime? observedAt, decimal home, decimal draw, decimal away, DateTime now)
     {
         if (!ValidPrices(home, draw, away)) return;
-        var previous = db.MarketQuotes.AsNoTracking().Where(x => x.MatchIdentity == match).OrderByDescending(x => x.Id).FirstOrDefault();
         // A metadata-free repeat does not make an old verified quote a new unknown offer.
-        if (hash == null && previous != null && previous.Home == home && previous.Draw == draw && previous.Away == away) return;
+        if (hash == null)
+        {
+            var previous = db.MarketQuotes.AsNoTracking().Where(x => x.MatchIdentity == match).OrderByDescending(x => x.Id).FirstOrDefault();
+            if (previous != null && previous.Home == home && previous.Draw == draw && previous.Away == away) return;
+        }
         ArchiveQuote(match, source, hash, revision, kind, observedAt, home, draw, away, now);
     }
 
