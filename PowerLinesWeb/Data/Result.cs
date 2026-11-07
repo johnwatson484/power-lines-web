@@ -65,8 +65,6 @@ public class Result
     public string PriceCollection { get; set; }
     public DateTime? QuoteObservedAt { get; set; }
 
-    public virtual ResultMatchOdds ResultMatchOdds { get; set; }
-
     public Result()
     {
         Created = DateTime.UtcNow;

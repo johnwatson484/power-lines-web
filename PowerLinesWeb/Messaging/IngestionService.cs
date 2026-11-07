@@ -80,7 +80,6 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
             if (db.Results.Any(x => x.Division == incoming.Division && x.Date == incoming.Date && (x.HomeTeam == incoming.HomeTeam || x.AwayTeam == incoming.AwayTeam)))
                 throw new InvalidOperationException("Ambiguous renamed result; reconcile source identity/alias first.");
             incoming.ResultId = 0;
-            incoming.ResultMatchOdds = null;
             incoming.Created = now; incoming.Updated = now; incoming.Revision = 1; incoming.ScoreRevision = 1;
             db.Results.Add(incoming); existing = incoming;
         }

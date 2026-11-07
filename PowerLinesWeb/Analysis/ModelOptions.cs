@@ -16,6 +16,7 @@ public class ModelOptions
     public int MaxIterations { get; set; } = 100;
     public double Tolerance { get; set; } = 0.000001;
 
-    // Below this many backtested predictions, a calibration bucket is too noisy to trust.
+    // Retained in serialized model fingerprints so removing legacy reporting tables does not
+    // invalidate existing calibration artifacts. No longer controls calibration.
     public int MinCalibrationPredictions { get; set; } = 30;
 }

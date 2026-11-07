@@ -28,7 +28,7 @@ public class AnalysisService(IRatingsProvider ratingsProvider, ICalibrationProvi
 
         var expectedGoals = ratings.GetExpectedGoals(fixture.HomeTeam, fixture.AwayTeam);
         var goalDistribution = CalculateGoalDistribution(expectedGoals, new DixonColes(expectedGoals, modelOptions.UseRho ? ratings.LowScoreCorrelation : 0));
-        var odds = new OddsCalculator(fixture.Id, goalDistribution, fixture.MarketOdds, thresholdOptions, modelOptions, bettingOptions, ProbabilityCalibrator.None, expectedGoals).GetMatchOdds();
+        var odds = new OddsCalculator(fixture.Id, goalDistribution, fixture.MarketOdds, thresholdOptions, modelOptions, bettingOptions, expectedGoals).GetMatchOdds();
         var artifact = modelOptions.EnableCalibration ? calibrationProvider.GetArtifact(ForecastVersions.Hash(modelOptions), cutoff) : null;
         var final = TemperatureScaling.Apply(new(odds.RawHomeProbability, odds.RawDrawProbability, odds.RawAwayProbability), artifact?.Temperature ?? 1);
         odds.HomeProbability = final.Home; odds.DrawProbability = final.Draw; odds.AwayProbability = final.Away;

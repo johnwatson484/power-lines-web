@@ -13,9 +13,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Fixture> Fixtures { get; set; }
     public DbSet<MatchOdds> MatchOdds { get; set; }
     public DbSet<Result> Results { get; set; }
-    public DbSet<ResultMatchOdds> ResultMatchOdds { get; set; }
-    public DbSet<AccuracyRecord> Accuracy { get; set; }
-    public DbSet<AccuracyCalibrationRecord> AccuracyCalibration { get; set; }
 
     public DbSet<ImportStatus> ImportStatuses { get; set; }
     public DbSet<ForecastSnapshot> ForecastSnapshots { get; set; }
@@ -60,11 +57,5 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Result>()
             .HasIndex(x => new { x.Date, x.HomeTeam, x.AwayTeam }).IsUnique();
-
-        modelBuilder.Entity<AccuracyRecord>()
-            .HasIndex(x => x.Division).IsUnique();
-
-        modelBuilder.Entity<AccuracyCalibrationRecord>()
-            .HasIndex(x => new { x.Division, x.LowerBound }).IsUnique();
     }
 }
