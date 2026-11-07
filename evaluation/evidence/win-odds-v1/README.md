@@ -6,6 +6,6 @@
 
 The full raw development/final caches are intentionally retained locally under `artifacts/` rather than duplicated here. The original run's `checksums.json` describes that complete generated directory, including uncompressed predictions and raw caches. Reproduce into a new output directory before using `--publish`; this compressed review bundle is not itself a publishable complete run directory.
 
-From a .NET 8 checkout root, run `python3 scripts/reproduce-evaluation.py --output artifacts/reproduce-locked-final`. It reproduces the frozen final policy and verifies hashes without launching the web host or touching a database. See `docs/WIN_ODDS_IMPLEMENTATION.md` for full protocol, metrics, limits and rollout.
+From a .NET 8 checkout root, run `python3 scripts/reproduce-evaluation.py --output artifacts/reproduce-locked-final`. It reproduces the frozen final policy and verifies hashes without launching the web host or touching a database. The tracked manifest in `evaluation/manifests/win-odds-v1.json` defines the protocol; `report.md` records measured results and limitations.
 
 The frozen source reconciliation report retains its original `StagedCorrections` count as historical audit evidence. The current qualification script reports diagnostic price differences without producing repair payloads; database rollout uses a clean rebuild.

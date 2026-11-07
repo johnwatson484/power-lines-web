@@ -18,3 +18,8 @@ production-values.yaml
 
 # Offline snapshots and downloaded source CSVs are local artifacts.
 artifacts
+
+# Local planning and rollout notes.
+/docs/WIN_ODDS_IMPLEMENTATION.md
+/docs/WIN_RECOMMENDATIONS_AND_ODDS_PLAN.md
+/docs/review-evidence/
