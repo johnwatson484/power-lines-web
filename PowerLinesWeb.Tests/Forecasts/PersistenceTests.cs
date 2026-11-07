@@ -44,7 +44,7 @@ public class PersistenceTests
     public void Reset()
     {
         using var db=Db();
-        db.Database.ExecuteSqlRaw("TRUNCATE TABLE forecast_settlements, forecast_snapshots, market_quotes, calibration_artifacts, evaluation_runs, import_statuses, match_odds, result_match_odds, fixtures, results RESTART IDENTITY CASCADE");
+        db.Database.ExecuteSqlRaw("TRUNCATE TABLE forecast_settlements, forecast_snapshots, market_quotes, calibration_artifacts, evaluation_runs, import_statuses, match_odds, fixtures, results RESTART IDENTITY CASCADE");
         var rows=SyntheticLeague.Build(3);
         for(var i=0;i<rows.Count;i++) {rows[i].Date=new DateTime(2024,8,1).AddDays(i);rows[i].Created=rows[i].Date.AddDays(1);}
         db.Results.AddRange(rows);db.SaveChanges();

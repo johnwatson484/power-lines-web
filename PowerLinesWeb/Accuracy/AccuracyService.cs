@@ -8,8 +8,6 @@ namespace PowerLinesWeb.Accuracy;
 public class AccuracyService(ApplicationDbContext dbContext) : IAccuracyService
 {
     readonly ApplicationDbContext dbContext = dbContext;
-    // Legacy reports are not evidence of a completed, reproducible evaluation.
-    public List<Models.Accuracy> Get() => [];
     public AccuracyPage GetPage()
     {
         var run = dbContext.EvaluationRuns.AsNoTracking().Where(x => x.Status == "Completed" && x.CompletedAt != null)

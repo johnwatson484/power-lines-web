@@ -65,14 +65,22 @@ Odds come from a goals model fitted to past results in the same division, not fr
    Dixon-Coles correction, whose correlation is itself fitted by a bounded search. The grid is truncated, so
    it is renormalised back to a total of one.
 4. **Result probabilities.** Summing the grid by result gives the raw 1X2 probabilities.
-5. **Recalibration.** Each probability is remapped against the division's own backtested calibration curve
-   (10 buckets of predicted vs observed frequency, isotonic so it can only rise with probability), so a
-   division whose 70% calls have only come in 55% of the time gets pulled back down. The three recalibrated
-   probabilities are rescaled back to sum to one, and the odds shown are their reciprocals. A team without
+5. **Recalibration.** When `Model:EnableCalibration` is enabled, temperature scaling uses an activated
+   artifact from `calibration_artifacts` for the same model version, fitted before the forecast cutoff
+   from earlier raw out-of-fold predictions. Without an eligible artifact, raw probabilities pass through.
+   The odds shown are the reciprocals of the final probabilities. A team without
    enough history in the division is not priced at all, rather than being priced from no evidence.
 
-Fixtures and results go through the same code. Results are re-priced using only matches played strictly
-before them, so backtested accuracy is measured out of sample.
+Live fixture predictions are archived in `forecast_snapshots` and their outcomes in `forecast_settlements`.
+The accuracy page reads completed, fingerprint-checked reports from `evaluation_runs`.
+
+## Legacy database cleanup
+
+The `RemoveLegacyReportingTables` migration drops `accuracy`, `accuracy_calibration` and
+`result_match_odds`, which the current application no longer uses. The web host applies this migration
+at startup. Back up these tables before deploying if their historical diagnostic data is needed.
+Rolling the migration back recreates their schema and indexes, but does not recover deleted rows.
+Current fixtures, results, odds, forecast evidence, calibration artifacts and evaluation reports are retained.
 
 # Recommendations vs value
 
@@ -122,7 +130,7 @@ rules measured over every analysed match.
 | `HalfLifeDays` | Days after which a match counts for half as much. `0` disables decay. |
 | `PriorMatches` | Strength of the pull towards league average for thin-sample teams, in matches. |
 | `MaxIterations` / `Tolerance` | Stopping conditions for the fit. |
-| `MinCalibrationPredictions` | Backtested predictions a calibration bucket needs before it is trusted. |
+| `EnableCalibration` | Apply a matching, eligible temperature-scaling artifact when available. Defaults to `false`. |
 
 ## `Betting`
 | Setting | Purpose |
@@ -161,16 +169,15 @@ rules measured over every analysed match.
    are not modelled.
 9. No bankroll ledger. Kelly stakes are advisory percentages and nothing is tracked.
 10. Half time goals are stored but unused.
-11. Accuracy is recomputed from scratch for every division on every trigger.
+11. Accuracy reports require a completed evaluation run to be published; publication is not yet wired
+    into a production worker or command.
 12. Team names are matched by exact string across services, so an upstream rename silently splits a team's
     history.
 13. Background service failures surface only as console output, with no alerting.
 14. Model parameters are fitted from data but the configuration around them is tuned by hand and not
     revisited as new seasons arrive.
-15. Probabilities are recalibrated against the division's own backtested calibration history
-    (`accuracy_calibration`), but that history has to exist first — a division seeing this for the first
-    time, or one whose buckets fall below `MinCalibrationPredictions`, gets no recalibration until enough
-    backtested predictions accumulate.
+15. Optional temperature scaling requires an eligible activated calibration artifact, but there is no
+    production artifact creation workflow yet. Legacy reporting buckets are not used for training.
 16. Recalibration and a raised `MinEdge` reduced value's backtested loss (-13.8% → -9.8% ROI) but did not
     make it positive, and the model's log loss is still worse than the market's in every division. The
     root cause has not been fixed, only the exposure to it reduced. Bivariate margin-removal methods

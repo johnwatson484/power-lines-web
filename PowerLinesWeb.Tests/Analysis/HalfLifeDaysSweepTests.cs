@@ -80,6 +80,5 @@ public class HalfLifeDaysSweepTests
 
     private class NoCalibrationProvider : ICalibrationProvider
     {
-        public ProbabilityCalibrator Get(string division) => ProbabilityCalibrator.None;
     }
 }
