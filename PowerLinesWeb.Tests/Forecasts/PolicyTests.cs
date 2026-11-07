@@ -1,14 +1,9 @@
-using System.Text.Json;
-using PowerLinesWeb.Accuracy;
 using PowerLinesWeb.Analysis;
-using PowerLinesWeb.Data;
-using PowerLinesWeb.Evaluation;
 using PowerLinesWeb.Fixtures;
-using PowerLinesWeb.Tests.Analysis;
 
 namespace PowerLinesWeb.Tests.Forecasts;
 
-public class PolicyAndReplayTests
+public class PolicyTests
 {
     static readonly DateTime day = new(2025, 8, 1);
     static readonly ThresholdOptions thresholds = new();
@@ -65,24 +60,21 @@ public class PolicyAndReplayTests
     [TestCase(10, 12, 2)]
     public void Extreme_future_pairings_have_nonnegative_normalized_probabilities(double h, double a, double rho)
     {
-        var p = Replay.Goals(new(h, a), rho);
-        Assert.That(p.IsValid, Is.True);
+        var distribution = new GoalDistribution();
+        for (var goals = 0; goals <= 10; goals++)
+        {
+            distribution.HomeGoalProbabilities.Add(new(goals, (decimal)Poisson.GetProbability(goals, h)));
+            distribution.AwayGoalProbabilities.Add(new(goals, (decimal)Poisson.GetProbability(goals, a)));
+        }
         var correction = new DixonColes(new(h, a), rho);
+        distribution.CalculateDistribution(correction);
+        var probabilities = new MatchProbabilities(
+            distribution.ScoreProbabilities.Where(x => x.Result == 'H').Sum(x => x.Probability),
+            distribution.ScoreProbabilities.Where(x => x.Result == 'D').Sum(x => x.Probability),
+            distribution.ScoreProbabilities.Where(x => x.Result == 'A').Sum(x => x.Probability));
+        Assert.That(probabilities.IsValid, Is.True);
+        Assert.That(distribution.ScoreProbabilities.All(x => x.Probability >= 0), Is.True);
         for (var x=0;x<=10;x++) for(var y=0;y<=10;y++) Assert.That(correction.GetAdjustment(x,y), Is.GreaterThanOrEqualTo(0));
-    }
-
-    [Test]
-    public void Same_day_and_future_results_cannot_change_an_earlier_replay()
-    {
-        var history = SyntheticLeague.Build(2); var target = history[^10].Date;
-        var options = new EvaluationManifest { Divisions = ["E0"] };
-        var recipes = new[] { new Recipe("goals365p5", 365, 5) };
-        var before = Replay.Generate(history, options, target, target, recipes).Single();
-        foreach(var row in history.Where(x=>x.Date>=target)) { row.FullTimeHomeGoals=9;row.FullTimeAwayGoals=0;row.FullTimeResult="H"; }
-        var after = Replay.Generate(history, options, target, target, recipes).Single();
-        Assert.That(after.Raw, Is.EqualTo(before.Raw));
-        Assert.That(after.Independent, Is.EqualTo(before.Independent));
-        Assert.That(after.HomeCount, Is.EqualTo(before.HomeCount));
     }
 
     [Test]
@@ -96,31 +88,6 @@ public class PolicyAndReplayTests
         Assert.That(TemperatureScaling.Apply(new(.6m,.3m,.1m), temperature).IsValid, Is.True);
     }
 
-    static Prediction Prediction(int id, bool priced=true) => new(new(id,"E0",day,"a",new(.6m,.3m,.1m),new(.6m,.3m,.1m),new(.4m,.3m,.3m),true,20,20,10,10,15,15,7,7,'H'),"a",new(.6m,.3m,.1m),"LegacyVenue","","identity",day.AddDays(-1));
-
-    [Test]
-    public void Paired_metrics_keep_identical_ids_and_empty_cohorts_are_unavailable()
-    {
-        var candidate = new List<Prediction> { Prediction(1) }; var market = new List<Prediction> { Prediction(1) with { Probabilities = new(.5m,.3m,.2m) } };
-        var before = Metrics.Compare(candidate,market,484,100);
-        candidate.Add(Prediction(2) with { Probabilities=new(.01m,.01m,.98m) });
-        Assert.That(Metrics.Compare(candidate,market,484,100),Is.EqualTo(before));
-        Assert.That(Metrics.Score([]).LogLoss, Is.Null); Assert.That(Metrics.Compare([],[],484,100).DeltaLogLoss, Is.Null);
-        Assert.That(new MatchProbabilities(-.1m,.5m,.6m).IsValid,Is.False);
-        Assert.Throws<ArgumentException>(() => Scoring.GetLogLoss(new(.6m,.3m,.1m), 'X'));
-        Assert.Throws<ArgumentException>(() => Scoring.GetBrierScore(new(-.1m,.5m,.6m), 'H'));
-    }
-
-    [Test]
-    public void Repeated_fixed_replays_are_identical_and_holdout_cannot_select_parameters()
-    {
-        var history = SyntheticLeague.Build(1); var start=history[^3].Date;
-        var m = new EvaluationManifest { Divisions=["E0"],HoldoutFrom=start };
-        var r = new[] {new Recipe("goals365p5",365,5)};
-        var a=Replay.Generate(history,m,start,history[^1].Date,r);var b=Replay.Generate(history,m,start,history[^1].Date,r);
-        Assert.That(JsonSerializer.Serialize(a),Is.EqualTo(JsonSerializer.Serialize(b)));
-        Assert.Throws<InvalidOperationException>(()=>new Tournament(m,new Dictionary<int,QualifiedQuote>(),"hash").Freeze(a,Path.GetTempPath()));
-    }
     [Test]
     public void Live_kickoff_requires_verified_timezone_and_rejects_ambiguous_dst_times()
     {

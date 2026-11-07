@@ -31,6 +31,6 @@ publish('imports',status);until('SELECT count(*) FROM import_statuses;','1')
 for route in ('Fixtures','Accuracy'):
  with urllib.request.urlopen(a.url+'/'+route,timeout=10) as response:
   body=response.read().decode();assert response.status==200
-  assert ('TransportHome' in body if route=='Fixtures' else 'Paired model/market comparison' in body)
-report={'Network':'isolated disposable network/broker/PostgreSQL','FixtureRevisionAfterIdenticalAndChangedQuote':2,'ResultRevisionAfterCorrection':2,'CreatedPreserved':True,'CompletedImportEvents':1,'HttpFixtureAndCompletedAccuracy':200,'ActualAvailableOffers':0}
+  assert ('TransportHome' in body if route=='Fixtures' else 'Forecast evaluation' in body)
+report={'Network':'isolated disposable network/broker/PostgreSQL','FixtureRevisionAfterIdenticalAndChangedQuote':2,'ResultRevisionAfterCorrection':2,'CreatedPreserved':True,'CompletedImportEvents':1,'HttpFixtureAndAccuracy':200,'ActualAvailableOffers':0}
 pathlib.Path(a.output).write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

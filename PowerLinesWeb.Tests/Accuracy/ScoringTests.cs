@@ -51,6 +51,14 @@ public class ScoringTests
         Assert.That(Average(calibrated), Is.LessThan(Average(overconfident)));
     }
 
+    [Test]
+    public void Invalid_probabilities_and_unknown_outcomes_are_rejected()
+    {
+        Assert.That(new MatchProbabilities(-.1m, .5m, .6m).IsValid, Is.False);
+        Assert.Throws<ArgumentException>(() => Scoring.GetLogLoss(new(.6m, .3m, .1m), 'X'));
+        Assert.Throws<ArgumentException>(() => Scoring.GetBrierScore(new(-.1m, .5m, .6m), 'H'));
+    }
+
     // Log loss over a run of matches where home wins six times in ten.
     private static double Average(MatchProbabilities probabilities)
     {

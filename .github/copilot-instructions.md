@@ -2,9 +2,9 @@
 
 ## Architecture
 
-ASP.NET Core 8 MVC application that owns PostgreSQL persistence, RabbitMQ consumers, ratings, live analysis and accuracy publication. `PowerLinesWeb.Evaluation` runs chronological experiments without launching the web host. The web host applies migrations and starts workers; never use it against the full database for offline experiments. Use a separate worktree when a development container watches the source checkout. Tests and smoke runs must use isolated databases/networks/queues.
+ASP.NET Core 8 MVC application that owns PostgreSQL persistence, RabbitMQ consumers, ratings, live analysis and accuracy publication. The web host applies migrations and starts workers; never use it against the full database for offline experiments. Use a separate worktree when a development container watches the source checkout. Tests and smoke runs must use isolated databases/networks/queues.
 
-Forecast evidence is append-only; latest fixture projections, score revisions and quote revisions are separate. Calibration reporting buckets are never historical training truth. Only completed, fingerprint-checked evaluation runs may be published. See `evaluation/evidence/win-odds-v1/README.md` for frozen evaluation results and reproduction.
+Forecast evidence is append-only; latest fixture projections, score revisions and quote revisions are separate. Calibration reporting buckets are never historical training truth. Only completed, fingerprint-checked evaluation runs may be published.
 
 See `.github/instructions/aspnet-conventions.instructions.md` for full conventions when adding domains, controllers, API clients, models, or views.
 
