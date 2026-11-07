@@ -1,75 +1,64 @@
-using FlexLabs.EntityFrameworkCore.Upsert;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using PowerLinesMessaging;
+using RabbitMQ.Client;
 using PowerLinesWeb.Data;
 
 namespace PowerLinesWeb.Messaging;
 
-public class MessageService(IOptions<MessageOptions> messageOptions, IServiceScopeFactory serviceScopeFactory) : BackgroundService
+public class MessageService(IOptions<MessageOptions> messageOptions, IServiceScopeFactory serviceScopeFactory, ILogger<MessageService> logger) : BackgroundService
 {
-    private readonly MessageOptions messageOptions = messageOptions.Value;
-    private readonly IServiceScopeFactory serviceScopeFactory = serviceScopeFactory;
-    private Connection connection;
-    private Consumer fixtureConsumer;
-    private Consumer resultConsumer;
-    private Consumer importConsumer;
+    readonly MessageOptions messageOptions = messageOptions.Value;
+    readonly IServiceScopeFactory serviceScopeFactory = serviceScopeFactory;
+    readonly ILogger<MessageService> logger = logger;
+    static readonly TimeSpan retryDelay = TimeSpan.FromSeconds(5);
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Connecting here (rather than in StartAsync) keeps a slow or unreachable broker from delaying the host itself.
-        CreateConnection();
-        CreateFixtureConsumer();
-        CreateResultConsumer();
-        importConsumer = connection.CreateConsumerChannel(new ConsumerOptions { Name = "imports", QueueName = "imports", SubscriptionQueueName = "imports-web", QueueType = QueueType.ExchangeFanout });
-        importConsumer.Listen(new Action<string>(ReceiveImportStatus));
-        fixtureConsumer.Listen(new Action<string>(ReceiveFixtureMessage));
-        resultConsumer.Listen(new Action<string>(ReceiveResultMessage));
-        return Task.CompletedTask;
-    }
-
-    public override async Task StopAsync(CancellationToken cancellationToken)
-    {
-        await base.StopAsync(cancellationToken);
-        connection?.CloseConnection();
-    }
-
-    protected void CreateConnection()
-    {
-        var options = new ConnectionOptions
+        // Connecting must not block host startup on .NET 8.
+        await Task.Yield();
+        while (!stoppingToken.IsCancellationRequested)
         {
-            Host = messageOptions.Host,
-            Port = messageOptions.Port,
-            Username = messageOptions.Username,
-            Password = messageOptions.Password
-        };
-        connection = new Connection(options);
+            try
+            {
+                // This loop owns recovery, including initial connection and channel failures.
+                // Do not also enable the client's automatic topology recovery.
+                var factory = new ConnectionFactory
+                {
+                    HostName = messageOptions.Host, Port = messageOptions.Port,
+                    UserName = messageOptions.Username, Password = messageOptions.Password,
+                    DispatchConsumersAsync = true, ConsumerDispatchConcurrency = 1,
+                    AutomaticRecoveryEnabled = false, TopologyRecoveryEnabled = false,
+                    RequestedConnectionTimeout = TimeSpan.FromSeconds(10)
+                };
+                using var connection = factory.CreateConnection("power-lines-web");
+                var disconnected = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                connection.ConnectionShutdown += (_, _) => disconnected.TrySetResult();
+                using var fixtures = Subscribe(connection, messageOptions.FixtureQueue, messageOptions.FixtureSubscription, ReceiveFixtureMessage, stoppingToken);
+                using var results = Subscribe(connection, messageOptions.ResultQueue, messageOptions.ResultSubscription, ReceiveResultMessage, stoppingToken);
+                using var imports = Subscribe(connection, "imports", "imports-web", ReceiveImportStatus, stoppingToken);
+                logger.LogInformation("Consuming fixtures, results and import statuses with manual acknowledgements and prefetch 1");
+                await Task.WhenAny(disconnected.Task, fixtures.Stopped, results.Stopped, imports.Stopped).WaitAsync(stoppingToken);
+                logger.LogWarning("RabbitMQ connection or subscription closed; reconnecting after {Delay}", retryDelay);
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { break; }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "RabbitMQ consumer failed; reconnecting after {Delay}", retryDelay);
+            }
+
+            try { await Task.Delay(retryDelay, stoppingToken); }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested) { break; }
+        }
     }
 
-    protected void CreateFixtureConsumer()
-    {
-        var options = new ConsumerOptions
+    RabbitMqSubscription Subscribe(IConnection connection, string exchange, string queue, Action<string> receive, CancellationToken stoppingToken) =>
+        new(connection, exchange, queue, (message, cancellationToken) =>
         {
-            Name = messageOptions.FixtureQueue,
-            QueueName = messageOptions.FixtureQueue,
-            SubscriptionQueueName = messageOptions.FixtureSubscription,
-            QueueType = QueueType.ExchangeFanout
-        };
-        fixtureConsumer = connection.CreateConsumerChannel(options);
-    }
-
-    protected void CreateResultConsumer()
-    {
-        var options = new ConsumerOptions
-        {
-            Name = messageOptions.ResultQueue,
-            QueueName = messageOptions.ResultQueue,
-            SubscriptionQueueName = messageOptions.ResultSubscription,
-            QueueType = QueueType.ExchangeFanout
-        };
-        resultConsumer = connection.CreateConsumerChannel(options);
-    }
+            cancellationToken.ThrowIfCancellationRequested();
+            receive(message); // Ingestion returns only after its database transaction commits.
+            return Task.CompletedTask;
+        }, logger, retryDelay, stoppingToken);
 
     private void ReceiveImportStatus(string message)
     {

@@ -272,7 +272,7 @@ Run the normal NUnit suite with the .NET SDK:
 dotnet test PowerLinesWeb.Tests --configuration Release
 ```
 
-The normal suite covers ratings/Poisson/Dixon-Coles calculations, synthetic holdout forecasts, scoring and recommendation policy. PostgreSQL integration tests skip unless `POWERLINES_TEST_DB` is set, and the explicit real-data half-life diagnostic is excluded by default.
+The normal suite covers ratings/Poisson/Dixon-Coles calculations, synthetic holdout forecasts, scoring and recommendation policy. PostgreSQL integration tests skip unless `POWERLINES_TEST_DB` is set; messaging integration tests additionally require `POWERLINES_TEST_RABBITMQ` pointing to a disposable broker. The explicit real-data half-life diagnostic is excluded by default.
 
 For the SDK-container workflow:
 
