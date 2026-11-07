@@ -20,31 +20,35 @@ public class AccuracyRecord
     public int Recommended { get; set; }
 
     [Column("recommendedAccuracy")]
-    public decimal RecommendedAccuracy { get; set; }
+    public decimal? RecommendedAccuracy { get; set; }
 
     [Column("lowerRecommended")]
     public int LowerRecommended { get; set; }
 
     [Column("lowerRecommendedAccuracy")]
-    public decimal LowerRecommendedAccuracy { get; set; }
+    public decimal? LowerRecommendedAccuracy { get; set; }
 
     [Column("baselineAccuracy")]
-    public decimal BaselineAccuracy { get; set; }
+    public decimal? BaselineAccuracy { get; set; }
 
     [Column("scoredMatches")]
     public int ScoredMatches { get; set; }
 
     [Column("logLoss")]
-    public decimal LogLoss { get; set; }
+    public decimal? LogLoss { get; set; }
 
     [Column("brierScore")]
-    public decimal BrierScore { get; set; }
+    public decimal? BrierScore { get; set; }
 
     [Column("pricedMatches")]
     public int PricedMatches { get; set; }
 
     [Column("marketLogLoss")]
-    public decimal MarketLogLoss { get; set; }
+    public decimal? MarketLogLoss { get; set; }
+
+    public decimal? PairedModelLogLoss { get; set; }
+    public decimal? PairedModelBrier { get; set; }
+    public int InvalidRows { get; set; }
 
     [Column("valueBets")]
     public int ValueBets { get; set; }
@@ -53,7 +57,7 @@ public class AccuracyRecord
     public int ValueWins { get; set; }
 
     [Column("valueRoi")]
-    public decimal ValueRoi { get; set; }
+    public decimal? ValueRoi { get; set; }
 
     [Column("calculated")]
     public DateTime Calculated { get; set; }

@@ -14,6 +14,7 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
     private Connection connection;
     private Consumer fixtureConsumer;
     private Consumer resultConsumer;
+    private Consumer importConsumer;
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -21,6 +22,8 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
         CreateConnection();
         CreateFixtureConsumer();
         CreateResultConsumer();
+        importConsumer = connection.CreateConsumerChannel(new ConsumerOptions { Name = "imports", QueueName = "imports", SubscriptionQueueName = "imports-web", QueueType = QueueType.ExchangeFanout });
+        importConsumer.Listen(new Action<string>(ReceiveImportStatus));
         fixtureConsumer.Listen(new Action<string>(ReceiveFixtureMessage));
         resultConsumer.Listen(new Action<string>(ReceiveResultMessage));
         return Task.CompletedTask;
@@ -68,63 +71,26 @@ public class MessageService(IOptions<MessageOptions> messageOptions, IServiceSco
         resultConsumer = connection.CreateConsumerChannel(options);
     }
 
+    private void ReceiveImportStatus(string message)
+    {
+        var status = JsonConvert.DeserializeObject<PowerLinesWeb.Forecasts.ImportStatus>(message) ?? throw new FormatException("Empty import status");
+        if (string.IsNullOrWhiteSpace(status.Division) || string.IsNullOrWhiteSpace(status.SourceUrl) || status.CompletedAt == default || status.Status != "Completed")
+            throw new FormatException("Invalid import status");
+        using var scope = serviceScopeFactory.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        if (!db.ImportStatuses.Any(x => x.SourceUrl == status.SourceUrl && x.Division == status.Division && x.CompletedAt == status.CompletedAt))
+        { db.ImportStatuses.Add(status); db.SaveChanges(); }
+    }
+
     private void ReceiveFixtureMessage(string message)
     {
-        var fixture = JsonConvert.DeserializeObject<Fixture>(message);
         using var scope = serviceScopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-        try
-        {
-            // Upsert so a corrected re-import (e.g. updated odds) reaches fixtures already seen, not just new ones.
-            dbContext.Fixtures.Upsert(fixture)
-                .On(x => new { x.Date, x.HomeTeam, x.AwayTeam })
-                .WhenMatched(x => new Fixture
-                {
-                    Division = fixture.Division,
-                    HomeOddsAverage = fixture.HomeOddsAverage,
-                    DrawOddsAverage = fixture.DrawOddsAverage,
-                    AwayOddsAverage = fixture.AwayOddsAverage
-                })
-                .Run();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error saving fixture {0} v {1}: {2}", fixture.HomeTeam, fixture.AwayTeam, ex);
-        }
+        scope.ServiceProvider.GetRequiredService<IngestionService>().SaveFixture(JsonConvert.DeserializeObject<Fixture>(message) ?? throw new FormatException("Empty fixture"));
     }
 
     private void ReceiveResultMessage(string message)
     {
-        var result = JsonConvert.DeserializeObject<Result>(message);
         using var scope = serviceScopeFactory.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-        try
-        {
-            // Upsert so a corrected re-import (e.g. updated odds) reaches results already seen, not just new ones.
-            // Created is deliberately left out of WhenMatched so a re-import cannot reset it and stall the debounce
-            // in ResultAnalysisBackgroundService, which waits for Created to stop changing before it backtests.
-            dbContext.Results.Upsert(result)
-                .On(x => new { x.Date, x.HomeTeam, x.AwayTeam })
-                .WhenMatched(x => new Result
-                {
-                    Division = result.Division,
-                    FullTimeHomeGoals = result.FullTimeHomeGoals,
-                    FullTimeAwayGoals = result.FullTimeAwayGoals,
-                    FullTimeResult = result.FullTimeResult,
-                    HalfTimeHomeGoals = result.HalfTimeHomeGoals,
-                    HalfTimeAwayGoals = result.HalfTimeAwayGoals,
-                    HalfTimeResult = result.HalfTimeResult,
-                    HomeOddsAverage = result.HomeOddsAverage,
-                    DrawOddsAverage = result.DrawOddsAverage,
-                    AwayOddsAverage = result.AwayOddsAverage
-                })
-                .Run();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error saving result {0} v {1} {2}: {3}", result.HomeTeam, result.AwayTeam, result.Date.Year, ex);
-        }
+        scope.ServiceProvider.GetRequiredService<IngestionService>().SaveResult(JsonConvert.DeserializeObject<Result>(message) ?? throw new FormatException("Empty result"));
     }
 }

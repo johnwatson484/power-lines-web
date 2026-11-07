@@ -2,7 +2,9 @@
 
 ## Architecture
 
-ASP.NET Core 8 MVC app that consumes two downstream microservices (Fixtures, Accuracy) via HTTP. It is purely a UI tier — no database, no business logic. Each domain has its own folder under `PowerLinesWeb/` containing the API client, interface, and options class alongside the corresponding controller, model, and view.
+ASP.NET Core 8 MVC application that owns PostgreSQL persistence, RabbitMQ consumers, ratings, live analysis and accuracy publication. The web host applies migrations and starts workers; never use it against the full database for offline experiments. Use a separate worktree when a development container watches the source checkout. Tests and smoke runs must use isolated databases/networks/queues.
+
+Forecast evidence is append-only; latest fixture projections, score revisions and quote revisions are separate. Calibration reporting buckets are never historical training truth. Only completed, fingerprint-checked evaluation runs may be published.
 
 See `.github/instructions/aspnet-conventions.instructions.md` for full conventions when adding domains, controllers, API clients, models, or views.
 

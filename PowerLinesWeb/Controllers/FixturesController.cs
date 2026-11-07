@@ -11,7 +11,7 @@ public class FixturesController(IFixtureService fixtureService) : Controller
     [Route("")]
     public IActionResult Index()
     {
-        var fixtures = fixtureService.Get();
+        var fixtures = fixtureService.GetPage();
         return View(fixtures);
     }
 }

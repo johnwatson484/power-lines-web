@@ -40,10 +40,14 @@ public class TeamRatings(string division, DateTime asOf, double averageGoals)
             && away.AwayMatches >= minimumMatches;
     }
 
+    public bool HasTotalHistory(string home, string away, int minimum) =>
+        (Find(home)?.HomeMatches ?? 0) + (Find(home)?.AwayMatches ?? 0) >= minimum &&
+        (Find(away)?.HomeMatches ?? 0) + (Find(away)?.AwayMatches ?? 0) >= minimum;
+
     public ExpectedGoals GetExpectedGoals(string homeTeam, string awayTeam)
     {
-        var home = Find(homeTeam);
-        var away = Find(awayTeam);
+        var home = Find(homeTeam) ?? new TeamRating(homeTeam);
+        var away = Find(awayTeam) ?? new TeamRating(awayTeam);
 
         return new ExpectedGoals(
             AverageGoals * home.Attack * away.Defence * HomeAdvantage,

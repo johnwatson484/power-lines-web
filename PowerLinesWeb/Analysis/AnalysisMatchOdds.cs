@@ -11,6 +11,14 @@ public class AnalysisMatchOdds(int id)
     public decimal HomeXg { get; set; }
     public decimal AwayXg { get; set; }
     public decimal ExpectedGoals { get; set; }
+    public decimal RawHomeProbability { get; set; }
+    public decimal RawDrawProbability { get; set; }
+    public decimal RawAwayProbability { get; set; }
+    public string Support { get; set; } = "LegacyVenue";
+    public string CalibrationVersion { get; set; } = "identity";
+    public DateTime? CalibrationCutoff { get; set; }
+    public string PriceReason { get; set; }
+    public decimal ValueExpectedReturn { get; set; }
     public decimal HomeProbability { get; set; }
     public decimal DrawProbability { get; set; }
     public decimal AwayProbability { get; set; }

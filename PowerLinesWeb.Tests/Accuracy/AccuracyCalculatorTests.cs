@@ -6,14 +6,14 @@ namespace PowerLinesWeb.Tests.Accuracy;
 public class AccuracyCalculatorTests
 {
     [Test]
-    public void The_baseline_is_the_share_of_home_wins()
+    public void The_baseline_is_the_share_of_home_wins_on_selected_matches()
     {
         var results = new List<Result>
         {
-            Build("H", "X", "X"),
+            Build("H", "H", "X"),
             Build("H", "X", "X"),
             Build("D", "X", "X"),
-            Build("A", "X", "X")
+            Build("A", "A", "X")
         };
 
         Assert.That(AccuracyCalculator.Calculate("E0", results).BaselineAccuracy, Is.EqualTo(0.5m));
@@ -26,7 +26,7 @@ public class AccuracyCalculatorTests
         {
             Build("H", "H", "H"),
             Build("A", "H", "H"),
-            Build("D", "X", "D"),
+            Build("A", "X", "A"),
             Build("H", "X", "X")
         };
 
@@ -34,8 +34,8 @@ public class AccuracyCalculatorTests
 
         Assert.That(accuracy.Recommended, Is.EqualTo(2));
         Assert.That(accuracy.RecommendedAccuracy, Is.EqualTo(0.5m));
-        Assert.That(accuracy.LowerRecommended, Is.EqualTo(3));
-        Assert.That(accuracy.LowerRecommendedAccuracy, Is.EqualTo(0.6667m));
+        Assert.That(accuracy.LowerRecommended, Is.EqualTo(1));
+        Assert.That(accuracy.LowerRecommendedAccuracy, Is.EqualTo(1m));
     }
 
     [Test]
@@ -101,10 +101,10 @@ public class AccuracyCalculatorTests
         var accuracy = AccuracyCalculator.Calculate("E0", []);
 
         Assert.That(accuracy.Matches, Is.EqualTo(0));
-        Assert.That(accuracy.RecommendedAccuracy, Is.EqualTo(0m));
-        Assert.That(accuracy.BaselineAccuracy, Is.EqualTo(0m));
-        Assert.That(accuracy.LogLoss, Is.EqualTo(0m));
-        Assert.That(accuracy.ValueRoi, Is.EqualTo(0m));
+        Assert.That(accuracy.RecommendedAccuracy, Is.Null);
+        Assert.That(accuracy.BaselineAccuracy, Is.Null);
+        Assert.That(accuracy.LogLoss, Is.Null);
+        Assert.That(accuracy.ValueRoi, Is.Null);
     }
 
     [Test]
@@ -139,6 +139,8 @@ public class AccuracyCalculatorTests
         return new Result
         {
             Division = "E0",
+            SourceFileHash = "reconciled-source",
+            PriceKind = "AveragePreClosing",
             FullTimeResult = fullTimeResult,
             HomeOddsAverage = homeOdds,
             DrawOddsAverage = drawOdds,

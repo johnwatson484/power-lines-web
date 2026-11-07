@@ -1,48 +1,10 @@
-﻿const $ = window.$
-
-$('.selector').on('click', function () {
-  const isSelected = $(this).hasClass('btn-primary')
-
-  $('.selector').each(function () {
-    $(this).removeClass('btn-primary')
-    $(this).closest('tr').removeClass('success')
+const $ = window.$
+$('.forecast-filter').on('click', function () {
+  const filter = $(this).data('filter')
+  $('.forecast-filter').removeClass('btn-secondary').addClass('btn-outline-secondary')
+  $(this).addClass('btn-secondary').removeClass('btn-outline-secondary')
+  $('.forecast-row').each(function () {
+    const tier = $(this).data('tier')
+    $(this).toggle(filter === 'all' || (filter === 'shortlist' && tier !== 'none') || filter === tier || (filter === 'price' && $(this).data('price') === true))
   })
-
-  if (!isSelected) {
-    $(this).addClass('btn-primary')
-    $(this).closest('tr').addClass('success')
-  }
 })
-
-$('.date-picker').on('click', function () {
-  const selected = $(this).data('id')
-  setView(selected)
-  $(this).addClass('btn-primary')
-})
-
-$(function () {
-  let selected = $('#today-id').first()
-
-  if (selected === undefined) {
-    selected = $('.date-picker').last()
-  }
-
-  setView(selected.data('id'))
-  selected.addClass('btn-primary')
-})
-
-function setView (selected) {
-  if (selected !== undefined) {
-    $('.date-picker').each(function () {
-      $(this).removeClass('btn-primary')
-    })
-
-    $('.odds-line').each(function () {
-      if ($(this).data('id') !== selected) {
-        $(this).hide()
-      } else {
-        $(this).fadeIn()
-      }
-    })
-  }
-}

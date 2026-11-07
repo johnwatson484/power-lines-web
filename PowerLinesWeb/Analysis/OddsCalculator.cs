@@ -27,6 +27,9 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
     private void CalculateProbabilities()
     {
         var raw = new MatchProbabilities(GetRawProbability('H'), GetRawProbability('D'), GetRawProbability('A'));
+        matchOdds.RawHomeProbability = raw.Home;
+        matchOdds.RawDrawProbability = raw.Draw;
+        matchOdds.RawAwayProbability = raw.Away;
         probabilities = Calibrate(raw);
         matchOdds.HomeProbability = probabilities.Home;
         matchOdds.DrawProbability = probabilities.Draw;
@@ -51,13 +54,13 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
 
     private decimal ConvertProbabilityToOdds(decimal probability)
     {
-        // A vanishing probability is an unbackable price, not a price of zero.
-        if (probability <= 1 / modelOptions.MaxOdds)
+        // A zero probability is unbackable. Positive fair odds always use the exact reciprocal.
+        if (probability <= 0)
         {
             return modelOptions.MaxOdds;
         }
 
-        return Math.Round(DecimalExtensions.SafeDivide(1, probability), 2);
+        return 1 / probability;
     }
 
     private void CalculateResultOdds()
@@ -88,79 +91,19 @@ public class OddsCalculator(int id, GoalDistribution goalDistribution, MarketOdd
 
     private void CalculateRecommendations()
     {
-        var prediction = CalculatePrediction();
-        var predictionProbability = GetResultProbability(prediction);
-        if (predictionProbability > thresholdOptions.Higher)
-        {
-            matchOdds.Recommended = Char.ToString(prediction);
-        }
-        if (predictionProbability > thresholdOptions.Lower)
-        {
-            matchOdds.LowerRecommended = Char.ToString(prediction);
-        }
+        var decision = RecommendationPolicy.Win(probabilities, thresholdOptions);
+        matchOdds.Recommended = decision.Tier == "Strong" ? decision.Selection : "X";
+        matchOdds.LowerRecommended = decision.Tier == "Broader" ? decision.Selection : "X";
     }
 
-    private char CalculatePrediction()
-    {
-        var homeProbability = GetResultProbability('H');
-        var drawProbability = GetResultProbability('D');
-        var awayProbability = GetResultProbability('A');
-
-        if (homeProbability > drawProbability && homeProbability > awayProbability)
-        {
-            return 'H';
-        }
-        if (drawProbability > homeProbability && drawProbability > awayProbability)
-        {
-            return 'D';
-        }
-        if (awayProbability > homeProbability && awayProbability > drawProbability)
-        {
-            return 'A';
-        }
-        return 'X';
-    }
-
-    // A recommendation says which result is most likely. Value says whether the price on offer is
-    // longer than that likelihood justifies, which is the only thing that makes a bet profitable.
     private void CalculateValue()
     {
-        var market = OddsConverter.RemoveMargin(marketOdds);
-
-        if (!market.HasProbabilities)
-        {
-            return;
-        }
-
-        foreach (var result in new[] { 'H', 'D', 'A' })
-        {
-            var price = marketOdds.Get(result);
-
-            if (price < bettingOptions.MinOdds || price > bettingOptions.MaxOdds)
-            {
-                continue;
-            }
-
-            var edge = GetResultProbability(result) - market.Get(result);
-
-            if (edge < bettingOptions.MinEdge || edge <= matchOdds.ValueEdge)
-            {
-                continue;
-            }
-
-            matchOdds.ValueSelection = char.ToString(result);
-            matchOdds.ValueEdge = edge;
-            matchOdds.ValueOdds = price;
-            matchOdds.ValueStake = GetStake(GetResultProbability(result), price);
-        }
-    }
-
-    // Fractional Kelly, because a full Kelly stake on a probability this uncertain is reckless.
-    private decimal GetStake(decimal probability, decimal price)
-    {
-        var profit = price - 1;
-        var stake = (probability * price - 1) / profit;
-
-        return stake <= 0 ? 0 : Math.Round(stake * bettingOptions.KellyFraction, 4);
+        var decision = RecommendationPolicy.Price(probabilities, marketOdds, bettingOptions, matchOdds.Calculated);
+        matchOdds.ValueSelection = decision.Selection;
+        matchOdds.ValueEdge = decision.MarketDisagreement;
+        matchOdds.ValueExpectedReturn = decision.ExpectedReturn;
+        matchOdds.ValueOdds = decision.Price;
+        matchOdds.ValueStake = decision.Stake;
+        matchOdds.PriceReason = decision.Reason;
     }
 }

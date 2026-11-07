@@ -12,7 +12,7 @@ public class AccuracyController(IAccuracyService accuracyService) : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var accuracy = accuracyService.Get();
+        var accuracy = accuracyService.GetPage();
         return View(accuracy);
     }
 }
