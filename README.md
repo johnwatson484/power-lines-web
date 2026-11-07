@@ -24,7 +24,7 @@ flowchart LR
 ```
 
 - At startup, `Program.cs` applies Entity Framework Core migrations before running the host. PostgreSQL must be reachable even with workers disabled.
-- `MessageService` subscribes to the configured fixture/result fanout exchanges and the fixed `imports` exchange (`imports-web` subscription). Each subscription uses manual acknowledgements and prefetch 1: a message is acknowledged only after its database save commits. `IngestionService` validates and upserts matches, tracks revisions and archives price observations. Repeated imports preserve stable identities; conflicting identities require explicit resolution.
+- `MessageService` subscribes to the configured fixture/result fanout exchanges and the fixed `imports` exchange (`imports-web` subscription). `IngestionService` validates and upserts matches, tracks revisions and archives price observations. Repeated imports preserve stable identities; conflicting identities require explicit resolution.
 - `FixtureAnalysisBackgroundService` runs `FixtureProjectionJob` immediately and every minute. The job checks kickoff time, result freshness and history support, then saves append-only forecast evidence alongside the latest `MatchOdds` projection. An input/configuration/quote fingerprint avoids repeating unchanged analysis. Matching completed results create settlement records.
 - `/` serves the home page; `/Fixtures` reads current forecasts and feed/price status; `/Accuracy` reads the latest completed evaluation report. Live workers do not run historical experiments or regenerate the accuracy report.
 
@@ -156,18 +156,6 @@ docker compose run --rm --no-deps --entrypoint dotnet power-lines-data-service \
 
 Both repos use Compose project name `power-lines`, network `power-lines` and broker container name `power-lines-message`. Let this repo own the running broker and use `--no-deps` for the importer. Start web consumers before imports so their subscription queues exist. Importing results first supplies training history; the next minute's analysis picks up new fixture/input revisions.
 
-The web app keeps at most one unacknowledged delivery per subscription. On shutdown or connection loss, RabbitMQ requeues unfinished deliveries. If a save committed just before an acknowledgement was interrupted, redelivery uses the existing idempotent ingestion path to preserve result identities, revisions and quote history. Connection and channel failures trigger a reconnect after five seconds, including an unavailable broker at startup.
-
-Failed handlers log their subscription, delivery tag, redelivery flag and exception, then requeue the message after five seconds. Invalid payloads are retained for investigation rather than discarded; a persistent failure may hold up that subscription until its cause is corrected. Importer completion and `import_statuses` describe source publication, not completion of all result database writes.
-
-Check progress in RabbitMQ alongside the result count:
-
-```sh
-docker exec power-lines-message rabbitmqctl list_queues name messages_ready messages_unacknowledged consumers
-```
-
-`messages_ready` is waiting work, `messages_unacknowledged` is delivered work still awaiting a successful save, and `consumers` should be at least one for each subscription. Messages already acknowledged by the old automatic-acknowledgement consumer cannot be recovered from RabbitMQ after a redeploy; rerun the full import after deploying this fix, preserving the existing database.
-
 ### Run locally with .NET
 
 Start only the dependencies through Compose, then override the database port used by the host process:
@@ -284,7 +272,7 @@ Run the normal NUnit suite with the .NET SDK:
 dotnet test PowerLinesWeb.Tests --configuration Release
 ```
 
-The normal suite covers ratings/Poisson/Dixon-Coles calculations, synthetic holdout forecasts, scoring and recommendation policy. PostgreSQL integration tests skip unless `POWERLINES_TEST_DB` is set, and the explicit real-data half-life diagnostic is excluded by default.
+The normal suite covers ratings/Poisson/Dixon-Coles calculations, synthetic holdout forecasts, scoring and recommendation policy. PostgreSQL integration tests skip unless `POWERLINES_TEST_DB` is set; messaging integration tests additionally require `POWERLINES_TEST_RABBITMQ` pointing to a disposable broker. The explicit real-data half-life diagnostic is excluded by default.
 
 For the SDK-container workflow:
 
@@ -313,25 +301,3 @@ docker rm -f power-lines-readme-tests
 ```
 
 The optional `[Explicit]` `HalfLifeDaysSweepTests` diagnostic reads historical results using a hard-coded `localhost:6000/power_lines_web` connection, not `POWERLINES_TEST_DB`. It is excluded from normal tests and is not the evaluator that publishes completed accuracy reports. Inspect its source before deliberately invoking it against a separate historical-data copy.
-
-### RabbitMQ and database integration tests
-
-The messaging tests also require `POWERLINES_TEST_RABBITMQ`, an AMQP URI for a disposable broker with the default `/` virtual host. They create and delete test queues, exchanges and the fixed `imports-web` subscription, and use a private database schema per test. Do not point them at the development or production broker.
-
-With the disposable PostgreSQL instance above still running:
-
-```sh
-docker run --name power-lines-messaging-tests -d \
-  -e RABBITMQ_DEFAULT_USER=rabbitmq -e RABBITMQ_DEFAULT_PASS=rabbitmq \
-  -p 127.0.0.1:5673:5672 rabbitmq:3-management-alpine
-# Wait until this reports that RabbitMQ is ready.
-docker exec power-lines-messaging-tests rabbitmq-diagnostics -q ping
-
-POWERLINES_TEST_DB='Host=localhost;Port=6001;Database=power_lines_test;Username=postgres;Password=postgres' \
-POWERLINES_TEST_RABBITMQ='amqp://rabbitmq:rabbitmq@localhost:5673/' \
-  dotnet test PowerLinesWeb.Tests --configuration Release --filter FullyQualifiedName~RabbitMqSubscriptionTests
-
-docker rm -f power-lines-messaging-tests
-```
-
-These tests verify bounded delivery, interruption before saving, redelivery after a commit without duplicate records or quotes, delayed retries, retained invalid payloads, and compatibility with existing topology and all three message types. The pull-request Tests workflow runs the full suite with both disposable services enabled.
