@@ -36,7 +36,7 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         else
         {
             if (existing.Date != incoming.Date && db.Results.Any(x => x.Division == existing.Division && x.Date.Date == existing.Date.Date && x.HomeTeam == existing.HomeTeam && x.AwayTeam == existing.AwayTeam))
-                throw new InvalidOperationException("A completed fixture identity cannot be reused; stage the repeated pairing explicitly.");
+                throw new InvalidOperationException("A completed fixture identity cannot be reused; resolve the repeated pairing explicitly.");
             var before = ForecastVersions.Hash(new { existing.Division, Date = existing.Date.Ticks, existing.HomeTeam, existing.AwayTeam, existing.HomeOddsAverage, existing.DrawOddsAverage, existing.AwayOddsAverage, existing.SourceFileHash, existing.PriceKind, QuoteObservedAt = existing.QuoteObservedAt.HasValue ? existing.QuoteObservedAt.Value.Ticks : (long?)null, existing.LifecycleStatus });
             existing.Division = incoming.Division; existing.Date = incoming.Date;
             existing.HomeTeam = incoming.HomeTeam; existing.AwayTeam = incoming.AwayTeam;
@@ -87,7 +87,7 @@ public class IngestionService(ApplicationDbContext db, TimeProvider clock)
         else
         {
             if (existing.Date != incoming.Date || existing.Division != incoming.Division || existing.HomeTeam != incoming.HomeTeam || existing.AwayTeam != incoming.AwayTeam)
-                throw new InvalidOperationException("Result identity correction requires staged reconciliation.");
+                throw new InvalidOperationException("Result identity correction requires explicit identity resolution.");
             var scoreChanged = existing.FullTimeHomeGoals != incoming.FullTimeHomeGoals || existing.FullTimeAwayGoals != incoming.FullTimeAwayGoals || existing.FullTimeResult != incoming.FullTimeResult;
             var changed = scoreChanged || (incoming.HalfTimeHomeGoals.HasValue && existing.HalfTimeHomeGoals != incoming.HalfTimeHomeGoals) || (incoming.HalfTimeAwayGoals.HasValue && existing.HalfTimeAwayGoals != incoming.HalfTimeAwayGoals) || (incoming.HalfTimeResult != null && existing.HalfTimeResult != incoming.HalfTimeResult);
             existing.FullTimeHomeGoals = incoming.FullTimeHomeGoals; existing.FullTimeAwayGoals = incoming.FullTimeAwayGoals; existing.FullTimeResult = incoming.FullTimeResult;

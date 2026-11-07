@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Freeze source CSVs and qualify prices by exact identity + score + average triplet.
-Writes staging/report only. Never imports, publishes messages or updates the DB.
+Writes qualified benchmark quotes and a diagnostic report only. Never imports, publishes messages or updates the DB.
 """
 import argparse,csv,datetime,hashlib,io,json,pathlib,urllib.request,concurrent.futures
 p=argparse.ArgumentParser();p.add_argument('--snapshot',required=True);p.add_argument('--output',required=True);a=p.parse_args();out=pathlib.Path(a.output);out.mkdir(parents=True,exist_ok=True);cache=out/'sources';cache.mkdir(exist_ok=True)
@@ -30,19 +30,18 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
     if any(x<=1 for x in avg):continue
     results[key]=(avg,mx,r,url,sha)
    except (KeyError,ValueError,TypeError):pass
-report={};qualified=[];stage=[]
+report={};qualified=[]
 for row in rows:
  key=(row['division'],row['date'][:10],row['homeTeam'],row['awayTeam']);source=results.get(key)
  if source is None:continue
- avg,mx,r,url,sha=source;cohort=url.rsplit('/',2)[1]+'/'+row['division'];counts=report.setdefault(cohort,{'Matched':0,'AverageEqual':0,'MaximumEqual':0,'ScoreMismatch':0,'PriceCorrection':0});counts['Matched']+=1
+ avg,mx,r,url,sha=source;cohort=url.rsplit('/',2)[1]+'/'+row['division'];counts=report.setdefault(cohort,{'Matched':0,'AverageEqual':0,'MaximumEqual':0,'ScoreMismatch':0,'PriceDifference':0});counts['Matched']+=1
  if (int(r.get('FTHG') or -1),int(r.get('FTAG') or -1))!=(row['fullTimeHomeGoals'],row['fullTimeAwayGoals']):counts['ScoreMismatch']+=1;continue
  old=[row[k] for k in ('homeOddsAverage','drawOddsAverage','awayOddsAverage')];equal=lambda x,y:all(abs(a-b)<1e-8 for a,b in zip(x,y))
  counts['AverageEqual']+=equal(old,avg);counts['MaximumEqual']+=equal(old,mx)
- if not equal(old,avg):counts['PriceCorrection']+=1
+ if not equal(old,avg):counts['PriceDifference']+=1
  # An offline corrected-source comparison is explicit; never claim these were executable offers.
  qualified.append({'Id':row['resultId'],'Home':avg[0],'Draw':avg[1],'Away':avg[2],'SourceUrl':url,'SourceFileHash':sha,'PriceKind':'AveragePreClosing','ObservedAt':None,'StoredAverageMatched':equal(old,avg)})
- if not equal(old,avg):stage.append({'ResultId':row['resultId'],'Identity':key,'ExpectedScore':[row['fullTimeHomeGoals'],row['fullTimeAwayGoals']],'Before':old,'After':avg,'SourceUrl':url,'SourceFileHash':sha,'ExpectedBeforeSha256':hashlib.sha256(json.dumps(old,separators=(',',':')).encode()).hexdigest()})
 (out/'qualified-quotes.json').write_text(json.dumps(sorted(qualified,key=lambda x:x['Id']),indent=2)+'\n')
-(out/'staged-price-corrections.json').write_text(json.dumps(stage,indent=2)+'\n')
-(out/'source-reconciliation.json').write_text(json.dumps({'Files':files,'Cohorts':report,'QualifiedQuotes':len(qualified),'StagedCorrections':len(stage),'Applied':False,'Convention':'Source averages reconciled by score/identity; timing unknown, retrospective comparisons only.'},indent=2)+'\n')
-print(json.dumps({'QualifiedQuotes':len(qualified),'StagedCorrections':len(stage),'E0_1819':report.get('1819/E0'),'FailedSources':sum(bool(x['Error']) for x in files)},indent=2))
+differences=sum(cohort['PriceDifference'] for cohort in report.values())
+(out/'source-reconciliation.json').write_text(json.dumps({'Files':files,'Cohorts':report,'QualifiedQuotes':len(qualified),'PriceDifferences':differences,'Applied':False,'Convention':'Source averages reconciled by score/identity; timing unknown, retrospective comparisons only.'},indent=2)+'\n')
+print(json.dumps({'QualifiedQuotes':len(qualified),'PriceDifferences':differences,'E0_1819':report.get('1819/E0'),'FailedSources':sum(bool(x['Error']) for x in files)},indent=2))
