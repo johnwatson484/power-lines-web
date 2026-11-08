@@ -1,5 +1,5 @@
 # Development
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS development
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS development
 
 RUN apk update \
   && apk --no-cache add curl procps unzip tzdata \
@@ -28,7 +28,7 @@ FROM development AS test
 ENTRYPOINT ["dotnet", "test", "./PowerLinesWeb.Tests/"]
 
 # Production
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS production
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS production
 
 RUN apk add --no-cache tzdata
 

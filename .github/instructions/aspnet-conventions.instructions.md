@@ -1,5 +1,5 @@
 ---
-description: "Use when adding a new domain, controller, API client, model, or view to Power Lines Web. Covers project structure, naming, C# style, configuration binding, and Docker/Helm conventions for this ASP.NET Core 8 MVC app."
+description: "Use when adding a new domain, controller, API client, model, or view to Power Lines Web. Covers project structure, naming, C# style, configuration binding, and Docker/Helm conventions for this ASP.NET Core 10 MVC app."
 applyTo: "PowerLinesWeb/**/*.cs, PowerLinesWeb/**/*.cshtml, helm/**, Dockerfile"
 ---
 
@@ -104,6 +104,6 @@ public async Task<List<MyModel>> GetAsync()
 
 ## Docker
 
-- Use multi-stage Alpine builds: `sdk:8.0-alpine` (build) → `aspnet:8.0-alpine` (runtime).
+- Use multi-stage Alpine builds: `sdk:10.0-alpine` (build) → `aspnet:10.0-alpine` (runtime).
 - Run as non-root user (`dotnet:1000`).
 - Expose port 5000; set `ASPNETCORE_URLS=http://+:5000`.

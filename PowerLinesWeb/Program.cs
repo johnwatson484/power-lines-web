@@ -36,7 +36,7 @@ if (builder.Configuration.GetValue("Workers:Enabled", true))
 // Historical experiments run only through the fixed-manifest evaluator. Legacy workers overwrite
 // historical projections and cannot publish reproducible completed runs.
 
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddHsts(options =>
 {
