@@ -1,0 +1,82 @@
+name: power-lines
+
+services:
+  power-lines-web:
+    profiles: [app]
+    build:
+      context: .
+      target: development
+    image: power-lines-web
+    container_name: power-lines-web
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      Message__Host: power-lines-message
+      Message__Port: 5672
+      Message__Username: ${Message__Username:-rabbitmq}
+      Message__Password: ${Message__Password:-rabbitmq}
+      Message__FixtureQueue: ${Message__FixtureQueue:-fixtures}
+      Message__ResultQueue: ${Message__ResultQueue:-results}
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__PowerLinesWeb: "Host=power-lines-web-postgres;Port=5432;Database=${POSTGRES_DB:-power_lines_web};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./PowerLinesWeb:/home/dotnet/PowerLinesWeb
+    networks:
+      - power-lines
+    depends_on:
+      power-lines-message:
+        condition: service_healthy
+      power-lines-web-postgres:
+        condition: service_healthy
+
+  power-lines-message:
+    image: rabbitmq:3-management-alpine
+    container_name: power-lines-message
+    hostname: power-lines-message
+    environment:
+      RABBITMQ_ERLANG_COOKIE: rabbitmq
+      RABBITMQ_DEFAULT_USER: ${Message__Username:-rabbitmq}
+      RABBITMQ_DEFAULT_PASS: ${Message__Password:-rabbitmq}
+      RABBITMQ_DEFAULT_VHOST: /
+    ports:
+      - "${Message__Port:-5672}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:-15672}:15672"
+    networks:
+      - power-lines
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 2s
+      retries: 30
+      start_period: 5s
+      timeout: 5s
+
+  power-lines-web-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-power_lines_web}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "${POSTGRES_PORT:-6000}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - power-lines
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 2s
+      retries: 30
+      start_period: 5s
+      timeout: 5s
+
+volumes:
+  postgres_data: {}
+
+networks:
+  power-lines:
+    driver: bridge
+    name: power-lines

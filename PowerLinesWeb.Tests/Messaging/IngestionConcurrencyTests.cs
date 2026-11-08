@@ -1,3 +1,4 @@
+using PowerLinesWeb.Tests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PowerLinesWeb.Data;
@@ -6,7 +7,7 @@ using PowerLinesWeb.Messaging;
 namespace PowerLinesWeb.Tests.Messaging;
 
 [NonParallelizable]
-public class IngestionConcurrencyTests
+public class IngestionConcurrencyTests : IntegrationFixture
 {
     string database;
     string schema;
@@ -16,8 +17,7 @@ public class IngestionConcurrencyTests
     public void SetUp()
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        database = Environment.GetEnvironmentVariable("POWERLINES_TEST_DB");
-        if (string.IsNullOrEmpty(database)) Assert.Ignore("Set POWERLINES_TEST_DB to an isolated disposable database.");
+        database = DatabaseConnection;
         var settings = new NpgsqlConnectionStringBuilder(database);
         if (!settings.Database.Contains("power_lines_test")) throw new InvalidOperationException("Integration DB must be named power_lines_test");
         schema = "ingestion_concurrency_" + Guid.NewGuid().ToString("N");

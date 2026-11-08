@@ -1,3 +1,4 @@
+using PowerLinesWeb.Configuration;
 using Microsoft.EntityFrameworkCore;
 using PowerLinesWeb.Accuracy;
 using PowerLinesWeb.Analysis;
@@ -5,6 +6,8 @@ using PowerLinesWeb.Analysis.Ratings;
 using PowerLinesWeb.Data;
 using PowerLinesWeb.Fixtures;
 using PowerLinesWeb.Messaging;
+
+LocalEnvironment.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 

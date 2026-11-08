@@ -1,3 +1,4 @@
+using PowerLinesWeb.Tests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -8,7 +9,7 @@ using PowerLinesWeb.Forecasts;
 namespace PowerLinesWeb.Tests.Forecasts;
 
 [NonParallelizable]
-public class LegacyTableMigrationTests
+public class LegacyTableMigrationTests : IntegrationFixture
 {
     const string previousMigration = "20261104203645_ProtectCompletedReports";
     static readonly string[] currentTables = ["fixtures", "results", "match_odds", "import_statuses",
@@ -17,9 +18,7 @@ public class LegacyTableMigrationTests
     [Test]
     public void Upgrade_preserves_current_data_and_rollback_restores_only_the_legacy_schema()
     {
-        var connection = Environment.GetEnvironmentVariable("POWERLINES_TEST_DB");
-        if (string.IsNullOrEmpty(connection))
-            Assert.Ignore("Set POWERLINES_TEST_DB to an isolated disposable database to run migration integration tests.");
+        var connection = DatabaseConnection;
         var settings = new NpgsqlConnectionStringBuilder(connection);
         if (!settings.Database.Contains("power_lines_test"))
             throw new InvalidOperationException("Integration DB must be named power_lines_test");

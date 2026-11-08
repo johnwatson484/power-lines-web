@@ -24,11 +24,16 @@ Service endpoints are injected via the Options pattern:
 ## Build & Run
 
 ```bash
-# Docker (development — hot reload)
-docker-compose -f docker-compose.yaml -f docker-compose.override.yaml up
+# Native development with dependency containers
+cp -n .env.example .env
+./scripts/local
 
-# dotnet CLI
-dotnet run --project PowerLinesWeb/PowerLinesWeb.csproj
+# Optional Docker app (development — hot reload)
+docker compose --profile app up --build power-lines-web
+
+# Tests own disposable dependencies through Testcontainers
+dotnet test
+dotnet test --filter 'TestCategory!=Integration'
 ```
 
 ## Security

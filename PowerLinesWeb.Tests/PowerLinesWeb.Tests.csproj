@@ -19,4 +19,8 @@
     <ProjectReference Include="../PowerLinesWeb/PowerLinesWeb.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Testcontainers.RabbitMq" Version="4.16.0" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.16.0" />
+  </ItemGroup>
 </Project>

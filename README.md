@@ -113,79 +113,85 @@ Only the fixture-to-odds link is an EF relationship here; dotted links describe 
 
 ## Dependencies
 
-- Docker Engine/Desktop and Docker Compose v2 or later for the supplied container workflow.
-- Alternatively, .NET 10 SDK plus reachable PostgreSQL and RabbitMQ instances for local development.
-- Development Compose supplies PostgreSQL (`postgres:11.4-alpine`) and RabbitMQ (`rabbitmq:3-management-alpine`); Dockerfiles use .NET 10 Alpine images and install timezone data.
-- NuGet restores ASP.NET Core MVC with build-time Razor compilation, EF Core 10/Npgsql, FlexLabs Upsert, Newtonsoft.Json and `PowerLinesMessaging` 3.1.0. Tests use NUnit. There is no Node/npm build step.
-- Builds need registry/NuGet access. The browser layout references external CDN assets. The data service needs outbound HTTPS to Football-Data when importing.
+- .NET 10 SDK (selected by `global.json`).
+- Docker Engine/Desktop with Compose 2.24+ for dependency containers and Testcontainers integration tests.
+- Bash for scripts and VS Code terminal tasks (use WSL on Windows), and the VS Code C# extension for debugging.
+- Registry/NuGet access for builds. Development dependencies remain `postgres:11.4-alpine` and `rabbitmq:3-management-alpine`; this change does not upgrade persisted databases.
 
 ## Run in development
 
-From this repo:
+Native execution is the default. From this repo:
 
 ```sh
-docker compose up --build -d
-docker compose logs -f power-lines-web
+cp .env.example .env
+dotnet restore
+./scripts/local
 ```
 
-Compose merges the base and development override, creates the `power-lines` bridge network and starts the web app after RabbitMQ/PostgreSQL health checks pass. The app migrates the database, starts consumers and analyses fixtures every minute. Source is bind-mounted and runs under `dotnet watch` for rebuilds.
+This starts PostgreSQL and RabbitMQ, waits for their health checks, then runs web with `dotnet watch`. Startup applies EF migrations. To manage dependencies and the app separately:
+
+```sh
+./scripts/services-up
+./scripts/dev
+# Or run once without watching:
+dotnet run --project PowerLinesWeb
+```
 
 | Service | Host address | Development credentials |
 | --- | --- | --- |
-| Web | `http://localhost:5000` (`/Fixtures`, `/Accuracy`) | No app login configured |
+| Web | `http://localhost:5000` | No login |
 | RabbitMQ AMQP | `localhost:5672` | `rabbitmq` / `rabbitmq` |
 | RabbitMQ management | `http://localhost:15672` | `rabbitmq` / `rabbitmq` |
 | PostgreSQL | `localhost:6000`, database `power_lines_web` | `postgres` / `postgres` |
 
-Inside Docker, PostgreSQL is `power-lines-web-postgres:5432` and RabbitMQ is `power-lines-message:5672`. Data persists in the `postgres_data` named volume. `docker compose down` stops services and retains the database volume.
+The example `.env` supplies the native database connection on port `6000`. Update both the connection string and Compose `POSTGRES_*` values when changing database credentials/ports. Set `Workers__Enabled=false` for a read-only UI; startup migrations still require PostgreSQL.
 
-Supply additional app settings through the web service's Compose `environment`/`env_file` configuration. For instance, override `FEED__FIXTURETIMEZONEID` if the feed timezone changes, then recreate the web container. The default `Europe/London` timezone enables forecasts for the current Football-Data feed; an unset or invalid override leaves them unavailable.
+VS Code provides **Local**, **Dev**, dependency, build, test, watch and Docker tasks. **Dev: native** launches the local C# debugger; start dependencies first. **Docker: Attach** remains available for the optional web development container.
 
-### Import data from the companion repo
+### Run the app in Docker
 
-With sibling clones and the web stack already running:
+```sh
+docker compose --profile app up -d --build power-lines-web
+docker compose logs -f power-lines-web
+# Stop the Docker app before using native port 5000 again:
+docker compose --profile app stop power-lines-web
+```
+
+Without `--profile app`, Compose starts dependencies only. The development app uses `dotnet watch`; PostgreSQL is `power-lines-web-postgres:5432` and RabbitMQ is `power-lines-message:5672` inside the network.
+
+### Import from the companion repo
+
+With web consumers running and sibling clones:
 
 ```sh
 cd ../power-lines-data-service
-docker compose build power-lines-data-service
-docker compose run --rm --no-deps --entrypoint dotnet power-lines-data-service \
-  run --project ./PowerLinesDataService -- --results --all
-docker compose run --rm --no-deps --entrypoint dotnet power-lines-data-service \
-  run --project ./PowerLinesDataService -- --fixtures
+cp -n .env.example .env
+./scripts/local --results --all
+./scripts/run-service --fixtures
+# Optional Docker execution of the one-shot importer:
+./scripts/run-service --docker --fixtures
 ```
 
-Both repos use Compose project name `power-lines`, network `power-lines` and broker container name `power-lines-message`. Let this repo own the running broker and use `--no-deps` for the importer. Start web consumers before imports so their subscription queues exist. Importing results first supplies training history; the next minute's analysis picks up new fixture/input revisions.
+### Shared RabbitMQ and standalone use
 
-### Run locally with .NET
+Each app repo defines the same `power-lines-message` service in Compose project `power-lines`, on network `power-lines`. Either repo can start independently; starting the other sequentially reuses the broker. Keep `Message__Username`, `Message__Password`, `Message__Port` and `RABBITMQ_MANAGEMENT_PORT` identical in both `.env` files. Container apps use the broker's internal hostname and port automatically. The `fixtures`, `results` and `imports` fanout exchanges are unchanged.
 
-Start only the dependencies through Compose, then override the database port used by the host process:
+Use [Power Lines Core](https://github.com/johnwatson484/power-lines-core) for sibling clones and the VS Code workspace. Core calls each repo's startup commands sequentially and owns no dependencies. Start web and wait for its “Consuming fixtures, results and import statuses” log before importing, so subscription queues exist. Import results before fixtures when building forecasting history.
 
-```sh
-docker compose up -d power-lines-message power-lines-web-postgres
-ConnectionStrings__PowerLinesWeb='Server=localhost;Port=6000;Database=power_lines_web;User Id=postgres;Password=postgres;' \
-ASPNETCORE_ENVIRONMENT=Development \
-ASPNETCORE_URLS=http://localhost:5000 \
-  dotnet run --project PowerLinesWeb
-```
-
-The checked-in appsettings already point RabbitMQ to `localhost:5672`. Stop any existing web container first to free port 5000 and avoid duplicate workers. `Workers__Enabled=false` disables both consumers and live analysis when running a read-only UI against an existing development database; startup migrations still run.
-
-The Docker attach configuration in [.vscode/launch.json](.vscode/launch.json) connects the VS Code C# debugger to `/vsdbg/vsdbg` in the development container. Select the web process when prompted.
+`./scripts/services-down` stops this repo's dependency containers, including shared RabbitMQ, and affects both apps. It retains containers, the shared network and stored data. Stop native apps with Ctrl+C or terminate their VS Code tasks. Do not use `--remove-orphans`: the other repo's services belong to the same project. Web's `power-lines_postgres_data` volume is retained; remove it only when deliberately resetting development data.
 
 ### Production image
 
-The base Compose file builds only the web image; provision PostgreSQL/RabbitMQ and configure reachable hosts separately:
-
 ```sh
-docker compose -f docker-compose.yaml build
+docker build --target production -t power-lines-web .
 docker run --rm -p 5000:5000 --env-file /path/to/web.env power-lines-web
 ```
 
-Set the database connection string and message credentials in `web.env`. The image listens on HTTP port 5000 and uses the Production environment. Put it behind the deployment's HTTPS termination/proxy configuration. The base file supplies no dependencies, published host ports or development overrides. The `master` workflow publishes Docker Hub images and a versioned GitHub release, then triggers Render deployment.
+Provide reachable PostgreSQL/RabbitMQ connection settings in `web.env`. The runtime image runs the compiled DLL as a non-root user, listens on port 5000 and includes timezone/globalization data. Terminate HTTPS through the deployment's proxy. Local `.env` files are excluded from images and published output.
 
 ## Environment variables and defaults
 
-.NET maps `__` to nested keys, case-insensitively: `Model__MaxGoals` and `MODEL__MAXGOALS` both bind to `Model:MaxGoals`. Environment settings override `appsettings.json` and optional `appsettings.{Environment}.json`; command-line configuration has higher precedence. The tables show effective checked-in app defaults. A shell `.env` is not loaded automatically by .NET; Compose interpolation also does not pass arbitrary variables through to the app. Declare them in `environment`/`env_file`, or use `docker run --env-file`.
+.NET maps `__` to nested keys, case-insensitively: `Model__MaxGoals` and `MODEL__MAXGOALS` both bind to `Model:MaxGoals`. Environment settings override `appsettings.json` and optional `appsettings.{Environment}.json`; command-line configuration has higher precedence. The tables show effective checked-in app defaults. The app loads the optional repository-root `.env` before building its host, from either the repo root or app project directory. Existing environment variables win over `.env`; command-line configuration wins over both. No parent-directory search is performed. Compose reads `.env` for interpolation and passes it to the profiled app through `env_file`, with explicit internal-host overrides.
 
 ### Connections and hosting
 
@@ -202,11 +208,11 @@ Set the database connection string and message credentials in `web.env`. The ima
 | `Message__ResultSubscription` | `results-web` | Result consumer subscription queue. |
 | `Workers__Enabled` | `true` | Enable RabbitMQ consumers and the one-minute fixture analysis worker. |
 | `AllowedHosts` | `*` | ASP.NET Core host filtering. |
-| `ASPNETCORE_ENVIRONMENT` | `Production` when unset | Dockerfiles set `development` / `production`; selects environment-specific settings and error handling. |
+| `ASPNETCORE_ENVIRONMENT` | `Production` when unset | Dockerfiles set `DOTNET_ENVIRONMENT=Development` / `Production`; selects environment-specific settings and error handling. |
 | `DOTNET_ENVIRONMENT` | Unset | Also selects the web host environment; takes precedence over `ASPNETCORE_ENVIRONMENT` with `WebApplication.CreateBuilder`. |
 | `ASPNETCORE_URLS` | No repo override for local CLI; framework default is `http://localhost:5000` | Both image stages explicitly set `http://*:5000`. |
 
-The `imports` exchange and `imports-web` subscription are fixed in code. Dockerfile build argument `PORT` defaults to `5000` and controls exposed-port metadata; it does not change `ASPNETCORE_URLS` or the Compose `5000:5000` mapping. Development also exports `PORT=5000`, but application code does not read it to choose the listener.
+The `imports` exchange and `imports-web` subscription are fixed in code. The Docker app listens on port 5000 through `ASPNETCORE_URLS`; native `.env.example` uses `http://localhost:5000`.
 
 ### Goals model
 
@@ -261,42 +267,20 @@ Policy validation requires `0.5 <= Lower <= Higher <= 1`, nonnegative minimum ex
 
 Logging category names containing dots require an env-file entry, Compose mapping or `env 'Logging__LogLevel__Microsoft.EntityFrameworkCore=Information' ...`, rather than a normal shell assignment.
 
-The development broker sets `RABBITMQ_DEFAULT_USER=rabbitmq`, `RABBITMQ_DEFAULT_PASS=rabbitmq`, `RABBITMQ_DEFAULT_VHOST=/` and `RABBITMQ_ERLANG_COOKIE=rabbitmq`. PostgreSQL sets `POSTGRES_DB=power_lines_web` and `POSTGRES_PASSWORD=postgres`; the Compose file also sets `POSTGRES_USERNAME=postgres`, but the image's user setting is `POSTGRES_USER`, whose default is already `postgres`. These are dependency-container settings, separate from the app connection variables.
+Compose configures RabbitMQ credentials from `Message__Username`/`Message__Password`. PostgreSQL uses `POSTGRES_DB`, `POSTGRES_USER` and `POSTGRES_PASSWORD`. These dependency settings must agree with the native app connection string.
 
-## Test
-
-Run the normal NUnit suite with the .NET SDK:
+## Test and CI
 
 ```sh
-dotnet test PowerLinesWeb.Tests --configuration Release
+dotnet test --configuration Release --collect:"XPlat Code Coverage"
+# Fast unit-only run, without Docker:
+dotnet test --filter 'TestCategory!=Integration'
+# Integration only:
+dotnet test --filter 'TestCategory=Integration'
 ```
 
-The normal suite covers ratings/Poisson/Dixon-Coles calculations, synthetic holdout forecasts, scoring and recommendation policy. PostgreSQL integration tests skip unless `POWERLINES_TEST_DB` is set; messaging integration tests additionally require `POWERLINES_TEST_RABBITMQ` pointing to a disposable broker. The explicit real-data half-life diagnostic is excluded by default.
+The native NUnit suite includes PostgreSQL migration, persistence and ingestion-concurrency tests plus RabbitMQ acknowledgement/recovery tests. Testcontainers starts disposable dependencies on dynamically assigned ports and cleans them up. Tests do not read development `.env` files or use manually supplied database/broker addresses. Docker must be reachable for integration tests; startup failures fail the run rather than silently skipping it. Unit-only runs start no containers.
 
-For the SDK-container workflow:
+Both projects write outputs to repository-level `bin/` and `obj/`. Coverage and TRX files are uploaded by the reusable native-checks workflow on PRs and before the `master` image-publishing/release/deployment workflow. PRs need no deployment secrets.
 
-```sh
-docker compose -f docker-compose.test.yaml build
-docker compose -f docker-compose.test.yaml up --abort-on-container-exit --exit-code-from power-lines-web-test
-```
-
-This test container runs the normal suite without starting RabbitMQ or PostgreSQL. Both projects write outputs to repository-level `bin/` and `obj/` via `Directory.Build.props`.
-
-### PostgreSQL integration tests
-
-`POWERLINES_TEST_DB` defaults to unset. Persistence tests truncate application tables and migration tests exercise upgrades/rollbacks, so point it at a disposable database whose name contains `power_lines_test`. Use a separate PostgreSQL container, for example:
-
-```sh
-docker run --name power-lines-readme-tests -d \
-  -e POSTGRES_DB=power_lines_test -e POSTGRES_PASSWORD=postgres \
-  -p 127.0.0.1:6001:5432 postgres:11.4-alpine
-# Wait until this reports that PostgreSQL is accepting connections.
-docker exec power-lines-readme-tests pg_isready -U postgres -d power_lines_test
-
-POWERLINES_TEST_DB='Host=localhost;Port=6001;Database=power_lines_test;Username=postgres;Password=postgres' \
-  dotnet test PowerLinesWeb.Tests --configuration Release
-
-docker rm -f power-lines-readme-tests
-```
-
-The optional `[Explicit]` `HalfLifeDaysSweepTests` diagnostic reads historical results using a hard-coded `localhost:6000/power_lines_web` connection, not `POWERLINES_TEST_DB`. It is excluded from normal tests and is not the evaluator that publishes completed accuracy reports. Inspect its source before deliberately invoking it against a separate historical-data copy.
+The optional `[Explicit]` `HalfLifeDaysSweepTests` diagnostic remains manual, reads historical results on `localhost:6000/power_lines_web` and is excluded from ordinary CI. It is not the evaluator that publishes completed reports.

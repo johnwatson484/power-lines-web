@@ -11,3 +11,17 @@ LICENSE
 README.md
 Dockerfile
 azure-pipelines.yaml
+
+# Local environment and generated reports
+.env
+.env.*
+!.env.example
+TestResults/
+coverage/
+compose*.yaml
+.github/
+
+.git/
+**/.env
+**/.env.*
+!**/.env.example
