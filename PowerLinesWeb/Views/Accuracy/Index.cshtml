@@ -1,5 +1,6 @@
 @model PowerLinesWeb.Models.AccuracyPage
 @functions {
+    string Number(System.Text.Json.JsonElement value) => value.ValueKind == System.Text.Json.JsonValueKind.Null ? "Unavailable" : value.GetDouble().ToString("F4");
     string Percent(System.Text.Json.JsonElement value) => value.ValueKind == System.Text.Json.JsonValueKind.Null ? "Unavailable" : value.GetDouble().ToString("P1");
 }
 <h3>Forecast evaluation</h3>
@@ -9,11 +10,12 @@
 }
 else
 {
-    <p>Completed run @Model.RunId, @Model.TestFrom?.ToString("yyyy-MM-dd") to @Model.TestThrough?.ToString("yyyy-MM-dd"). Eligible matches: @Model.Eligible.</p>
+    <p>Completed evaluation, @Model.TestFrom?.ToString("yyyy-MM-dd") to @Model.TestThrough?.ToString("yyyy-MM-dd"). Eligible matches: @Model.Eligible.</p>
     <table class="table table-sm"><thead><tr><th>Candidate</th><th>Forecasts</th><th>Coverage per 100 eligible</th><th>Log loss</th><th>Brier</th></tr></thead><tbody>
-    @foreach (var row in Model.Candidates)
+    @for (var i = 0; i < Model.Candidates.Count; i++)
     {
-        <tr><td>@row.Candidate</td><td>@row.Forecasts</td><td>@(row.Coverage?.ToString("F2") ?? "Unavailable")</td><td>@(row.LogLoss?.ToString("F4") ?? "Unavailable")</td><td>@(row.Brier?.ToString("F4") ?? "Unavailable")</td></tr>
+        var row = Model.Candidates[i];
+        <tr><td>Candidate @(i + 1)</td><td>@row.Forecasts</td><td>@(row.Coverage?.ToString("F2") ?? "Unavailable")</td><td>@(row.LogLoss?.ToString("F4") ?? "Unavailable")</td><td>@(row.Brier?.ToString("F4") ?? "Unavailable")</td></tr>
     }
     </tbody></table>
     @using (var document = System.Text.Json.JsonDocument.Parse(Model.ReportJson))
@@ -21,16 +23,12 @@ else
         var report = document.RootElement;
         var paired = report.GetProperty("ModelMarketComparison");
         var selected = report.GetProperty("Shortlist");
-        <p>Unique H/A shortlist: @selected.GetProperty("Count") (@selected.GetProperty("Home") home, @selected.GetProperty("Away") away).
-        Strong: @report.GetProperty("Strong").GetProperty("Count"); broader: @report.GetProperty("Broader").GetProperty("Count").</p>
+        <p>Unique H/A shortlist: @selected.GetProperty("Count").GetInt32() (@selected.GetProperty("Home").GetInt32() home, @selected.GetProperty("Away").GetInt32() away).
+        Strong: @report.GetProperty("Strong").GetProperty("Count").GetInt32(); broader: @report.GetProperty("Broader").GetProperty("Count").GetInt32().</p>
         <p>Hit rate: @Percent(selected.GetProperty("HitRate")); mean win probability: @Percent(selected.GetProperty("MeanProbability")).
         Calibration gap (mean probability − hit rate): @Percent(selected.GetProperty("CalibrationGap")).</p>
-        <p>Paired model/market comparison: @paired.GetProperty("Count") identical matches.
-        Model log loss: @paired.GetProperty("CandidateLogLoss"); market log loss: @paired.GetProperty("BaselineLogLoss").</p>
-        <p>Production model promotion: @report.GetProperty("Promotion").GetProperty("FairOddsModel").
-        Wider shortlist promotion: @report.GetProperty("Promotion").GetProperty("WiderShortlist").
-        Completed experiments do not automatically change live defaults.</p>
+        <p>Paired model/market comparison: @paired.GetProperty("Count").GetInt32() identical matches.
+        Model log loss: @Number(paired.GetProperty("CandidateLogLoss")); market log loss: @Number(paired.GetProperty("BaselineLogLoss")).</p>
     }
     <p class="small text-muted">Log loss and Brier measure overall probability accuracy; lower is better. Brier sums squared errors over home, draw and away. Model/market comparisons use identical match IDs. Market averages with unknown observation times support retrospective comparisons.</p>
-    <details><summary>Paired comparisons, unique H/A tiers, calibration and sample counts</summary><pre>@Model.ReportJson</pre></details>
 }

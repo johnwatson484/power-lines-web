@@ -3,7 +3,6 @@
     ViewData["Title"] = "Win forecasts";
 }
 <h3>Win forecasts</h3>
-<p class="small text-muted">Source kickoff timezone: @Model.KickoffTimeZone.</p>
 <p class="small text-muted">Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Sorted by win probability. No minimum number of picks.</p>
 <div class="btn-group mb-3" role="group" aria-label="Forecast filters">
     <button class="btn btn-secondary forecast-filter" data-filter="all">All fixtures</button>
@@ -14,12 +13,12 @@
 </div>
 @if (Model.Fixtures.Count == 0)
 {
-    <p>No upcoming fixtures in this local feed. See import coverage below.</p>
+    <p>No upcoming fixtures.</p>
 }
 else
 {
 <table class="table table-sm table-hover">
-    <thead><tr><th>Kickoff</th><th>Fixture</th><th>Win candidate</th><th>Probability H / D / A</th><th>Model fair odds H / D / A</th><th>Market / available prices H / D / A</th><th>Status / price support</th></tr></thead>
+    <thead><tr><th>Kickoff</th><th>Fixture</th><th>Win candidate</th><th>Probability H / D / A</th><th>Model fair odds H / D / A</th><th>Market / available prices H / D / A</th></tr></thead>
     <tbody>
     @foreach (var f in Model.Fixtures)
     {
@@ -31,22 +30,10 @@ else
             <td>@(side == "H" ? f.HomeTeam : side == "A" ? f.AwayTeam : "—")<br /><small>@(tier == "none" ? "Unselected" : tier == "strong" ? "Strong" : "Broader")</small></td>
             <td>@(f.HomeProbability?.ToString("P1") ?? "—") / @(f.DrawProbability?.ToString("P1") ?? "—") / @(f.AwayProbability?.ToString("P1") ?? "—")</td>
             <td>@(f.HomeOdds?.ToString("F2") ?? "—") / @(f.DrawOdds?.ToString("F2") ?? "—") / @(f.AwayOdds?.ToString("F2") ?? "—")</td>
-            <td>@(f.MarketHome?.ToString("F2") ?? "—") / @(f.MarketDraw?.ToString("F2") ?? "—") / @(f.MarketAway?.ToString("F2") ?? "—")<br /><small>@f.PriceKind</small></td>
-            <td>@f.Status<br /><small>@f.ForecastOrigin · @f.Support</small><br /><small>@f.FeedStatus</small><br /><small>Source: @f.Source; observed: @(f.QuoteObservedAt?.ToString("u") ?? "unknown"). @(f.AvailableOffer ? "Verified available offer; selection still requires positive EV." : "Indicative comparison; no current verified available offer.")</small>
-            @if (f.IsValue) { <span>Available-price positive EV: @f.ValueSelection at @f.ValueOdds.ToString("F2"); stake @f.ValueStake.ToString("P1")</span> }
-            </td>
+            <td>@(f.MarketHome?.ToString("F2") ?? "—") / @(f.MarketDraw?.ToString("F2") ?? "—") / @(f.MarketAway?.ToString("F2") ?? "—")<br /><small>@(f.AvailableOffer ? "Available prices" : "Indicative prices")</small></td>
         </tr>
     }
     </tbody>
 </table>
 }
-<details>
-    <summary>Source freshness and division coverage (as of @Model.AsOf.ToString("u"))</summary>
-    <table class="table table-sm"><thead><tr><th>Division</th><th>Latest result</th><th>Latest fixture</th><th>Last received</th><th>Last completed import</th><th>Status</th></tr></thead><tbody>
-    @foreach (var feed in Model.Feeds)
-    {
-        <tr><td>@feed.Division</td><td>@(feed.LastResultDate?.ToString("yyyy-MM-dd") ?? "unknown")</td><td>@(feed.LastFixtureDate?.ToString("yyyy-MM-dd") ?? "unknown")</td><td>@(feed.LastReceivedAt?.ToString("u") ?? "unknown")</td><td>@(feed.LastSuccessfulImport?.ToString("u") ?? "unknown; legacy imports have no completion record")</td><td>@feed.Status</td></tr>
-    }
-    </tbody></table>
-</details>
 @section scripts { <script src="~/js/fixtures.js" asp-append-version="true"></script> }
