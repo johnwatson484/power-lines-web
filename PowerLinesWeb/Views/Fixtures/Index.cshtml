@@ -3,37 +3,47 @@
     ViewData["Title"] = "Win forecasts";
 }
 <h3>Win forecasts</h3>
+<div class="d-flex flex-wrap mb-3" role="group" aria-label="Fixture day">
+    @foreach (var day in Model.Fixtures.Select(f => f.Date.Date).Append(Model.Today).Distinct().Order())
+    {
+        var selected = day == Model.Today;
+        <button type="button" class="btn @(selected ? "btn-primary" : "btn-default") date-picker mr-1 mb-1" data-date="@day.ToString("yyyy-MM-dd")" aria-pressed="@selected.ToString().ToLowerInvariant()">@(selected ? "Today" : day.ToString("ddd d MMM"))</button>
+    }
+</div>
 <p class="small text-muted">Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Sorted by win probability. No minimum number of picks.</p>
 <div class="btn-group mb-3" role="group" aria-label="Forecast filters">
-    <button class="btn btn-secondary forecast-filter" data-filter="all">All fixtures</button>
-    <button class="btn btn-outline-secondary forecast-filter" data-filter="shortlist">Win shortlist</button>
-    <button class="btn btn-outline-secondary forecast-filter" data-filter="strong">Strong</button>
-    <button class="btn btn-outline-secondary forecast-filter" data-filter="broader">Broader</button>
-    <button class="btn btn-outline-secondary forecast-filter" data-filter="price">Available-price positive EV</button>
+    <button type="button" class="btn btn-secondary forecast-filter" data-filter="all" aria-pressed="true">All fixtures</button>
+    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="shortlist" aria-pressed="false">Win shortlist</button>
+    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="strong" aria-pressed="false">Strong</button>
+    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="broader" aria-pressed="false">Broader</button>
+    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="price" aria-pressed="false">Available-price positive EV</button>
 </div>
-@if (Model.Fixtures.Count == 0)
-{
-    <p>No upcoming fixtures.</p>
-}
-else
-{
-<table class="table table-sm table-hover">
+<p id="no-fixtures" role="status" hidden="@Model.Fixtures.Any(f => f.Date.Date == Model.Today)">No fixtures match the selected day and filter.</p>
+<div class="table-responsive">
+<table id="fixture-table" class="table table-sm table-hover" hidden="@(!Model.Fixtures.Any(f => f.Date.Date == Model.Today))">
     <thead><tr><th>Kickoff</th><th>Fixture</th><th>Win candidate</th><th>Probability H / D / A</th><th>Model fair odds H / D / A</th><th>Market / available prices H / D / A</th></tr></thead>
     <tbody>
     @foreach (var f in Model.Fixtures)
     {
         var tier = f.Recommended != "X" ? "strong" : f.LowerRecommended != "X" ? "broader" : "none";
         var side = f.Recommended != "X" ? f.Recommended : f.LowerRecommended;
-        <tr class="forecast-row" data-tier="@tier" data-price="@f.IsValue.ToString().ToLowerInvariant()">
+        <tr class="forecast-row" data-date="@f.Date.ToString("yyyy-MM-dd")" data-tier="@tier" data-price="@f.IsValue.ToString().ToLowerInvariant()" hidden="@(f.Date.Date != Model.Today)">
             <td>@f.Date.ToString("dd MMM HH:mm")</td>
             <td>@f.HomeTeam v @f.AwayTeam<br /><small>@f.Division</small></td>
-            <td>@(side == "H" ? f.HomeTeam : side == "A" ? f.AwayTeam : "—")<br /><small>@(tier == "none" ? "Unselected" : tier == "strong" ? "Strong" : "Broader")</small></td>
+            <td>@(side == "H" ? f.HomeTeam : side == "A" ? f.AwayTeam : "—")<br /><small>@(!f.IsValid ? "Unavailable" : tier == "none" ? "Unselected" : tier == "strong" ? "Strong" : "Broader")</small></td>
+            @if (f.IsValid)
+            {
             <td>@(f.HomeProbability?.ToString("P1") ?? "—") / @(f.DrawProbability?.ToString("P1") ?? "—") / @(f.AwayProbability?.ToString("P1") ?? "—")</td>
             <td>@(f.HomeOdds?.ToString("F2") ?? "—") / @(f.DrawOdds?.ToString("F2") ?? "—") / @(f.AwayOdds?.ToString("F2") ?? "—")</td>
+            }
+            else
+            {
+            <td colspan="2" class="text-muted">@(f.Status ?? "Awaiting analysis")</td>
+            }
             <td>@(f.MarketHome?.ToString("F2") ?? "—") / @(f.MarketDraw?.ToString("F2") ?? "—") / @(f.MarketAway?.ToString("F2") ?? "—")<br /><small>@(f.AvailableOffer ? "Available prices" : "Indicative prices")</small></td>
         </tr>
     }
     </tbody>
 </table>
-}
+</div>
 @section scripts { <script src="~/js/fixtures.js" asp-append-version="true"></script> }

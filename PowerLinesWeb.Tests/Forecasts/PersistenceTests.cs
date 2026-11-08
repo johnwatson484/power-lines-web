@@ -188,6 +188,30 @@ public class PersistenceTests
     }
 
     [Test]
+    public void Confirmed_UK_timezone_populates_probabilities_and_fair_odds_after_analysis()
+    {
+        IngestFixture();
+        var feed = provider.GetRequiredService<IOptions<FeedOptions>>().Value;
+        feed.FixtureTimeZoneId = null;
+        Run();
+        using var db = Db();
+        var service = new FixtureService(db, clock, Options.Create(new ThresholdOptions()), Options.Create(feed), Options.Create(new BettingOptions()));
+        var unavailable = service.GetPage().Fixtures.Single();
+        Assert.That(unavailable.Status, Is.EqualTo("Kickoff time or timezone unverified"));
+        Assert.That(unavailable.HomeProbability, Is.Null);
+        Assert.That(unavailable.HomeOdds, Is.Null);
+
+        feed.FixtureTimeZoneId = "Europe/London";
+        Run();
+        var available = service.GetPage().Fixtures.Single();
+        Assert.That(available.IsValid, Is.True);
+        Assert.That(available.HomeProbability + available.DrawProbability + available.AwayProbability, Is.EqualTo(1m).Within(.000001m));
+        Assert.That(available.HomeOdds, Is.EqualTo(1m / available.HomeProbability.Value).Within(.000001m));
+        Assert.That(available.DrawOdds, Is.EqualTo(1m / available.DrawProbability.Value).Within(.000001m));
+        Assert.That(available.AwayOdds, Is.EqualTo(1m / available.AwayProbability.Value).Within(.000001m));
+    }
+
+    [Test]
     public void Unknown_timezone_abstains_and_summer_source_clock_cannot_create_an_inplay_forecast()
     {
         IngestFixture();var feed=provider.GetRequiredService<IOptions<FeedOptions>>().Value;

@@ -54,7 +54,6 @@ public class Fixture
     public string ForecastOrigin { get; set; }
     public string Support { get; set; }
     public string Status { get; set; }
-    public string FeedStatus { get; set; }
     public string Source { get; set; }
     public bool AvailableOffer { get; set; }
     public string PriceKind { get; set; }

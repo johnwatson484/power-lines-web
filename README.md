@@ -75,7 +75,7 @@ Imported Football-Data averages/closing/max/bookmaker columns are indicative obs
 
 ### Forecast availability and accuracy
 
-`Feed__FixtureTimeZoneId` defaults to null. Set it only after verifying the source's kickoff timezone, for example `Europe/London` if that is the established feed contract. Missing times, invalid/ambiguous local times or an unset timezone produce “Kickoff time or timezone unverified” rather than a live forecast. Stale result history and insufficient team support also suppress forecasts. Feed freshness checks remain internal; the public fixtures page omits source and import diagnostics.
+`Feed__FixtureTimeZoneId` defaults to `Europe/London`, matching the confirmed UK kickoff clock in the Football-Data feed. Override it if the source changes its timezone contract. Missing times, invalid/ambiguous local times or an unset timezone produce “Kickoff time or timezone unverified” rather than a live forecast. Stale result history and insufficient team support also suppress forecasts. Feed freshness checks remain internal; the public fixtures page omits source and import diagnostics. The fixtures page opens on today in the feed timezone, with day buttons and forecast filters applied together. Unavailable forecasts show the reason in place of probabilities and fair odds; supported forecasts show all three outcome probabilities and their reciprocal fair odds.
 
 Accuracy publication uses `EvaluationPublisher`: it accepts completed report JSON only when its SHA-256 fingerprint matches, and stores dataset/manifest/code versions and the test period. `/Accuracy` displays coverage, log loss and Brier score from the latest completed report; lower scoring-rule values are better. A fresh database shows an empty accuracy page until a report is published. This repo contains the publication service, not a bundled evaluator CLI or HTTP publication endpoint.
 
@@ -139,7 +139,7 @@ Compose merges the base and development override, creates the `power-lines` brid
 
 Inside Docker, PostgreSQL is `power-lines-web-postgres:5432` and RabbitMQ is `power-lines-message:5672`. Data persists in the `postgres_data` named volume. `docker compose down` stops services and retains the database volume.
 
-Supply additional app settings through the web service's Compose `environment`/`env_file` configuration. For instance, add `FEED__FIXTURETIMEZONEID` after verifying the feed timezone, then recreate the web container. The default null timezone intentionally leaves live forecasts unavailable.
+Supply additional app settings through the web service's Compose `environment`/`env_file` configuration. For instance, override `FEED__FIXTURETIMEZONEID` if the feed timezone changes, then recreate the web container. The default `Europe/London` timezone enables forecasts for the current Football-Data feed; an unset or invalid override leaves them unavailable.
 
 ### Import data from the companion repo
 
@@ -248,8 +248,7 @@ Policy validation requires `0.5 <= Lower <= Higher <= 1`, nonnegative minimum ex
 
 | Environment variable | Default | Meaning |
 | --- | --- | --- |
-| `Feed__FixtureTimeZoneId` | null/unset | Verified source kickoff timezone; required for live prematch forecasts. |
-| `Feed__MaxImportAgeHours` | `48` | Successful-import age threshold for displayed feed status. |
+| `Feed__FixtureTimeZoneId` | `Europe/London` | Verified source kickoff timezone; required for live prematch forecasts. |
 | `Feed__MaxResultAgeDaysInSeason` | `21` | Result freshness threshold; also suppresses analysis outside season-break months. |
 | `Feed__SeasonBreakMonths__0` | `6` | First month exempt from in-season result-age checks. |
 | `Feed__SeasonBreakMonths__1` | `7` | Second exempt month. |

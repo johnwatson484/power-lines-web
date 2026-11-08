@@ -89,6 +89,17 @@ public class PolicyTests
     }
 
     [Test]
+    public void Fixture_day_uses_the_feed_clock_across_midnight_and_daylight_saving()
+    {
+        var summer = new DateTime(2025, 8, 1, 23, 30, 0, DateTimeKind.Utc);
+        var winter = new DateTime(2025, 12, 1, 23, 30, 0, DateTimeKind.Utc);
+        Assert.That(FixtureTimePolicy.FeedDate(summer, "Europe/London"), Is.EqualTo(new DateTime(2025, 8, 2)));
+        Assert.That(FixtureTimePolicy.FeedDate(winter, "Europe/London"), Is.EqualTo(new DateTime(2025, 12, 1)));
+        Assert.That(FixtureTimePolicy.FeedDate(summer, null), Is.EqualTo(summer.Date));
+        Assert.That(FixtureTimePolicy.FeedDate(summer, "Unknown/Timezone"), Is.EqualTo(summer.Date));
+    }
+
+    [Test]
     public void Live_kickoff_requires_verified_timezone_and_rejects_ambiguous_dst_times()
     {
         Assert.That(FixtureTimePolicy.KickoffUtc(new(2025,8,1,15,0,0), null), Is.Null);
