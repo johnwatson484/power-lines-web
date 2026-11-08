@@ -75,7 +75,7 @@ Imported Football-Data averages/closing/max/bookmaker columns are indicative obs
 
 ### Forecast availability and accuracy
 
-`Feed__FixtureTimeZoneId` defaults to null. Set it only after verifying the source's kickoff timezone, for example `Europe/London` if that is the established feed contract. Missing times, invalid/ambiguous local times or an unset timezone produce “Kickoff time or timezone unverified” rather than a live forecast. Stale result history and insufficient team support also suppress forecasts. Feed freshness is displayed separately on the fixtures page.
+`Feed__FixtureTimeZoneId` defaults to null. Set it only after verifying the source's kickoff timezone, for example `Europe/London` if that is the established feed contract. Missing times, invalid/ambiguous local times or an unset timezone produce “Kickoff time or timezone unverified” rather than a live forecast. Stale result history and insufficient team support also suppress forecasts. Feed freshness checks remain internal; the public fixtures page omits source and import diagnostics.
 
 Accuracy publication uses `EvaluationPublisher`: it accepts completed report JSON only when its SHA-256 fingerprint matches, and stores dataset/manifest/code versions and the test period. `/Accuracy` displays coverage, log loss and Brier score from the latest completed report; lower scoring-rule values are better. A fresh database shows an empty accuracy page until a report is published. This repo contains the publication service, not a bundled evaluator CLI or HTTP publication endpoint.
 
