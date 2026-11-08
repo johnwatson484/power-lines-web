@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-    <!-- Allows the tests to run on a newer runtime when the net8.0 runtime is not installed locally. -->
-    <RollForward>LatestMajor</RollForward>
   </PropertyGroup>
 
   <ItemGroup>

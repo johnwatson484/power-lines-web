@@ -2,7 +2,7 @@
 
 # Power Lines Web
 
-An ASP.NET Core 8 MVC app that consumes football fixtures/results from RabbitMQ, stores them in PostgreSQL, fits goals models and serves fixture forecasts and published evaluation reports. [Power Lines Data Service](https://github.com/johnwatson484/power-lines-data-service) supplies Football-Data imports; this repo owns persistence, forecasting and the web UI.
+An ASP.NET Core 10 MVC app that consumes football fixtures/results from RabbitMQ, stores them in PostgreSQL, fits goals models and serves fixture forecasts and published evaluation reports. [Power Lines Data Service](https://github.com/johnwatson484/power-lines-data-service) supplies Football-Data imports; this repo owns persistence, forecasting and the web UI.
 
 ## How the repos work together
 
@@ -114,9 +114,9 @@ Only the fixture-to-odds link is an EF relationship here; dotted links describe 
 ## Dependencies
 
 - Docker Engine/Desktop and Docker Compose v2 or later for the supplied container workflow.
-- Alternatively, .NET 8 SDK plus reachable PostgreSQL and RabbitMQ instances for local development.
-- Development Compose supplies PostgreSQL (`postgres:11.4-alpine`) and RabbitMQ (`rabbitmq:3-management-alpine`); Dockerfiles use .NET 8 Alpine images and install timezone data.
-- NuGet restores ASP.NET Core MVC/Razor runtime compilation, EF Core 8/Npgsql, FlexLabs Upsert, Newtonsoft.Json and `PowerLinesMessaging` 3.1.0. Tests use NUnit. There is no Node/npm build step.
+- Alternatively, .NET 10 SDK plus reachable PostgreSQL and RabbitMQ instances for local development.
+- Development Compose supplies PostgreSQL (`postgres:11.4-alpine`) and RabbitMQ (`rabbitmq:3-management-alpine`); Dockerfiles use .NET 10 Alpine images and install timezone data.
+- NuGet restores ASP.NET Core MVC with build-time Razor compilation, EF Core 10/Npgsql, FlexLabs Upsert, Newtonsoft.Json and `PowerLinesMessaging` 3.1.0. Tests use NUnit. There is no Node/npm build step.
 - Builds need registry/NuGet access. The browser layout references external CDN assets. The data service needs outbound HTTPS to Football-Data when importing.
 
 ## Run in development
