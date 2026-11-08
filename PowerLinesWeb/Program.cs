@@ -64,7 +64,7 @@ app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("Content-Security-Policy", string.Join(" ",
         "font-src 'self' fonts.gstatic.com *.cloudflare.com *.fontawesome.com;",
-        "img-src 'self' *.google.com;",
+        "img-src 'self' *.google.com https://www.googletagmanager.com;",
         "script-src 'self' 'unsafe-inline' code.jquery.com cdnjs.cloudflare.com *.bootstrapcdn.com *.fontawesome.com *.googletagmanager.com *.google.com;",
         "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.bootstrapcdn.com cdnjs.cloudflare.com code.jquery.com;",
         "connect-src 'self' *.fontawesome.com https://*.google-analytics.com https://stackpath.bootstrapcdn.com;",
