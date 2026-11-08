@@ -1,3 +1,4 @@
+using PowerLinesWeb.Tests.Infrastructure;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -15,7 +16,7 @@ using PowerLinesWeb.Tests.Analysis;
 namespace PowerLinesWeb.Tests.Forecasts;
 
 [NonParallelizable]
-public class PersistenceTests
+public class PersistenceTests : IntegrationFixture
 {
     ServiceProvider provider;
     readonly FixedClock clock = new(new DateTimeOffset(2025,8,1,12,0,0,TimeSpan.Zero));
@@ -25,8 +26,7 @@ public class PersistenceTests
     [OneTimeSetUp]
     public void Initialize()
     {
-        connection=Environment.GetEnvironmentVariable("POWERLINES_TEST_DB");
-        if(string.IsNullOrEmpty(connection)) Assert.Ignore("Set POWERLINES_TEST_DB to an isolated disposable database to run persistence/job integration tests.");
+        connection=DatabaseConnection;
         if(!connection.Contains("power_lines_test")) throw new InvalidOperationException("Integration DB must be named power_lines_test");
         using var db=Db(); db.Database.Migrate();
         var services=new ServiceCollection();services.AddDbContext<ApplicationDbContext>(x=>x.UseNpgsql(connection, options=>options.EnableRetryOnFailure()));

@@ -1,3 +1,4 @@
+using PowerLinesWeb.Tests.Infrastructure;
 using System.Diagnostics;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,10 @@ using RabbitMQ.Client;
 namespace PowerLinesWeb.Tests.Messaging;
 
 [NonParallelizable]
-public class RabbitMqSubscriptionTests
+public class RabbitMqSubscriptionTests : IntegrationFixture
 {
+    protected override bool NeedsRabbit => true;
+
     ConnectionFactory factory;
     IConnection admin;
     IModel publisher;
@@ -34,10 +37,8 @@ public class RabbitMqSubscriptionTests
     public void SetUp()
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-        database = Environment.GetEnvironmentVariable("POWERLINES_TEST_DB");
-        var rabbit = Environment.GetEnvironmentVariable("POWERLINES_TEST_RABBITMQ");
-        if (string.IsNullOrEmpty(database) || string.IsNullOrEmpty(rabbit))
-            Assert.Ignore("Set POWERLINES_TEST_DB and POWERLINES_TEST_RABBITMQ to disposable PostgreSQL and RabbitMQ instances.");
+        database = DatabaseConnection;
+        var rabbit = RabbitConnection;
         var settings = new NpgsqlConnectionStringBuilder(database);
         if (!settings.Database.Contains("power_lines_test")) throw new InvalidOperationException("Integration DB must be named power_lines_test");
 

@@ -1,46 +1,36 @@
-# Development
-FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS development
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS sdk
 
-RUN apk update \
-  && apk --no-cache add curl procps unzip tzdata \
-  && wget -qO- https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l /vsdbg
+FROM sdk AS build
+WORKDIR /src
+COPY Directory.Build.props ./
+COPY PowerLinesWeb/PowerLinesWeb.csproj ./PowerLinesWeb/
+RUN dotnet restore ./PowerLinesWeb
+COPY . .
+RUN dotnet publish ./PowerLinesWeb -c Release --no-restore -o /out /p:UseAppHost=false
 
-RUN addgroup -g 1000 dotnet \
+FROM sdk AS development
+RUN apk add --no-cache curl procps unzip tzdata icu-libs \
+    && wget -qO- https://aka.ms/getvsdbgsh | sh /dev/stdin -v latest -l /vsdbg \
+    && addgroup -g 1000 dotnet \
     && adduser -u 1000 -G dotnet -s /bin/sh -D dotnet
-
-USER dotnet
 WORKDIR /home/dotnet
-
 COPY --chown=dotnet:dotnet . .
-
-RUN dotnet publish ./PowerLinesWeb/ -c Release -o /home/dotnet/out
-
-ARG PORT=5000
-ENV PORT=${PORT}
-ENV ASPNETCORE_ENVIRONMENT development
-ENV ASPNETCORE_URLS=http://*:5000
-EXPOSE ${PORT}
-ENTRYPOINT ["dotnet", "watch", "--project", "./PowerLinesWeb", "run"]
-
-# Test
-FROM development AS test
-
-ENTRYPOINT ["dotnet", "test", "./PowerLinesWeb.Tests/"]
-
-# Production
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS production
-
-RUN apk add --no-cache tzdata
-
-RUN addgroup -g 1000 dotnet \
-    && adduser -u 1000 -G dotnet -s /bin/sh -D dotnet
-
 USER dotnet
-WORKDIR /home/dotnet
+ENV DOTNET_ENVIRONMENT=Development
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
+ENTRYPOINT ["dotnet", "watch", "--project", "PowerLinesWeb", "run", "--no-launch-profile", "--"]
 
-COPY --from=development /home/dotnet/out/ ./
-ARG PORT=5000
-ENV ASPNETCORE_URLS=http://*:5000
-ENV ASPNETCORE_ENVIRONMENT=production
-EXPOSE ${PORT}
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS production
+RUN apk add --no-cache tzdata icu-libs \
+    && addgroup -g 1000 dotnet \
+    && adduser -u 1000 -G dotnet -s /bin/sh -D dotnet
+WORKDIR /home/dotnet
+COPY --from=build --chown=dotnet:dotnet /out/ ./
+USER dotnet
+ENV DOTNET_ENVIRONMENT=Production
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
 ENTRYPOINT ["dotnet", "PowerLinesWeb.dll"]
