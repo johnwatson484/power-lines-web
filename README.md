@@ -281,6 +281,6 @@ dotnet test --filter 'TestCategory=Integration'
 
 The native NUnit suite includes PostgreSQL migration, persistence and ingestion-concurrency tests plus RabbitMQ acknowledgement/recovery tests. Testcontainers starts disposable dependencies on dynamically assigned ports and cleans them up. Tests do not read development `.env` files or use manually supplied database/broker addresses. Docker must be reachable for integration tests; startup failures fail the run rather than silently skipping it. Unit-only runs start no containers.
 
-Both projects write outputs to repository-level `bin/` and `obj/`. Coverage and TRX files are uploaded by the reusable native-checks workflow on PRs and before the `master` image-publishing/release/deployment workflow. PRs need no deployment secrets.
+Both projects write outputs to repository-level `bin/` and `obj/`. Coverage and TRX files are uploaded by the reusable native-checks workflow on PRs and before the `main` image-publishing/release/deployment workflow. PRs need no deployment secrets.
 
 The optional `[Explicit]` `HalfLifeDaysSweepTests` diagnostic remains manual, reads historical results on `localhost:6000/power_lines_web` and is excluded from ordinary CI. It is not the evaluator that publishes completed reports.
