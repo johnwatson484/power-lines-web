@@ -20,19 +20,6 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
     public FixturePage GetPage()
     {
         var now = clock.GetUtcNow().UtcDateTime;
-        var resultDates = dbContext.Results.AsNoTracking().GroupBy(x => x.Division).Select(g => new { Division = g.Key, Date = g.Max(x => x.Date), Received = g.Max(x => x.Updated ?? x.Created) }).ToList();
-        var fixtureDates = dbContext.Fixtures.AsNoTracking().GroupBy(x => x.Division).Select(g => new { Division = g.Key, Date = g.Max(x => x.Date), Received = g.Max(x => x.Updated ?? x.Created) }).ToList();
-        var imports = dbContext.ImportStatuses.AsNoTracking().Where(x => x.Status == "Completed").GroupBy(x => x.Division).Select(g => new { Division = g.Key, Completed = g.Max(x => x.CompletedAt) }).ToList();
-        var status = resultDates.Select(x => x.Division).Union(fixtureDates.Select(x => x.Division)).Order().Select(division =>
-        {
-            var lastResult = resultDates.Find(x => x.Division == division);
-            var lastFixture = fixtureDates.Find(x => x.Division == division);
-            var lastImport = imports.Find(x => x.Division == division);
-            var stale = (lastImport != null && lastImport.Completed < now.AddHours(-feeds.MaxImportAgeHours)) ||
-                (!feeds.SeasonBreakMonths.Contains(now.Month) && (lastResult == null || lastResult.Date < now.AddDays(-feeds.MaxResultAgeDaysInSeason)));
-            return new DivisionFeedStatus { Division = division, LastResultDate = lastResult?.Date, LastFixtureDate = lastFixture?.Date, LastReceivedAt = new[] { lastResult?.Received, lastFixture?.Received }.Max(), LastSuccessfulImport = lastImport?.Completed,
-                Status = stale ? "Feed not updated (local snapshot)" : lastFixture?.Date > now ? "Fixtures received" : feeds.SeasonBreakMonths.Contains(now.Month) ? "Season transition / no scheduled games in feed" : "No scheduled games in feed; import status " + (lastImport == null ? "unknown" : "current") };
-        }).ToList();
         var fixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.Date >= now.Date.AddDays(-1)).ToList();
         var fixtureIds = fixtures.Select(x => x.FixtureId).ToList();
         var latest = dbContext.ForecastSnapshots.AsNoTracking().Where(x => (x.Origin == "LivePrematch" || x.Origin == "LiveUnavailable") && x.FixtureId.HasValue && fixtureIds.Contains(x.FixtureId.Value))
@@ -48,7 +35,6 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
             var currentPriceDecision = offer && odds != null && odds.Calculated >= quote.IngestedAt && SnapshotQuoteId(latest.GetValueOrDefault(f.FixtureId)?.DecisionJson) == quote.Id;
             var kickoffUtc = FixtureTimePolicy.KickoffUtc(f.Date, feeds.FixtureTimeZoneId);
             var valid = kickoffUtc.HasValue && kickoffUtc > now && odds != null && f.AnalysisStatus == "Available" && f.LifecycleStatus == "Scheduled";
-            var feed = status.Find(x => x.Division == f.Division);
             return new Models.Fixture
             {
                 FixtureId = f.FixtureId, Country = division.Country, CountryRank = division.CountryRank, Division = division.Name, Tier = division.Tier,
@@ -62,12 +48,12 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
                 ForecastOrigin = latest.GetValueOrDefault(f.FixtureId)?.Origin ?? "Legacy provenance unknown",
                 Support = latest.GetValueOrDefault(f.FixtureId)?.Support ?? "Support unavailable",
                 Status = f.LifecycleStatus != "Scheduled" ? f.LifecycleStatus : !kickoffUtc.HasValue ? "Kickoff time or timezone unverified" : kickoffUtc <= now ? "Kickoff passed" : f.AnalysisStatus ?? "Awaiting analysis",
-                FeedStatus = feed?.Status ?? "Import status unknown", Source = quote?.Source ?? "Legacy price source unknown", QuoteObservedAt = quote?.ObservedAt, AvailableOffer = offer,
+                Source = quote?.Source ?? "Legacy price source unknown", QuoteObservedAt = quote?.ObservedAt, AvailableOffer = offer,
                 MarketHome = quote?.Home ?? (f.HomeOddsAverage > 1 ? f.HomeOddsAverage : null), MarketDraw = quote?.Draw ?? (f.DrawOddsAverage > 1 ? f.DrawOddsAverage : null), MarketAway = quote?.Away ?? (f.AwayOddsAverage > 1 ? f.AwayOddsAverage : null),
                 PriceKind = quote?.Kind ?? "Legacy average: mapping/timing unqualified"
             };
         }).OrderByDescending(x => Math.Max(x.HomeProbability ?? 0, x.AwayProbability ?? 0)).ThenBy(x => x.Date).ThenBy(x => x.FixtureId).ToList();
-        return new FixturePage { Fixtures = rows, Feeds = status, Higher = thresholds.Higher, Lower = thresholds.Lower, KickoffTimeZone = feeds.FixtureTimeZoneId ?? "unverified", AsOf = now };
+        return new FixturePage { Fixtures = rows, Higher = thresholds.Higher, Lower = thresholds.Lower, Today = FixtureTimePolicy.FeedDate(now, feeds.FixtureTimeZoneId) };
     }
     static long? SnapshotQuoteId(string json)
     {
