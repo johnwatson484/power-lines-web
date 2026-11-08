@@ -21,7 +21,7 @@
 <p id="no-fixtures" role="status" hidden="@Model.Fixtures.Any(f => f.Date.Date == Model.Today)">No fixtures match the selected day and filter.</p>
 <div class="table-responsive">
 <table id="fixture-table" class="table table-sm table-hover" hidden="@(!Model.Fixtures.Any(f => f.Date.Date == Model.Today))">
-    <thead><tr><th>Kickoff</th><th>Fixture</th><th>Win candidate</th><th>Probability H / D / A</th><th>Model fair odds H / D / A</th><th>Market / available prices H / D / A</th></tr></thead>
+    <thead><tr><th>Kickoff</th><th>Fixture</th><th>Win candidate</th><th>Probability H / D / A</th><th>Model fair odds H / D / A</th></tr></thead>
     <tbody>
     @foreach (var f in Model.Fixtures)
     {
@@ -40,7 +40,6 @@
             {
             <td colspan="2" class="text-muted">@(f.Status ?? "Awaiting analysis")</td>
             }
-            <td>@(f.MarketHome?.ToString("F2") ?? "—") / @(f.MarketDraw?.ToString("F2") ?? "—") / @(f.MarketAway?.ToString("F2") ?? "—")<br /><small>@(f.AvailableOffer ? "Available prices" : "Indicative prices")</small></td>
         </tr>
     }
     </tbody>
