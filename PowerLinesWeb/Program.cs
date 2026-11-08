@@ -67,7 +67,7 @@ app.Use(async (context, next) =>
         "img-src 'self' *.google.com;",
         "script-src 'self' 'unsafe-inline' code.jquery.com cdnjs.cloudflare.com *.bootstrapcdn.com *.fontawesome.com *.googletagmanager.com *.google.com;",
         "style-src 'self' 'unsafe-inline' fonts.googleapis.com *.bootstrapcdn.com cdnjs.cloudflare.com code.jquery.com;",
-        "connect-src 'self' *.fontawesome.com;",
+        "connect-src 'self' *.fontawesome.com https://*.google-analytics.com https://stackpath.bootstrapcdn.com;",
         "frame-ancestors 'self';",
         "form-action 'self';"
     ));
