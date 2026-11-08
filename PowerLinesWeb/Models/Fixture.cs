@@ -61,6 +61,7 @@ public class Fixture
     public decimal? MarketHome { get; set; }
     public decimal? MarketDraw { get; set; }
     public decimal? MarketAway { get; set; }
+    public bool HasForecast { get; set; }
     public bool IsValid { get; set; }
     public string Recommended { get; set; }
     public string LowerRecommended { get; set; }

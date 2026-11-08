@@ -198,6 +198,7 @@ public class PersistenceTests : IntegrationFixture
         var service = new FixtureService(db, clock, Options.Create(new ThresholdOptions()), Options.Create(feed), Options.Create(new BettingOptions()));
         var unavailable = service.GetPage().Fixtures.Single();
         Assert.That(unavailable.Status, Is.EqualTo("Kickoff time or timezone unverified"));
+        Assert.That(unavailable.HasForecast, Is.False);
         Assert.That(unavailable.HomeProbability, Is.Null);
         Assert.That(unavailable.HomeOdds, Is.Null);
 
@@ -205,10 +206,72 @@ public class PersistenceTests : IntegrationFixture
         Run();
         var available = service.GetPage().Fixtures.Single();
         Assert.That(available.IsValid, Is.True);
+        Assert.That(available.HasForecast, Is.True);
         Assert.That(available.HomeProbability + available.DrawProbability + available.AwayProbability, Is.EqualTo(1m).Within(.000001m));
         Assert.That(available.HomeOdds, Is.EqualTo(1m / available.HomeProbability.Value).Within(.000001m));
         Assert.That(available.DrawOdds, Is.EqualTo(1m / available.DrawProbability.Value).Within(.000001m));
         Assert.That(available.AwayOdds, Is.EqualTo(1m / available.AwayProbability.Value).Within(.000001m));
+    }
+
+    [TestCase(-1)]
+    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(90)]
+    public void Saved_forecast_remains_visible_across_kickoff_without_new_analysis(int minutesAfterKickoff)
+    {
+        IngestFixture();
+        using var db = Db();
+        var fixture = db.Fixtures.Single();
+        db.MarketQuotes.Add(new() { MatchIdentity = $"fixture:{fixture.FixtureId}", Source = "Bookmaker", Revision = "offer-1", Kind = "AvailableOffer", ObservedAt = clock.Now.UtcDateTime, IngestedAt = clock.Now.UtcDateTime, Available = true, Home = 3, Draw = 4, Away = 4 });
+        db.SaveChanges();
+        Run();
+        // Keep the offer eligible for 48 hours to isolate kickoff from quote expiry.
+        var service = new FixtureService(db, clock, Options.Create(new ThresholdOptions()), Options.Create(new FeedOptions { FixtureTimeZoneId = "UTC" }), Options.Create(new BettingOptions { MaxQuoteAgeMinutes = 2880 }));
+        var before = service.GetPage().Fixtures.Single();
+        Assert.That(before.IsValid, Is.True);
+        Assert.That(before.IsValue, Is.True);
+        var snapshotCount = db.ForecastSnapshots.Count();
+
+        clock.Now = new DateTimeOffset(fixture.Date, TimeSpan.Zero).AddMinutes(minutesAfterKickoff);
+        var after = service.GetPage().Fixtures.Single();
+        Assert.That(after.HasForecast, Is.True);
+        Assert.That(after.IsValid, Is.EqualTo(minutesAfterKickoff < 0));
+        Assert.That(new[] { after.HomeProbability, after.DrawProbability, after.AwayProbability },
+            Is.EqualTo(new[] { before.HomeProbability, before.DrawProbability, before.AwayProbability }));
+        Assert.That(new[] { after.HomeOdds, after.DrawOdds, after.AwayOdds },
+            Is.EqualTo(new[] { before.HomeOdds, before.DrawOdds, before.AwayOdds }));
+        Assert.That(after.Calculated, Is.EqualTo(before.Calculated));
+        Assert.That(after.AvailableOffer, Is.True);
+        Assert.That(after.IsValue, Is.EqualTo(minutesAfterKickoff < 0));
+        if (minutesAfterKickoff >= 0)
+        {
+            Assert.That(after.Recommended, Is.EqualTo("X"));
+            Assert.That(after.LowerRecommended, Is.EqualTo("X"));
+            Assert.That(after.Status, Is.EqualTo("Kickoff passed"));
+            Run();
+            Assert.That(db.ForecastSnapshots.Count(), Is.EqualTo(snapshotCount));
+            Assert.That(db.MatchOdds.AsNoTracking().Single().Calculated, Is.EqualTo(before.Calculated));
+        }
+    }
+
+    [Test]
+    public void Missing_forecast_and_unavailable_analysis_or_lifecycle_remain_hidden()
+    {
+        IngestFixture();
+        using var db = Db();
+        var service = new FixtureService(db, clock, Options.Create(new ThresholdOptions()), Options.Create(new FeedOptions { FixtureTimeZoneId = "UTC" }), Options.Create(new BettingOptions()));
+        Assert.That(service.GetPage().Fixtures.Single().HasForecast, Is.False);
+        Run();
+        Assert.That(service.GetPage().Fixtures.Single().HasForecast, Is.True);
+
+        var fixture = db.Fixtures.Single();
+        fixture.AnalysisStatus = "Stale result feed";
+        db.SaveChanges();
+        Assert.That(service.GetPage().Fixtures.Single().HasForecast, Is.False);
+        fixture.AnalysisStatus = "Available";
+        fixture.LifecycleStatus = "Cancelled";
+        db.SaveChanges();
+        Assert.That(service.GetPage().Fixtures.Single().HasForecast, Is.False);
     }
 
     [Test]

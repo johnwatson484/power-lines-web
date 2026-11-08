@@ -31,10 +31,29 @@
             <td>@f.Date.ToString("dd MMM HH:mm")</td>
             <td>@f.HomeTeam v @f.AwayTeam<br /><small>@f.Division</small></td>
             <td>@(side == "H" ? f.HomeTeam : side == "A" ? f.AwayTeam : "—")<br /><small>@(!f.IsValid ? "Unavailable" : tier == "none" ? "Unselected" : tier == "strong" ? "Strong" : "Broader")</small></td>
-            @if (f.IsValid)
+            @if (f.HasForecast)
             {
-            <td>@(f.HomeProbability?.ToString("P1") ?? "—") / @(f.DrawProbability?.ToString("P1") ?? "—") / @(f.AwayProbability?.ToString("P1") ?? "—")</td>
-            <td>@(f.HomeOdds?.ToString("F2") ?? "—") / @(f.DrawOdds?.ToString("F2") ?? "—") / @(f.AwayOdds?.ToString("F2") ?? "—")</td>
+                var highestProbability = new[] { f.HomeProbability, f.DrawProbability, f.AwayProbability }.Max();
+                var outcomes = new[]
+                {
+                    (Probability: f.HomeProbability, Odds: f.HomeOdds),
+                    (Probability: f.DrawProbability, Odds: f.DrawOdds),
+                    (Probability: f.AwayProbability, Odds: f.AwayOdds)
+                };
+                <td>
+                    @for (var i = 0; i < outcomes.Length; i++)
+                    {
+                        if (i > 0) { <text> / </text> }
+                        <span class="@(outcomes[i].Probability.HasValue && outcomes[i].Probability == highestProbability ? "font-weight-bold" : null)">@(outcomes[i].Probability?.ToString("P1") ?? "—")</span>
+                    }
+                </td>
+                <td>
+                    @for (var i = 0; i < outcomes.Length; i++)
+                    {
+                        if (i > 0) { <text> / </text> }
+                        <span class="@(outcomes[i].Probability.HasValue && outcomes[i].Probability == highestProbability ? "font-weight-bold" : null)">@(outcomes[i].Odds?.ToString("F2") ?? "—")</span>
+                    }
+                </td>
             }
             else
             {

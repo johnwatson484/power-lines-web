@@ -34,13 +34,14 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
             var offer = quote != null && quote.Available && quote.Kind == "AvailableOffer" && quote.Home > 1 && quote.Draw > 1 && quote.Away > 1 && quote.Commission >= 0 && quote.Commission < 1 && !string.IsNullOrWhiteSpace(quote.Revision) && !string.IsNullOrWhiteSpace(quote.Source) && quote.ObservedAt.HasValue && quote.ObservedAt <= now && quote.ObservedAt >= now.AddMinutes(-betting.MaxQuoteAgeMinutes);
             var currentPriceDecision = offer && odds != null && odds.Calculated >= quote.IngestedAt && SnapshotQuoteId(latest.GetValueOrDefault(f.FixtureId)?.DecisionJson) == quote.Id;
             var kickoffUtc = FixtureTimePolicy.KickoffUtc(f.Date, feeds.FixtureTimeZoneId);
-            var valid = kickoffUtc.HasValue && kickoffUtc > now && odds != null && f.AnalysisStatus == "Available" && f.LifecycleStatus == "Scheduled";
+            var hasForecast = kickoffUtc.HasValue && odds != null && f.AnalysisStatus == "Available" && f.LifecycleStatus == "Scheduled";
+            var valid = hasForecast && kickoffUtc > now;
             return new Models.Fixture
             {
                 FixtureId = f.FixtureId, Country = division.Country, CountryRank = division.CountryRank, Division = division.Name, Tier = division.Tier,
-                Date = f.Date, HomeTeam = f.HomeTeam, AwayTeam = f.AwayTeam, IsValid = valid,
-                HomeOdds = valid ? odds.Home : null, DrawOdds = valid ? odds.Draw : null, AwayOdds = valid ? odds.Away : null,
-                HomeProbability = valid ? odds.HomeProbability : null, DrawProbability = valid ? odds.DrawProbability : null, AwayProbability = valid ? odds.AwayProbability : null,
+                Date = f.Date, HomeTeam = f.HomeTeam, AwayTeam = f.AwayTeam, IsValid = valid, HasForecast = hasForecast,
+                HomeOdds = hasForecast ? odds.Home : null, DrawOdds = hasForecast ? odds.Draw : null, AwayOdds = hasForecast ? odds.Away : null,
+                HomeProbability = hasForecast ? odds.HomeProbability : null, DrawProbability = hasForecast ? odds.DrawProbability : null, AwayProbability = hasForecast ? odds.AwayProbability : null,
                 HomeXg = valid ? odds.HomeXg : 0, AwayXg = valid ? odds.AwayXg : 0, ExpectedGoals = valid ? odds.ExpectedGoals : 0,
                 Recommended = valid ? odds.Recommended : "X", LowerRecommended = valid ? odds.LowerRecommended : "X", ValueSelection = valid && currentPriceDecision ? odds.ValueSelection : "X",
                 ValueOdds = valid ? odds.ValueOdds : 0, ValueEdge = valid ? odds.ValueEdge : 0, ValueStake = valid ? odds.ValueStake : 0,
