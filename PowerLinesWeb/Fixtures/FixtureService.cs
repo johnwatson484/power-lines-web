@@ -52,7 +52,7 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
                 MarketHome = quote?.Home ?? (f.HomeOddsAverage > 1 ? f.HomeOddsAverage : null), MarketDraw = quote?.Draw ?? (f.DrawOddsAverage > 1 ? f.DrawOddsAverage : null), MarketAway = quote?.Away ?? (f.AwayOddsAverage > 1 ? f.AwayOddsAverage : null),
                 PriceKind = quote?.Kind ?? "Legacy average: mapping/timing unqualified"
             };
-        }).OrderByDescending(x => Math.Max(x.HomeProbability ?? 0, x.AwayProbability ?? 0)).ThenBy(x => x.Date).ThenBy(x => x.FixtureId).ToList();
+        }).OrderBy(x => x.Date).ThenBy(x => x.FixtureId).ToList();
         return new FixturePage { Fixtures = rows, Higher = thresholds.Higher, Lower = thresholds.Lower, Today = FixtureTimePolicy.FeedDate(now, feeds.FixtureTimeZoneId) };
     }
     static long? SnapshotQuoteId(string json)
