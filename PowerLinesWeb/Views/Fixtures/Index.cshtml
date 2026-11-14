@@ -2,7 +2,7 @@
 @model PowerLinesWeb.Models.FixturePage
 @{
     ViewData["Title"] = "Win forecasts";
-    var fixtures = Model.Fixtures.OrderByDescending(f => f.BestWinProbability).ThenBy(f => f.Date).ThenBy(f => f.FixtureId).ToList();
+    var fixtures = Model.Fixtures.OrderBy(f => f.Date).ThenBy(f => f.FixtureId).ToList();
     var todayCount = fixtures.Count(f => f.Date.Date == Model.Today);
 }
 <h3>Win forecasts</h3>
@@ -42,8 +42,8 @@
         <div class="fixture-control">
             <label class="fixture-control-label" for="fixture-order">Order by</label>
             <select id="fixture-order" class="form-control">
-                <option value="probability">Highest win probability</option>
                 <option value="kickoff">Kickoff time</option>
+                <option value="probability">Highest win probability</option>
             </select>
         </div>
     </div>
@@ -67,7 +67,7 @@
 <p id="no-fixtures" hidden="@(todayCount > 0)">No fixtures match the selected day and criteria.</p>
 <div class="table-responsive">
 <table id="fixture-table" class="table table-sm table-hover" hidden="@(todayCount == 0)">
-    <caption class="sr-only">Daily fixtures, initially ordered by highest home or away win probability. Saved probabilities are prematch forecasts.</caption>
+    <caption class="sr-only">Daily fixtures, initially ordered by kickoff time. Saved probabilities are prematch forecasts.</caption>
     <thead><tr><th scope="col">Kickoff</th><th scope="col">Fixture</th><th scope="col">Best win outcome</th><th scope="col">Probability H / D / A</th><th scope="col">Model fair odds H / D / A</th></tr></thead>
     <tbody>
     @foreach (var f in fixtures)

@@ -86,11 +86,13 @@ function updateFixtures () {
   })
 
   rows.sort((a, b) => {
-    const aProbability = a.dataset.probability
-    const bProbability = b.dataset.probability
-    if ((aProbability === '') !== (bProbability === '')) return aProbability === '' ? 1 : -1
-    const probabilityOrder = probabilityKey(bProbability).localeCompare(probabilityKey(aProbability))
-    if (order.value === 'probability' && probabilityOrder !== 0) return probabilityOrder
+    if (order.value === 'probability') {
+      const aProbability = a.dataset.probability
+      const bProbability = b.dataset.probability
+      if ((aProbability === '') !== (bProbability === '')) return aProbability === '' ? 1 : -1
+      const probabilityOrder = probabilityKey(bProbability).localeCompare(probabilityKey(aProbability))
+      if (probabilityOrder !== 0) return probabilityOrder
+    }
     return a.dataset.kickoffOrder.localeCompare(b.dataset.kickoffOrder) || Number(a.dataset.fixtureId) - Number(b.dataset.fixtureId)
   })
   const body = table.tBodies[0]

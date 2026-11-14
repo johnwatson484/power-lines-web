@@ -72,7 +72,7 @@ public class FixtureViewTests
 
     [Test]
     [SetCulture("fr-FR")]
-    public async Task Ranking_uses_full_precision_then_kickoff_then_identity_and_puts_missing_forecasts_last()
+    public async Task Default_order_is_kickoff_then_identity_including_missing_forecasts()
     {
         var day = new DateTime(2026, 11, 14);
         Fixture Make(int id, decimal? probability, int hour) => new()
@@ -87,7 +87,8 @@ public class FixtureViewTests
             Fixtures = [Make(5, null, 10), Make(4, .69999m, 12), Make(3, .70001m, 16), Make(2, .70001m, 15), Make(1, .70001m, 15)]
         });
         var ids = Regex.Matches(html, "data-fixture-id=\"(\\d+)\"").Select(m => int.Parse(m.Groups[1].Value));
-        Assert.That(ids, Is.EqualTo(new[] { 1, 2, 3, 4, 5 }));
+        Assert.That(ids, Is.EqualTo(new[] { 5, 4, 1, 2, 3 }));
+        Assert.That(Regex.Match(html, "<option value=\"([^\"]+)\"").Groups[1].Value, Is.EqualTo("kickoff"));
         Assert.That(html, Does.Contain("data-probability=\"0.70001\""));
         Assert.That(html, Does.Contain("width: 70.00100%"));
     }
