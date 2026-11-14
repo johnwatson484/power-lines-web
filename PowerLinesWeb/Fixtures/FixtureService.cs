@@ -38,8 +38,9 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
             var valid = hasForecast && kickoffUtc > now;
             return new Models.Fixture
             {
-                FixtureId = f.FixtureId, Country = division.Country, CountryRank = division.CountryRank, Division = division.Name, Tier = division.Tier,
+                FixtureId = f.FixtureId, Country = division.Country, CountryRank = division.CountryRank, Division = division.Name, DivisionCode = f.Division, Tier = division.Tier,
                 Date = f.Date, HomeTeam = f.HomeTeam, AwayTeam = f.AwayTeam, IsValid = valid, HasForecast = hasForecast,
+                HasVerifiedKickoff = kickoffUtc.HasValue, KickoffPassed = kickoffUtc.HasValue && kickoffUtc <= now,
                 HomeOdds = hasForecast ? odds.Home : null, DrawOdds = hasForecast ? odds.Draw : null, AwayOdds = hasForecast ? odds.Away : null,
                 HomeProbability = hasForecast ? odds.HomeProbability : null, DrawProbability = hasForecast ? odds.DrawProbability : null, AwayProbability = hasForecast ? odds.AwayProbability : null,
                 HomeXg = valid ? odds.HomeXg : 0, AwayXg = valid ? odds.AwayXg : 0, ExpectedGoals = valid ? odds.ExpectedGoals : 0,
@@ -54,7 +55,7 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
                 PriceKind = quote?.Kind ?? "Legacy average: mapping/timing unqualified"
             };
         }).OrderBy(x => x.Date).ThenBy(x => x.FixtureId).ToList();
-        return new FixturePage { Fixtures = rows, Higher = thresholds.Higher, Lower = thresholds.Lower, Today = FixtureTimePolicy.FeedDate(now, feeds.FixtureTimeZoneId) };
+        return new FixturePage { Fixtures = rows, Higher = thresholds.Higher, Lower = thresholds.Lower, Today = FixtureTimePolicy.FeedDate(now, feeds.FixtureTimeZoneId), FixtureTimeZoneId = feeds.FixtureTimeZoneId };
     }
     static long? SnapshotQuoteId(string json)
     {

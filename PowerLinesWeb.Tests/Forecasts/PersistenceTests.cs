@@ -199,6 +199,7 @@ public class PersistenceTests : IntegrationFixture
         var unavailable = service.GetPage().Fixtures.Single();
         Assert.That(unavailable.Status, Is.EqualTo("Kickoff time or timezone unverified"));
         Assert.That(unavailable.HasForecast, Is.False);
+        Assert.That(unavailable.HasVerifiedKickoff, Is.False);
         Assert.That(unavailable.HomeProbability, Is.Null);
         Assert.That(unavailable.HomeOdds, Is.Null);
 
@@ -206,6 +207,9 @@ public class PersistenceTests : IntegrationFixture
         Run();
         var available = service.GetPage().Fixtures.Single();
         Assert.That(available.IsValid, Is.True);
+        Assert.That(available.HasVerifiedKickoff, Is.True);
+        Assert.That(available.DivisionCode, Is.EqualTo("E0"));
+        Assert.That(service.GetPage().FixtureTimeZoneId, Is.EqualTo("Europe/London"));
         Assert.That(available.HasForecast, Is.True);
         Assert.That(available.HomeProbability + available.DrawProbability + available.AwayProbability, Is.EqualTo(1m).Within(.000001m));
         Assert.That(available.HomeOdds, Is.EqualTo(1m / available.HomeProbability.Value).Within(.000001m));
@@ -235,6 +239,8 @@ public class PersistenceTests : IntegrationFixture
         clock.Now = new DateTimeOffset(fixture.Date, TimeSpan.Zero).AddMinutes(minutesAfterKickoff);
         var after = service.GetPage().Fixtures.Single();
         Assert.That(after.HasForecast, Is.True);
+        Assert.That(after.KickoffPassed, Is.EqualTo(minutesAfterKickoff >= 0));
+        Assert.That(after.BestWinProbability, Is.EqualTo(before.BestWinProbability));
         Assert.That(after.IsValid, Is.EqualTo(minutesAfterKickoff < 0));
         Assert.That(new[] { after.HomeProbability, after.DrawProbability, after.AwayProbability },
             Is.EqualTo(new[] { before.HomeProbability, before.DrawProbability, before.AwayProbability }));

@@ -6,4 +6,5 @@ public class FixturePage
     public decimal Higher { get; set; }
     public decimal Lower { get; set; }
     public DateTime Today { get; set; }
+    public string FixtureTimeZoneId { get; set; }
 }

@@ -1,36 +1,86 @@
+@using System.Globalization
 @model PowerLinesWeb.Models.FixturePage
 @{
     ViewData["Title"] = "Win forecasts";
+    var fixtures = Model.Fixtures.OrderByDescending(f => f.BestWinProbability).ThenBy(f => f.Date).ThenBy(f => f.FixtureId).ToList();
+    var todayCount = fixtures.Count(f => f.Date.Date == Model.Today);
 }
 <h3>Win forecasts</h3>
 <div class="d-flex flex-wrap mb-3" role="group" aria-label="Fixture day">
-    @foreach (var day in Model.Fixtures.Select(f => f.Date.Date).Append(Model.Today).Distinct().Order())
+    @foreach (var day in fixtures.Select(f => f.Date.Date).Append(Model.Today).Distinct().Order())
     {
         var selected = day == Model.Today;
-        <button type="button" class="btn @(selected ? "btn-primary" : "btn-default") date-picker mr-1 mb-1" data-date="@day.ToString("yyyy-MM-dd")" aria-pressed="@selected.ToString().ToLowerInvariant()">@(selected ? "Today" : day.ToString("ddd d MMM"))</button>
+        <button type="button" class="btn @(selected ? "btn-primary" : "btn-default") date-picker mr-1 mb-1" data-date="@day.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" aria-pressed="@selected.ToString().ToLowerInvariant()">@(selected ? "Today" : day.ToString("ddd d MMM"))</button>
     }
 </div>
-<p class="small text-muted">Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Sorted by kickoff time. No minimum number of picks.</p>
-<div class="btn-group mb-3" role="group" aria-label="Forecast filters">
-    <button type="button" class="btn btn-secondary forecast-filter" data-filter="all" aria-pressed="true">All fixtures</button>
-    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="shortlist" aria-pressed="false">Win shortlist</button>
-    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="strong" aria-pressed="false">Strong</button>
-    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="broader" aria-pressed="false">Broader</button>
-    <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="price" aria-pressed="false">Available-price positive EV</button>
+<p class="small text-muted">Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Ranking includes the whole day and saved prematch forecasts after kickoff. No minimum number of picks.</p>
+<p class="small">Kickoff times: @(string.IsNullOrWhiteSpace(Model.FixtureTimeZoneId) ? "timezone unverified" : Model.FixtureTimeZoneId).</p>
+<div id="fixture-controls" hidden>
+    <p class="small">Leave divisions or kickoff times unchecked to include all.</p>
+    <div class="fixture-controls mb-3">
+        <details class="fixture-facet">
+            <summary id="division-summary">Divisions: All</summary>
+            <fieldset class="fixture-options" id="division-options"><legend class="sr-only">Divisions</legend></fieldset>
+        </details>
+        <details class="fixture-facet">
+            <summary id="kickoff-summary">Kickoff times: All</summary>
+            <fieldset class="fixture-options" id="kickoff-options"><legend class="sr-only">Kickoff times</legend></fieldset>
+        </details>
+        <div>
+            <label for="minimum-probability">Minimum win probability (%)</label>
+            <input id="minimum-probability" class="form-control" type="number" min="0" max="100" step="any" placeholder="Any" aria-describedby="probability-error" />
+            <p id="probability-error" class="small text-danger" hidden>Enter a percentage from 0 to 100.</p>
+        </div>
+        <div>
+            <label for="fixture-order">Order by</label>
+            <select id="fixture-order" class="form-control">
+                <option value="probability">Highest win probability</option>
+                <option value="kickoff">Kickoff time</option>
+            </select>
+        </div>
+    </div>
+    <div class="fixture-forecast-filters mb-3" role="group" aria-label="Forecast filters">
+        <button type="button" class="btn btn-secondary forecast-filter" data-filter="all" aria-pressed="true">All fixtures</button>
+        <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="shortlist" aria-pressed="false">Win shortlist</button>
+        <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="strong" aria-pressed="false">Strong</button>
+        <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="broader" aria-pressed="false">Broader</button>
+        <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="price" aria-pressed="false">Available-price positive EV</button>
+        <button type="button" class="btn btn-link" id="clear-filters">Clear filters</button>
+    </div>
+    <p id="active-criteria" class="small mb-2"></p>
 </div>
-<p id="no-fixtures" role="status" hidden="@Model.Fixtures.Any(f => f.Date.Date == Model.Today)">No fixtures match the selected day and filter.</p>
+<noscript><p>Enable JavaScript to change day, filter fixtures or change their order.</p></noscript>
+<p id="fixture-count" role="status" aria-live="polite" aria-atomic="true">Showing @todayCount of @todayCount fixtures</p>
+<p id="no-fixtures" hidden="@(todayCount > 0)">No fixtures match the selected day and criteria.</p>
 <div class="table-responsive">
-<table id="fixture-table" class="table table-sm table-hover" hidden="@(!Model.Fixtures.Any(f => f.Date.Date == Model.Today))">
-    <thead><tr><th>Kickoff</th><th>Fixture</th><th>Win candidate</th><th>Probability H / D / A</th><th>Model fair odds H / D / A</th></tr></thead>
+<table id="fixture-table" class="table table-sm table-hover" hidden="@(todayCount == 0)">
+    <caption class="sr-only">Daily fixtures, initially ordered by highest home or away win probability. Saved probabilities are prematch forecasts.</caption>
+    <thead><tr><th scope="col">Kickoff</th><th scope="col">Fixture</th><th scope="col">Best win outcome</th><th scope="col">Probability H / D / A</th><th scope="col">Model fair odds H / D / A</th></tr></thead>
     <tbody>
-    @foreach (var f in Model.Fixtures)
+    @foreach (var f in fixtures)
     {
         var tier = f.Recommended != "X" ? "strong" : f.LowerRecommended != "X" ? "broader" : "none";
-        var side = f.Recommended != "X" ? f.Recommended : f.LowerRecommended;
-        <tr class="forecast-row" data-date="@f.Date.ToString("yyyy-MM-dd")" data-tier="@tier" data-price="@f.IsValue.ToString().ToLowerInvariant()" hidden="@(f.Date.Date != Model.Today)">
-            <td>@f.Date.ToString("dd MMM HH:mm")</td>
-            <td>@f.HomeTeam v @f.AwayTeam<br /><small>@f.Division</small></td>
-            <td>@(side == "H" ? f.HomeTeam : side == "A" ? f.AwayTeam : "—")<br /><small>@(!f.IsValid ? "Unavailable" : tier == "none" ? "Unselected" : tier == "strong" ? "Strong" : "Broader")</small></td>
+        var probability = f.BestWinProbability;
+        var divisionLabel = $"{f.Country} — {f.Division}";
+        var kickoff = f.HasVerifiedKickoff ? f.Date.ToString("HH:mm", CultureInfo.InvariantCulture) : "unverified";
+        <tr class="forecast-row" data-date="@f.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" data-tier="@tier" data-price="@f.IsValue.ToString().ToLowerInvariant()" data-fixture-id="@f.FixtureId" data-division="@f.DivisionCode" data-division-label="@divisionLabel" data-kickoff="@kickoff" data-kickoff-order="@f.Date.ToString("yyyy-MM-ddTHH:mm:ss.fffffff", CultureInfo.InvariantCulture)" data-probability="@probability?.ToString(CultureInfo.InvariantCulture)" hidden="@(f.Date.Date != Model.Today)">
+            <td>
+                @(f.HasVerifiedKickoff ? f.Date.ToString("dd MMM HH:mm") : $"{f.Date:dd MMM} — Time unverified")
+                @if (f.KickoffPassed) { <small class="d-block">Kickoff passed</small> }
+            </td>
+            <td>@f.HomeTeam v @f.AwayTeam<br /><small>@divisionLabel</small></td>
+            <td>
+                @if (probability.HasValue)
+                {
+                    var bestTeams = f.HomeProbability == f.AwayProbability ? $"{f.HomeTeam} / {f.AwayTeam} (equal)" : f.HomeProbability > f.AwayProbability ? f.HomeTeam : f.AwayTeam;
+                    <strong>@bestTeams</strong>
+                    <div>@probability.Value.ToString("P1")</div>
+                    <div class="win-probability" aria-hidden="true"><div style="width: @((probability.Value * 100).ToString(CultureInfo.InvariantCulture))%"></div></div>
+                    @if (f.DrawProbability > probability) { <small class="d-block">Draw is more likely</small> }
+                    @if (f.IsValid && tier != "none") { <small class="d-block">@(tier == "strong" ? "Strong" : "Broader")</small> }
+                }
+                else { <text>—</text> }
+            </td>
             @if (f.HasForecast)
             {
                 var highestProbability = new[] { f.HomeProbability, f.DrawProbability, f.AwayProbability }.Max();

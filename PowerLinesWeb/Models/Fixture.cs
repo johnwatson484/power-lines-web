@@ -8,6 +8,7 @@ public class Fixture
     public string Country { get; set; }
     public int CountryRank { get; set; }
     public string Division { get; set; }
+    public string DivisionCode { get; set; }
     public int Tier { get; set; }
 
     [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
@@ -62,6 +63,10 @@ public class Fixture
     public decimal? MarketDraw { get; set; }
     public decimal? MarketAway { get; set; }
     public bool HasForecast { get; set; }
+    public bool HasVerifiedKickoff { get; set; }
+    public bool KickoffPassed { get; set; }
+    public decimal? BestWinProbability => HasForecast && HomeProbability.HasValue && AwayProbability.HasValue
+        ? Math.Max(HomeProbability.Value, AwayProbability.Value) : null;
     public bool IsValid { get; set; }
     public string Recommended { get; set; }
     public string LowerRecommended { get; set; }
