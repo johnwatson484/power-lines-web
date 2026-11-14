@@ -144,6 +144,59 @@ public class FixtureViewTests
         Assert.That(html, Does.Not.Contain("class=\"win-probability\""));
     }
 
+    [TestCase("H", "X", "Home", "Strong")]
+    [TestCase("A", "X", "Away", "Strong")]
+    [TestCase("X", "H", "Home", "Broader")]
+    [TestCase("X", "A", "Away", "Broader")]
+    public async Task Power_lines_pick_shows_stored_selection_and_tier_separately_from_probability(string strong, string broader, string team, string tier)
+    {
+        var html = await Render(new Fixture
+        {
+            Date = new DateTime(2026, 11, 14, 15, 0, 0), HomeTeam = "Home", AwayTeam = "Away",
+            HasForecast = true, IsValid = true, Recommended = strong, LowerRecommended = broader,
+            HomeProbability = .8m, DrawProbability = .1m, AwayProbability = .1m
+        });
+        var pick = Regex.Match(html, "<td class=\"power-lines-pick\">([\\s\\S]*?)</td>").Groups[1].Value;
+        Assert.That(pick, Does.Contain($"<strong class=\"d-block\">{team}</strong>"));
+        Assert.That(pick, Does.Contain($"recommendation-{tier.ToLowerInvariant()}\">{tier}</small>"));
+        Assert.That(html, Does.Contain("<strong>Home</strong>"));
+    }
+
+    [TestCase(true, false, "No pick")]
+    [TestCase(false, true, "Closed at kickoff")]
+    public async Task Probability_leaders_are_not_presented_as_current_recommendations(bool valid, bool passed, string expected)
+    {
+        var html = await Render(new Fixture
+        {
+            Date = new DateTime(2026, 11, 14, 15, 0, 0), HomeTeam = "Home", AwayTeam = "Away",
+            HasForecast = true, IsValid = valid, KickoffPassed = passed,
+            Recommended = passed ? "H" : "X", LowerRecommended = "X", ValueSelection = passed ? "A" : "X",
+            HomeProbability = .8m, DrawProbability = .1m, AwayProbability = .1m
+        });
+        var pick = Regex.Match(html, "<td class=\"power-lines-pick\">([\\s\\S]*?)</td>").Groups[1].Value;
+        Assert.That(pick, Does.Contain(expected));
+        Assert.That(pick, Does.Not.Contain("recommendation-badge"));
+        Assert.That(html, Does.Contain("data-tier=\"none\" data-price=\"false\""));
+    }
+
+    [Test]
+    [SetCulture("")]
+    public async Task Available_price_pick_shows_its_own_team_and_price_alongside_win_pick()
+    {
+        var html = await Render(new Fixture
+        {
+            Date = new DateTime(2026, 11, 14, 15, 0, 0), HomeTeam = "Home", AwayTeam = "Away",
+            HasForecast = true, IsValid = true, Recommended = "H", LowerRecommended = "X",
+            ValueSelection = "A", ValueOdds = 3.25m,
+            HomeProbability = .7m, DrawProbability = .2m, AwayProbability = .1m
+        });
+        var pick = Regex.Match(html, "<td class=\"power-lines-pick\">([\\s\\S]*?)</td>").Groups[1].Value;
+        Assert.That(pick, Does.Contain("<strong class=\"d-block\">Home</strong>"));
+        Assert.That(pick, Does.Contain("Positive EV"));
+        Assert.That(pick, Does.Contain("Away @ 3.25"));
+        Assert.That(html, Does.Contain("data-price=\"true\""));
+    }
+
     Task<string> Render(Fixture fixture) => RenderPage(new FixturePage { Fixtures = [fixture], Today = fixture.Date.Date });
 
     async Task<string> RenderPage(FixturePage page)

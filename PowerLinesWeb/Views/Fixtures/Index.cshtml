@@ -15,7 +15,7 @@
 </div>
 <details class="fixture-guide mb-3">
     <summary>About these forecasts</summary>
-    <p class="small text-muted mt-2 mb-0">Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Ranking includes the whole day and saved prematch forecasts after kickoff. No minimum number of picks.</p>
+    <p class="small text-muted mt-2 mb-0">Power Lines picks — Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Ranking includes the whole day and saved prematch forecasts after kickoff. Best win outcome shows the highest home/away probability independently of a Power Lines pick. Picks close at kickoff. No minimum number of picks.</p>
 </details>
 <p class="small">Kickoff times: @(string.IsNullOrWhiteSpace(Model.FixtureTimeZoneId) ? "timezone unverified" : Model.FixtureTimeZoneId).</p>
 <div id="fixture-controls" hidden>
@@ -51,7 +51,7 @@
     <div class="fixture-toolbar mb-3">
         <div class="fixture-forecast-filters" role="group" aria-label="Forecast filters">
             <button type="button" class="btn btn-secondary forecast-filter" data-filter="all" aria-pressed="true">All fixtures</button>
-            <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="shortlist" aria-pressed="false">Win shortlist</button>
+            <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="shortlist" aria-pressed="false">Power Lines picks</button>
             <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="strong" aria-pressed="false">Strong</button>
             <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="broader" aria-pressed="false">Broader</button>
             <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="price" aria-pressed="false">Available-price positive EV</button>
@@ -68,20 +68,42 @@
 <div class="table-responsive">
 <table id="fixture-table" class="table table-sm table-hover" hidden="@(todayCount == 0)">
     <caption class="sr-only">Daily fixtures, initially ordered by kickoff time. Saved probabilities are prematch forecasts.</caption>
-    <thead><tr><th scope="col">Kickoff</th><th scope="col">Fixture</th><th scope="col">Best win outcome</th><th scope="col">Probability H / D / A</th><th scope="col">Model fair odds H / D / A</th></tr></thead>
+    <thead><tr><th scope="col">Kickoff</th><th scope="col">Fixture</th><th scope="col">Power Lines pick</th><th scope="col">Best win outcome</th><th scope="col">Probability H / D / A</th><th scope="col">Model fair odds H / D / A</th></tr></thead>
     <tbody>
     @foreach (var f in fixtures)
     {
-        var tier = f.Recommended != "X" ? "strong" : f.LowerRecommended != "X" ? "broader" : "none";
+        var strongPick = f.IsValid && (f.Recommended is "H" or "A");
+        var broaderPick = f.IsValid && (f.LowerRecommended is "H" or "A");
+        var tier = strongPick ? "strong" : broaderPick ? "broader" : "none";
+        var pick = strongPick ? f.Recommended : broaderPick ? f.LowerRecommended : null;
+        var pricePick = f.IsValid && (f.ValueSelection is "H" or "A");
         var probability = f.BestWinProbability;
         var divisionLabel = $"{f.Country} — {f.Division}";
         var kickoff = f.HasVerifiedKickoff ? f.Date.ToString("HH:mm", CultureInfo.InvariantCulture) : "unverified";
-        <tr class="forecast-row" data-date="@f.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" data-tier="@tier" data-price="@f.IsValue.ToString().ToLowerInvariant()" data-fixture-id="@f.FixtureId" data-division="@f.DivisionCode" data-division-label="@divisionLabel" data-kickoff="@kickoff" data-kickoff-order="@f.Date.ToString("yyyy-MM-ddTHH:mm:ss.fffffff", CultureInfo.InvariantCulture)" data-probability="@probability?.ToString(CultureInfo.InvariantCulture)" hidden="@(f.Date.Date != Model.Today)">
+        <tr class="forecast-row" data-date="@f.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" data-tier="@tier" data-price="@pricePick.ToString().ToLowerInvariant()" data-fixture-id="@f.FixtureId" data-division="@f.DivisionCode" data-division-label="@divisionLabel" data-kickoff="@kickoff" data-kickoff-order="@f.Date.ToString("yyyy-MM-ddTHH:mm:ss.fffffff", CultureInfo.InvariantCulture)" data-probability="@probability?.ToString(CultureInfo.InvariantCulture)" hidden="@(f.Date.Date != Model.Today)">
             <td>
                 @(f.HasVerifiedKickoff ? f.Date.ToString("dd MMM HH:mm") : $"{f.Date:dd MMM} — Time unverified")
                 @if (f.KickoffPassed) { <small class="d-block">Kickoff passed</small> }
             </td>
             <td>@f.HomeTeam v @f.AwayTeam<br /><small>@divisionLabel</small></td>
+            <td class="power-lines-pick">
+                @if (pick != null)
+                {
+                    <strong class="d-block">@(pick == "H" ? f.HomeTeam : f.AwayTeam)</strong>
+                    <small class="recommendation-badge recommendation-@tier">@(strongPick ? "Strong" : "Broader")</small>
+                }
+                @if (pricePick)
+                {
+                    <div class="@(pick != null ? "mt-2" : null)">
+                        <small class="recommendation-badge recommendation-price">Positive EV</small>
+                        <div>@(f.ValueSelection == "H" ? f.HomeTeam : f.AwayTeam) @@ @f.ValueOdds.ToString("F2")</div>
+                    </div>
+                }
+                @if (pick == null && !pricePick)
+                {
+                    <small class="text-muted">@(f.KickoffPassed ? "Closed at kickoff" : !f.HasForecast ? "Unavailable" : "No pick")</small>
+                }
+            </td>
             <td>
                 @if (probability.HasValue)
                 {
@@ -90,7 +112,6 @@
                     <div>@probability.Value.ToString("P1")</div>
                     <div class="win-probability" aria-hidden="true"><div style="width: @((probability.Value * 100).ToString(CultureInfo.InvariantCulture))%"></div></div>
                     @if (f.DrawProbability > probability) { <small class="d-block">Draw is more likely</small> }
-                    @if (f.IsValid && tier != "none") { <small class="d-block">@(tier == "strong" ? "Strong" : "Broader")</small> }
                 }
                 else { <text>—</text> }
             </td>

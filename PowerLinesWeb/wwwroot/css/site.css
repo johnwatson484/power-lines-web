@@ -426,7 +426,33 @@ body {
 }
 
 #fixture-table {
-  min-width: 44rem;
+  min-width: 54rem;
+}
+
+.power-lines-pick {
+  min-width: 9rem;
+}
+
+.recommendation-badge {
+  display: inline-block;
+  padding: .125rem .5rem;
+  border-radius: .25rem;
+  font-weight: 600;
+}
+
+.recommendation-strong {
+  color: #205b35;
+  background: #e6f3ea;
+}
+
+.recommendation-broader {
+  color: #70500f;
+  background: #fff3cf;
+}
+
+.recommendation-price {
+  color: #374151;
+  background: #edf0f4;
 }
 
 #fixture-table th,
