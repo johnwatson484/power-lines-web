@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using Microsoft.Extensions.Options;
 using PowerLinesWeb.Analysis;
 using PowerLinesWeb.Data;
@@ -32,34 +31,27 @@ public class FixtureService(ApplicationDbContext dbContext, TimeProvider clock, 
             var division = new Division(f.Division); var odds = f.MatchOdds;
             var quote = quotes.GetValueOrDefault($"fixture:{f.FixtureId}");
             var offer = quote != null && quote.Available && quote.Kind == "AvailableOffer" && quote.Home > 1 && quote.Draw > 1 && quote.Away > 1 && quote.Commission >= 0 && quote.Commission < 1 && !string.IsNullOrWhiteSpace(quote.Revision) && !string.IsNullOrWhiteSpace(quote.Source) && quote.ObservedAt.HasValue && quote.ObservedAt <= now && quote.ObservedAt >= now.AddMinutes(-betting.MaxQuoteAgeMinutes);
-            var currentPriceDecision = offer && odds != null && odds.Calculated >= quote.IngestedAt && SnapshotQuoteId(latest.GetValueOrDefault(f.FixtureId)?.DecisionJson) == quote.Id;
             var kickoffUtc = FixtureTimePolicy.KickoffUtc(f.Date, feeds.FixtureTimeZoneId);
             var hasForecast = kickoffUtc.HasValue && odds != null && f.AnalysisStatus == "Available" && f.LifecycleStatus == "Scheduled";
-            var valid = hasForecast && kickoffUtc > now;
             return new Models.Fixture
             {
-                FixtureId = f.FixtureId, Country = division.Country, CountryRank = division.CountryRank, Division = division.Name, Tier = division.Tier,
-                Date = f.Date, HomeTeam = f.HomeTeam, AwayTeam = f.AwayTeam, IsValid = valid, HasForecast = hasForecast,
+                FixtureId = f.FixtureId, Country = division.Country, CountryRank = division.CountryRank, Division = division.Name, DivisionCode = f.Division, Tier = division.Tier,
+                Date = f.Date, HomeTeam = f.HomeTeam, AwayTeam = f.AwayTeam, IsValid = hasForecast, HasForecast = hasForecast,
+                HasVerifiedKickoff = kickoffUtc.HasValue, KickoffPassed = kickoffUtc.HasValue && kickoffUtc <= now,
                 HomeOdds = hasForecast ? odds.Home : null, DrawOdds = hasForecast ? odds.Draw : null, AwayOdds = hasForecast ? odds.Away : null,
                 HomeProbability = hasForecast ? odds.HomeProbability : null, DrawProbability = hasForecast ? odds.DrawProbability : null, AwayProbability = hasForecast ? odds.AwayProbability : null,
-                HomeXg = valid ? odds.HomeXg : 0, AwayXg = valid ? odds.AwayXg : 0, ExpectedGoals = valid ? odds.ExpectedGoals : 0,
-                Recommended = valid ? odds.Recommended : "X", LowerRecommended = valid ? odds.LowerRecommended : "X", ValueSelection = valid && currentPriceDecision ? odds.ValueSelection : "X",
-                ValueOdds = valid ? odds.ValueOdds : 0, ValueEdge = valid ? odds.ValueEdge : 0, ValueStake = valid ? odds.ValueStake : 0,
+                HomeXg = hasForecast ? odds.HomeXg : 0, AwayXg = hasForecast ? odds.AwayXg : 0, ExpectedGoals = hasForecast ? odds.ExpectedGoals : 0,
+                Recommended = hasForecast ? odds.Recommended : "X", LowerRecommended = hasForecast ? odds.LowerRecommended : "X", ValueSelection = hasForecast ? odds.ValueSelection : "X",
+                ValueOdds = hasForecast ? odds.ValueOdds : 0, ValueEdge = hasForecast ? odds.ValueEdge : 0, ValueStake = hasForecast ? odds.ValueStake : 0,
                 Calculated = odds?.Calculated ?? default,
                 ForecastOrigin = latest.GetValueOrDefault(f.FixtureId)?.Origin ?? "Legacy provenance unknown",
                 Support = latest.GetValueOrDefault(f.FixtureId)?.Support ?? "Support unavailable",
-                Status = f.LifecycleStatus != "Scheduled" ? f.LifecycleStatus : !kickoffUtc.HasValue ? "Kickoff time or timezone unverified" : kickoffUtc <= now ? "Kickoff passed" : f.AnalysisStatus ?? "Awaiting analysis",
+                Status = f.LifecycleStatus != "Scheduled" ? f.LifecycleStatus : !kickoffUtc.HasValue ? "Kickoff time or timezone unverified" : f.AnalysisStatus ?? "Awaiting analysis",
                 Source = quote?.Source ?? "Legacy price source unknown", QuoteObservedAt = quote?.ObservedAt, AvailableOffer = offer,
                 MarketHome = quote?.Home ?? (f.HomeOddsAverage > 1 ? f.HomeOddsAverage : null), MarketDraw = quote?.Draw ?? (f.DrawOddsAverage > 1 ? f.DrawOddsAverage : null), MarketAway = quote?.Away ?? (f.AwayOddsAverage > 1 ? f.AwayOddsAverage : null),
                 PriceKind = quote?.Kind ?? "Legacy average: mapping/timing unqualified"
             };
         }).OrderBy(x => x.Date).ThenBy(x => x.FixtureId).ToList();
-        return new FixturePage { Fixtures = rows, Higher = thresholds.Higher, Lower = thresholds.Lower, Today = FixtureTimePolicy.FeedDate(now, feeds.FixtureTimeZoneId) };
-    }
-    static long? SnapshotQuoteId(string json)
-    {
-        if (string.IsNullOrEmpty(json)) return null;
-        using var document = JsonDocument.Parse(json);
-        return document.RootElement.TryGetProperty("QuoteId", out var quote) && quote.ValueKind == JsonValueKind.Number && quote.TryGetInt64(out var id) ? id : null;
+        return new FixturePage { Fixtures = rows, Higher = thresholds.Higher, Lower = thresholds.Lower, Today = FixtureTimePolicy.FeedDate(now, feeds.FixtureTimeZoneId), FixtureTimeZoneId = feeds.FixtureTimeZoneId };
     }
 }
