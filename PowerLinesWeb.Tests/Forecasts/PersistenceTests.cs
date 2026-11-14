@@ -93,7 +93,8 @@ public class PersistenceTests : IntegrationFixture
         Assert.That(current.CalibrationVersion,Is.EqualTo("t-v1"));Assert.That(current.RawHome,Is.Not.EqualTo(current.FinalHome));
         // A future artifact must never change this earlier forecast/calibration lookup.
         db.CalibrationArtifacts.Add(new() {Version="future",ModelVersion=ForecastVersions.Hash(model),FitFrom=new DateTime(2023,1,1),FitCutoff=clock.Now.UtcDateTime.AddDays(1),Samples=300,Temperature=2,Activated=true});db.SaveChanges();
-        Run();Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(3));model.EnableCalibration=false;policy.Version="win-v1-conservative";
+        Run();
+        Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(3));model.EnableCalibration=false;policy.Version="win-v1-conservative";
     }
 
     [Test]
@@ -170,9 +171,13 @@ public class PersistenceTests : IntegrationFixture
         db.MarketQuotes.Add(new() {MatchIdentity=$"fixture:{fixture.FixtureId}",Source="Bookmaker",Revision="offer-1",Kind="AvailableOffer",ObservedAt=clock.Now.UtcDateTime.AddMinutes(-1),IngestedAt=clock.Now.UtcDateTime,Available=true,Home=3,Draw=4,Away=4});db.SaveChanges();
         Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("H"));Assert.That(db.Fixtures.AsNoTracking().Single().Revision,Is.EqualTo(revision));
         clock.Now=clock.Now.AddMinutes(31);
-        var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions {FixtureTimeZoneId="UTC"}),Options.Create(new BettingOptions())).GetPage();
-        Assert.That(page.Fixtures.Single().IsValue,Is.False);
-        Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("X"));Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(3));
+        var service=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(new FeedOptions {FixtureTimeZoneId="UTC"}),Options.Create(new BettingOptions()));
+        var page=service.GetPage();
+        // The page shows the last saved decision until the worker refreshes it.
+        Assert.That(page.Fixtures.Single().IsValue,Is.True);
+        Run();Assert.That(db.MatchOdds.AsNoTracking().Single().ValueSelection,Is.EqualTo("X"));
+        Assert.That(service.GetPage().Fixtures.Single().IsValue, Is.False);
+        Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(3));
     }
 
     [Test]
@@ -241,23 +246,59 @@ public class PersistenceTests : IntegrationFixture
         Assert.That(after.HasForecast, Is.True);
         Assert.That(after.KickoffPassed, Is.EqualTo(minutesAfterKickoff >= 0));
         Assert.That(after.BestWinProbability, Is.EqualTo(before.BestWinProbability));
-        Assert.That(after.IsValid, Is.EqualTo(minutesAfterKickoff < 0));
+        Assert.That(after.IsValid, Is.True);
         Assert.That(new[] { after.HomeProbability, after.DrawProbability, after.AwayProbability },
             Is.EqualTo(new[] { before.HomeProbability, before.DrawProbability, before.AwayProbability }));
         Assert.That(new[] { after.HomeOdds, after.DrawOdds, after.AwayOdds },
             Is.EqualTo(new[] { before.HomeOdds, before.DrawOdds, before.AwayOdds }));
         Assert.That(after.Calculated, Is.EqualTo(before.Calculated));
         Assert.That(after.AvailableOffer, Is.True);
-        Assert.That(after.IsValue, Is.EqualTo(minutesAfterKickoff < 0));
+        Assert.That(after.IsValue, Is.True);
+        Assert.That(new[] { after.Recommended, after.LowerRecommended, after.ValueSelection },
+            Is.EqualTo(new[] { before.Recommended, before.LowerRecommended, before.ValueSelection }));
+        Assert.That(new[] { after.ValueOdds, after.ValueEdge, after.ValueStake, after.HomeXg, after.AwayXg, after.ExpectedGoals },
+            Is.EqualTo(new[] { before.ValueOdds, before.ValueEdge, before.ValueStake, before.HomeXg, before.AwayXg, before.ExpectedGoals }));
         if (minutesAfterKickoff >= 0)
         {
-            Assert.That(after.Recommended, Is.EqualTo("X"));
-            Assert.That(after.LowerRecommended, Is.EqualTo("X"));
-            Assert.That(after.Status, Is.EqualTo("Kickoff passed"));
+            Assert.That(after.Status, Is.EqualTo("Available"));
             Run();
             Assert.That(db.ForecastSnapshots.Count(), Is.EqualTo(snapshotCount));
             Assert.That(db.MatchOdds.AsNoTracking().Single().Calculated, Is.EqualTo(before.Calculated));
         }
+    }
+
+    [TestCase("H", "X")]
+    [TestCase("X", "A")]
+    public void Saved_picks_survive_expired_and_replaced_offers_after_kickoff(string strong, string broader)
+    {
+        IngestFixture();
+        using var db = Db();
+        var fixture = db.Fixtures.Single();
+        db.MarketQuotes.Add(new() { MatchIdentity = $"fixture:{fixture.FixtureId}", Source = "Bookmaker", Revision = "prematch-offer", Kind = "AvailableOffer", ObservedAt = clock.Now.UtcDateTime, IngestedAt = clock.Now.UtcDateTime, Available = true, Home = 3, Draw = 4, Away = 4 });
+        db.SaveChanges();
+        Run();
+        var projection = db.MatchOdds.Single();
+        projection.Recommended = strong;
+        projection.LowerRecommended = broader;
+        db.SaveChanges();
+        var service = new FixtureService(db, clock, Options.Create(new ThresholdOptions()), Options.Create(new FeedOptions { FixtureTimeZoneId = "UTC" }), Options.Create(new BettingOptions()));
+        var before = service.GetPage().Fixtures.Single();
+        Assert.That(before.IsValue, Is.True);
+
+        clock.Now = new DateTimeOffset(fixture.Date, TimeSpan.Zero).AddMinutes(90);
+        var expired = service.GetPage().Fixtures.Single();
+        Assert.That(expired.AvailableOffer, Is.False);
+        Assert.That(expired.ValueSelection, Is.EqualTo(before.ValueSelection));
+
+        db.MarketQuotes.Add(new() { MatchIdentity = $"fixture:{fixture.FixtureId}", Source = "Bookmaker", Revision = "later-observation", Kind = "AveragePreClosing", IngestedAt = clock.Now.UtcDateTime, Available = false, Home = 9, Draw = 8, Away = 7 });
+        db.SaveChanges();
+        var after = service.GetPage().Fixtures.Single();
+        Assert.That(after.IsValid, Is.True);
+        Assert.That(after.KickoffPassed, Is.True);
+        Assert.That(new[] { after.Recommended, after.LowerRecommended, after.ValueSelection },
+            Is.EqualTo(new[] { strong, broader, before.ValueSelection }));
+        Assert.That(after.ValueOdds, Is.EqualTo(before.ValueOdds));
+        Assert.That(after.ValueStake, Is.EqualTo(before.ValueStake));
     }
 
     [Test]
@@ -290,7 +331,7 @@ public class PersistenceTests : IntegrationFixture
         // Source kickoff is noon London = 11:00 UTC; the source clock alone still reads future.
         Run();Assert.That(db.ForecastSnapshots.Count(),Is.EqualTo(1));
         var page=new FixtureService(db,clock,Options.Create(new ThresholdOptions()),Options.Create(feed),Options.Create(new BettingOptions())).GetPage();
-        Assert.That(page.Fixtures.Single().Status,Is.EqualTo("Kickoff passed"));Assert.That(page.Fixtures.Single().IsValid,Is.False);
+        Assert.That(page.Fixtures.Single().Status,Is.EqualTo("Kickoff time or timezone unverified"));Assert.That(page.Fixtures.Single().IsValid,Is.False);
     }
 
     [OneTimeTearDown]

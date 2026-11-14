@@ -125,7 +125,7 @@ public class FixtureViewTests
                 Recommended = "X", LowerRecommended = "X"
             }]
         });
-        Assert.That(html, Does.Contain("Kickoff passed"));
+        Assert.That(html, Does.Not.Contain("Kickoff passed"));
         Assert.That(html, Does.Contain("Kickoff times: Europe/London"));
         Assert.That(html, Does.Contain("data-division=\"E1\""));
         Assert.That(html, Does.Contain("England &#x2014; Championship"));
@@ -162,21 +162,47 @@ public class FixtureViewTests
         Assert.That(html, Does.Contain("<strong>Home</strong>"));
     }
 
-    [TestCase(true, false, "No pick")]
-    [TestCase(false, true, "Closed at kickoff")]
-    public async Task Probability_leaders_are_not_presented_as_current_recommendations(bool valid, bool passed, string expected)
+    [TestCase(true, false)]
+    [TestCase(false, true)]
+    public async Task Probability_leaders_without_saved_picks_remain_unselected_across_kickoff(bool valid, bool passed)
     {
         var html = await Render(new Fixture
         {
             Date = new DateTime(2026, 11, 14, 15, 0, 0), HomeTeam = "Home", AwayTeam = "Away",
             HasForecast = true, IsValid = valid, KickoffPassed = passed,
-            Recommended = passed ? "H" : "X", LowerRecommended = "X", ValueSelection = passed ? "A" : "X",
+            Recommended = "X", LowerRecommended = "X", ValueSelection = "X",
             HomeProbability = .8m, DrawProbability = .1m, AwayProbability = .1m
         });
         var pick = Regex.Match(html, "<td class=\"power-lines-pick\">([\\s\\S]*?)</td>").Groups[1].Value;
-        Assert.That(pick, Does.Contain(expected));
+        Assert.That(pick, Does.Contain("No pick"));
         Assert.That(pick, Does.Not.Contain("recommendation-badge"));
         Assert.That(html, Does.Contain("data-tier=\"none\" data-price=\"false\""));
+    }
+
+    [TestCase("H", "X", "Home", "strong")]
+    [TestCase("X", "A", "Away", "broader")]
+    [SetCulture("")]
+    public async Task Saved_picks_and_prices_render_identically_before_and_after_kickoff(string strong, string broader, string team, string tier)
+    {
+        var fixture = new Fixture
+        {
+            Date = new DateTime(2026, 11, 14, 15, 0, 0), HomeTeam = "Home", AwayTeam = "Away",
+            HasForecast = true, IsValid = true, KickoffPassed = false,
+            Recommended = strong, LowerRecommended = broader, ValueSelection = "A", ValueOdds = 3.25m,
+            HomeProbability = .7m, DrawProbability = .2m, AwayProbability = .1m
+        };
+        var before = await Render(fixture);
+        fixture.KickoffPassed = true;
+        var html = await Render(fixture);
+        Assert.That(html, Is.EqualTo(before));
+        var pick = Regex.Match(html, "<td class=\"power-lines-pick\">([\\s\\S]*?)</td>").Groups[1].Value;
+        Assert.That(pick, Does.Contain($"<strong class=\"d-block\">{team}</strong>"));
+        Assert.That(pick, Does.Contain($"recommendation-{tier}"));
+        Assert.That(pick, Does.Contain("Positive EV"));
+        Assert.That(pick, Does.Contain("Away @ 3.25"));
+        Assert.That(pick, Does.Not.Contain("Saved prematch"));
+        Assert.That(html, Does.Contain($"data-tier=\"{tier}\" data-price=\"true\""));
+        Assert.That(html, Does.Not.Contain("Closed at kickoff"));
     }
 
     [Test]

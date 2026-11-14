@@ -15,7 +15,7 @@
 </div>
 <details class="fixture-guide mb-3">
     <summary>About these forecasts</summary>
-    <p class="small text-muted mt-2 mb-0">Power Lines picks — Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. Ranking includes the whole day and saved prematch forecasts after kickoff. Best win outcome shows the highest home/away probability independently of a Power Lines pick. Picks close at kickoff. No minimum number of picks.</p>
+    <p class="small text-muted mt-2 mb-0">Power Lines picks — Strong: probability ≥ @Model.Higher.ToString("P1"). Broader: @Model.Lower.ToString("P1") ≤ probability &lt; @Model.Higher.ToString("P1"). Home/away wins only; draw risk remains included. The page shows the latest saved forecasts and picks for the whole day. Best win outcome shows the highest home/away probability independently of a Power Lines pick. Kickoff time does not change which saved forecasts, picks or prices are shown. No minimum number of picks.</p>
 </details>
 <p class="small">Kickoff times: @(string.IsNullOrWhiteSpace(Model.FixtureTimeZoneId) ? "timezone unverified" : Model.FixtureTimeZoneId).</p>
 <div id="fixture-controls" hidden>
@@ -54,7 +54,7 @@
             <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="shortlist" aria-pressed="false">Power Lines picks</button>
             <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="strong" aria-pressed="false">Strong</button>
             <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="broader" aria-pressed="false">Broader</button>
-            <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="price" aria-pressed="false">Available-price positive EV</button>
+            <button type="button" class="btn btn-outline-secondary forecast-filter" data-filter="price" aria-pressed="false">Positive EV picks</button>
         </div>
         <button type="button" class="btn btn-link" id="clear-filters">Clear filters</button>
     </div>
@@ -72,18 +72,17 @@
     <tbody>
     @foreach (var f in fixtures)
     {
-        var strongPick = f.IsValid && (f.Recommended is "H" or "A");
-        var broaderPick = f.IsValid && (f.LowerRecommended is "H" or "A");
+        var strongPick = f.HasForecast && (f.Recommended is "H" or "A");
+        var broaderPick = f.HasForecast && (f.LowerRecommended is "H" or "A");
         var tier = strongPick ? "strong" : broaderPick ? "broader" : "none";
         var pick = strongPick ? f.Recommended : broaderPick ? f.LowerRecommended : null;
-        var pricePick = f.IsValid && (f.ValueSelection is "H" or "A");
+        var pricePick = f.HasForecast && (f.ValueSelection is "H" or "A");
         var probability = f.BestWinProbability;
         var divisionLabel = $"{f.Country} — {f.Division}";
         var kickoff = f.HasVerifiedKickoff ? f.Date.ToString("HH:mm", CultureInfo.InvariantCulture) : "unverified";
         <tr class="forecast-row" data-date="@f.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)" data-tier="@tier" data-price="@pricePick.ToString().ToLowerInvariant()" data-fixture-id="@f.FixtureId" data-division="@f.DivisionCode" data-division-label="@divisionLabel" data-kickoff="@kickoff" data-kickoff-order="@f.Date.ToString("yyyy-MM-ddTHH:mm:ss.fffffff", CultureInfo.InvariantCulture)" data-probability="@probability?.ToString(CultureInfo.InvariantCulture)" hidden="@(f.Date.Date != Model.Today)">
             <td>
                 @(f.HasVerifiedKickoff ? f.Date.ToString("dd MMM HH:mm") : $"{f.Date:dd MMM} — Time unverified")
-                @if (f.KickoffPassed) { <small class="d-block">Kickoff passed</small> }
             </td>
             <td>@f.HomeTeam v @f.AwayTeam<br /><small>@divisionLabel</small></td>
             <td class="power-lines-pick">
@@ -101,7 +100,7 @@
                 }
                 @if (pick == null && !pricePick)
                 {
-                    <small class="text-muted">@(f.KickoffPassed ? "Closed at kickoff" : !f.HasForecast ? "Unavailable" : "No pick")</small>
+                    <small class="text-muted">@(!f.HasForecast ? "Unavailable" : "No pick")</small>
                 }
             </td>
             <td>
