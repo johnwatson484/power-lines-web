@@ -103,8 +103,8 @@ function updateFixtures () {
   if (minimum !== null) criteria.push(`Minimum win probability: ${minimumProbability.value}%`)
   if (selectedFilter !== 'all') criteria.push(filterButtons.find(button => button.dataset.filter === selectedFilter).textContent)
   document.getElementById('active-criteria').textContent = criteria.length ? criteria.join(' · ') : 'All divisions · All kickoff times · Any win probability · All fixtures'
-  document.getElementById('division-summary').textContent = `Divisions: ${selectedDivisions.size || 'All'}`
-  document.getElementById('kickoff-summary').textContent = `Kickoff times: ${selectedKickoffs.size || 'All'}`
+  document.getElementById('division-summary').textContent = selectedDivisions.size ? `${selectedDivisions.size} selected` : 'All divisions'
+  document.getElementById('kickoff-summary').textContent = selectedKickoffs.size ? `${selectedKickoffs.size} selected` : 'All kickoff times'
   document.getElementById('fixture-count').textContent = `Showing ${visibleCount} of ${rows.length} fixtures`
   document.getElementById('no-fixtures').hidden = visibleCount > 0
   table.hidden = visibleCount === 0
@@ -149,3 +149,24 @@ document.getElementById('clear-filters').addEventListener('click', () => {
 rebuildDayOptions()
 updateFixtures()
 document.getElementById('fixture-controls').hidden = false
+
+// Keep the filter lists compact without moving the controls or results below.
+const facets = [...document.querySelectorAll('.fixture-facet')]
+facets.forEach(facet => {
+  facet.addEventListener('toggle', () => {
+    if (facet.open) facets.filter(other => other !== facet).forEach(other => { other.open = false })
+  })
+})
+document.addEventListener('click', event => {
+  facets.filter(facet => !facet.contains(event.target)).forEach(facet => { facet.open = false })
+})
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return
+  facets.filter(facet => facet.open).forEach(facet => {
+    facet.open = false
+    facet.querySelector('summary').focus()
+  })
+})
+document.addEventListener('focusin', event => {
+  facets.filter(facet => !facet.contains(event.target)).forEach(facet => { facet.open = false })
+})
